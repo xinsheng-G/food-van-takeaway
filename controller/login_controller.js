@@ -59,6 +59,7 @@ let show_failed_page = (req, res) => {
     res.render('login_failed', {title: 'Login Failed'})
 }
 
+// export functions above
 module.exports = {
     show_page, check_login, show_success_page, show_failed_page
 }

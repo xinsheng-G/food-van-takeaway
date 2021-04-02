@@ -12,65 +12,18 @@
     <link rel="stylesheet" href="./styles/my.css">
     <link rel="stylesheet" href="./styles/themify-icons.min.css">
     <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/map.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
     <title>Index</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style type="text/css">
-        html{height:100%}
-        body{height:100%;margin:0px;padding:0px}
-        #map{height:100%}
-
-        .info {
-            z-index: 999;
-            width: auto;
-            min-width: 22rem;
-            padding: .75rem 1.25rem;
-            margin-left: 1.25rem;
-            position: fixed;
-            top: 1rem;
-            background-color: #fff;
-            border-radius: .25rem;
-            font-size: 14px;
-            color: #666;
-            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
-        }
-        ul li {
-            list-style: none;
-        }
-        .drawing-panel {
-            z-index: 999;
-            position: fixed;
-            bottom: 3.5rem;
-            margin: 0 auto;
-            padding: 1rem 1rem;
-            border-radius: .25rem;
-            background-color: #fff;
-            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
-        }
-        .btn {
-            width: 75px;
-            height: 30px;
-            float: left;
-            background-color: #fff;
-            color: rgba(27, 142, 236, 1);
-            font-size: 14px;
-            border:1px solid rgba(27, 142, 236, 1);
-            border-radius: 5px;
-            margin: 0 5px;
-            text-align: center;
-            line-height: 30px;
-        }
-        .btn.current {
-            background-color: rgba(27, 142, 236, 1);
-            color: #fff;
-        }
-        .btn:hover {
-            background-color: rgba(27, 142, 236, 0.8);
-            color: #fff;
-        }
-    </style>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W">
-    </script>
 </head>
 
 <body>
@@ -149,15 +102,9 @@
         map.addOverlay(marker);
     });
 
-
-
 </script>
-
-<script src="./scripts/jquery.min.js"></script>
-<script src="./scripts/bootstrap.min.js"></script>
-<script src="./scripts/nifty.min.js"></script>
-<script src="./scripts/icons.js"></script>
 </body>
+
 </html>
 
 

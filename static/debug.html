@@ -14,13 +14,11 @@
     <script src="./scripts/nifty.min.js"></script>
     <script src="./scripts/icons.js"></script>
     <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
 
     <title>debug</title>
 </head>
 <body>
-
-
-
 <div id="container" class="cls-container  login-page">
 
     <!-- BACKGROUND IMAGE -->
@@ -31,7 +29,7 @@
     <!-- LOGIN FORM -->
     <!--===================================================-->
     <h1 class="h1 text-white"><img src="./images/icon_drink_snack.png" alt="icon">Snacks in a Van</h1>
-    <div class="cls-content my-register-content-padding">
+    <div class="cls-content my-login-content-padding">
         <div class="login-box pager-rounded cls-content-sm panel">
 
 
@@ -45,7 +43,7 @@
                         </div>
                     </div>
                     <div class="col-xs-6 col-md-4">
-                        <div style="font-size: 30px; font-weight: 600;">Register</div>
+                        <div style="font-size: 36px; font-weight: 600;">Login</div>
                     </div>
                     <div class="col-xs-6 col-md-4"></div>
                 </div>
@@ -53,77 +51,71 @@
 
             <div class="panel-body">
 
-                <form action="/register" method="post">
-
-                    <!-- loginID -->
-                    <div class="form-group">
-                        <input type="text" name="login_id" class="form-control my-round-border" placeholder="LoginID(email)" autofocus="" data-bv-field="login_id">
-                        <!-- empty warning -->
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="login_id" data-bv-result="NOT_VALIDATED">The LoginID is required</small>
-                    </div>
+                <form id='login_form' action="/login" method="post">
 
                     <!-- username -->
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control my-round-border" placeholder="username" autofocus="" data-bv-field="username">
+                        <input type="text" name="login_id" class="form-control my-round-border" placeholder="LoginID(E-mail)" autofocus="" data-bv-field="login_id">
                         <!-- empty warning -->
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="username" data-bv-result="NOT_VALIDATED">The username is required</small>
+                        <small style="display: none; float: left !important;" class="pull-left help-block" data-bv-validator="notEmpty" data-bv-for="login_id" data-bv-result="NOT_VALIDATED">The loginID is required</small>
                     </div>
 
                     <!-- password -->
                     <div class="form-group">
                         <input type="password" name="password" class="form-control my-round-border" placeholder="password" data-bv-field="password">
                         <!-- empty warning -->
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="password" data-bv-result="NOT_VALIDATED">The password is required</small>
-
+                        <small style="display: none; float: left !important;" class="pull-left help-block" data-bv-validator="notEmpty" data-bv-for="password" data-bv-result="NOT_VALIDATED">The password is required</small>
                     </div>
-
-                    <!-- retype-password -->
-                    <div class="form-group">
-                        <input type="password" name="retype_password" class="form-control my-round-border" placeholder="Retype password" data-bv-field="retype_password">
-                        <!-- empty warning -->
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="retype_password" data-bv-result="NOT_VALIDATED">retype password is required</small>
-                    </div>
-
-                    <!-- first name -->
-                    <div class="form-group">
-                        <input type="text" name="firstname" class="form-control my-round-border" placeholder="First Name">
-                    </div>
-
-                    <!-- last name -->
-                    <div class="form-group">
-                        <input type="text" name="lastname" class="form-control my-round-border" placeholder="Last Name">
-                    </div>
-
-                    <!-- birthday -->
-                    <div class="form-group">
-                        <div class="input-group date" id='datetimepicker'>
-                            <input type="text" name="birthday" class="form-control my-round-border" style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;" placeholder="Birthday">
-                            <span class="input-group-addon my-round-border" style="border-top-left-radius: 0 !important; border-bottom-left-radius: 0 !important;"><i class="fa fa-calendar"></i></span>
-                        </div>
-                        <!-- <input type="text" name="birthday" class="form-control my-round-border"> -->
-                    </div>
-
+                    <!-- forget password -->
+                    <a href="#" class="btn-link mar-rgt pull-left">Forgot password?</a>
                     <br>
-                    <button class="btn my-round-border btn-primary btn-block" type="submit">SUBMIT</button>
+                    <!-- remember me -->
+                    <div class="checkbox pad-btm text-left pull-right">
+                        <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
+                        <label for="demo-form-checkbox">Remember me</label>
+                    </div>
+
+                    <button class="btn my-round-border btn-primary btn-block" type="submit">SIGN IN</button>
                 </form>
                 <br>
-
+                <!-- register -->
+                <a class="btn my-round-border btn-primary-negative btn-block" href="/register">JOIN US TODAY</a>
             </div>
 
         </div>
     </div>
     <!--===================================================-->
 
-
 </div>
+
 <script>
+    // FORM VALIDATION ON TABS
+    // =================================================================
     $(function () {
-        $('#datetimepicker').datepicker({
-            format: 'yyyy-mm-dd'
+        $('#login_form').bootstrapValidator({
+            message: 'This value is not valid',
+            fields: {
+                login_id: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The login_id is required'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required'
+                        }
+                    }
+                }
+            }
         });
     });
 
 </script>
+
+
 
 </body>
 </html>

@@ -18,7 +18,9 @@ router.use(express.static('static'));
 // function from  indexController
 router.get('/', indexController.show_page);
 
-router.get('/index', indexController.show_page);
+router.get('/index', ((req, res) => {
+    res.redirect('/');
+}));
 
 router.use('/login', login_router);
 

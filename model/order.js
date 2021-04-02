@@ -1,6 +1,7 @@
 let mongoose = require('./mongoDB'),
     Schema = mongoose.Schema;
 
+// need to design details
 let orderSchema = new Schema({
     login_id: String,
     password: String,
