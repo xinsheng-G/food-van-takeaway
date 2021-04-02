@@ -1,0 +1,35 @@
+
+.btn-primary {background-color: #8699F7 !important;
+    border-color: #a1b1f3 !important;
+    color: #fff !important;}
+
+.btn-primary-negative {background-color: #ECF0F5 !important;
+    border-color: #8699F7 !important;
+    color: #8699F7 !important;
+}
+
+.login-box, .register-box {
+    padding: 15px 20px 25px;
+    background: #ECF0F5 !important;
+    border-radius: 15px/15px !important;
+    opacity: 0.9;
+}
+
+.login-page, .register-page {
+    background: #7f95fb !important;
+}
+
+.my-round-border {
+    border-radius: 15px/15px !important;
+}
+
+.my-login-content-padding, .my-register-content-padding, .my-top-padding {
+    padding-top: 5vh !important;
+}
+
+.text-white {
+    color: #ECF0F5 !important;
+}
+
+
+

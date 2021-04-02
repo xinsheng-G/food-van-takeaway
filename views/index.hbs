@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <title>Index</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #map{height:100%}
+
+        .info {
+            z-index: 999;
+            width: auto;
+            min-width: 22rem;
+            padding: .75rem 1.25rem;
+            margin-left: 1.25rem;
+            position: fixed;
+            top: 1rem;
+            background-color: #fff;
+            border-radius: .25rem;
+            font-size: 14px;
+            color: #666;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+        }
+        ul li {
+            list-style: none;
+        }
+        .drawing-panel {
+            z-index: 999;
+            position: fixed;
+            bottom: 3.5rem;
+            margin: 0 auto;
+            padding: 1rem 1rem;
+            border-radius: .25rem;
+            background-color: #fff;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+        }
+        .btn {
+            width: 75px;
+            height: 30px;
+            float: left;
+            background-color: #fff;
+            color: rgba(27, 142, 236, 1);
+            font-size: 14px;
+            border:1px solid rgba(27, 142, 236, 1);
+            border-radius: 5px;
+            margin: 0 5px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .btn.current {
+            background-color: rgba(27, 142, 236, 1);
+            color: #fff;
+        }
+        .btn:hover {
+            background-color: rgba(27, 142, 236, 0.8);
+            color: #fff;
+        }
+    </style>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W">
+    </script>
+</head>
+
+<body>
+<!-- 144.9597098711528,-37.79830229214481 -->
+<!-- 144.9608068315597,-37.798468097073105 -->
+<!-- 144.95961192825933,-37.799525094668184 -->
+<!-- 144.96213232538466,-37.797654613047214 -->
+<div class = "info">
+    <p>Overlay <a href='#' target="_blank">link</a> Test</p>
+</div>
+<div id="map"></div>
+<ul class="drawing-panel" style="z-index: 99;">
+    <li class = "light btn current">Button!</li>
+    <li class = "night btn">Button!</li>
+</ul>
+
+<!-- path is set in app.js : app.use(express.static('static')); -->
+<script type="text/javascript">
+    var map = new BMapGL.Map("map");
+
+    let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
+    let blueIcon = new BMapGL.Icon("./images/bluemark.png", new BMapGL.Size(25, 25));
+    console.log("asdasd");
+
+    // init map points
+    var user_point = new BMapGL.Point(144.95782936759818,-37.79872198514221);
+    var van1_point = new BMapGL.Point(144.9597098711528,-37.79830229214481);
+    var van2_point = new BMapGL.Point(144.9608068315597,-37.798468097073105);
+    var van3_point = new BMapGL.Point(144.95961192825933,-37.799525094668184);
+    var van4_point = new BMapGL.Point(144.96213232538466,-37.797654613047214);
+
+    var vanPoints = [van1_point, van2_point, van3_point, van4_point];
+    // focus the map
+    map.centerAndZoom(user_point, 18);
+
+    let userMarker = new BMapGL.Marker(user_point, {icon:redIcon});
+    map.addOverlay(userMarker);
+    // User info window
+    var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme2.jpg' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
+    This is You!
+    </p></div>`;
+    var infoWindow = new BMapGL.InfoWindow(sContent);
+    // click event
+    userMarker.addEventListener('click', function () {
+        this.openInfoWindow(infoWindow);
+        // infoWindow
+        document.getElementById('imgDemo').onload = function () {
+            infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+        };
+    });
+
+    let i = 0;
+    vanPoints.forEach((p) => {
+        let marker = new BMapGL.Marker(p, {icon:blueIcon});
+        i++;
+
+        // van info
+        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van `+ i +`!!</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme.jpg' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
+    This is Van!
+    </p>
+    <a href="">Van Link `+ i +`</a>
+    </div>`;
+        var infoWindow = new BMapGL.InfoWindow(sContent);
+        // click event
+        marker.addEventListener('click', function () {
+            this.openInfoWindow(infoWindow);
+            // infoWindow
+            document.getElementById('imgDemo').onload = function () {
+                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            };
+        });
+        map.addOverlay(marker);
+    });
+
+
+
+</script>
+
+<script src="./scripts/jquery.min.js"></script>
+<script src="./scripts/bootstrap.min.js"></script>
+<script src="./scripts/nifty.min.js"></script>
+<script src="./scripts/icons.js"></script>
+</body>
+</html>
+
+
+
