@@ -14,29 +14,34 @@ let show_page = async (req, res) => {
 
 
     let van_model = require('../model/van')
-
-    van_model.find({}, 'van_name is_open picture_path description location stars', function (err, resp) {
-
-    });
-
-    let query = van_model.find()
-    // select all vans from Vans collection
-    query.select('van_name is_open picture_path description location stars');
-
-    await query.exec(await function (err, resp) {
-        console.log('checking db!')
+    await van_model.find({}, '-_id van_name is_open picture_path description location stars', function (err, resp) {
         if (err) {
             console.log('error: ' + err);
         } else {
             vans = resp;
         }
+
         console.log('result + ', resp)
-    })
+    });
+
+    // let query = van_model.find()
+    // // select all vans from Vans collection
+    // query.select('van_name is_open picture_path description location stars');
+    //
+    // await query.exec(await function (err, resp) {
+    //     console.log('checking db!')
+    //     if (err) {
+    //         console.log('error: ' + err);
+    //     } else {
+    //         vans = resp;
+    //     }
+    //     console.log('result + ', resp)
+    // })
 
     console.log(vans)
     if (vans.length === 0) {
 
-        res.render('index', {layout: false, user_to_show: user_pos, vans_to_show: [{}]});
+        res.render('index', {layout: false, user_to_show: user_pos, vans_to_show: []});
 
     } else {
         // vans that need to be showed
@@ -48,6 +53,7 @@ let show_page = async (req, res) => {
             }
         })
 
+        vans = []
         res.render('index', {
             layout: false,
             vans_to_show: vans_to_show,

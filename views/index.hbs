@@ -58,8 +58,13 @@
     // var vanPoints = [van1_point, van2_point, van3_point, van4_point];
 
     // dynamic load vans and user
-    let vans_to_show = {{vans_to_show}};
-    let user_to_show = {{user_to_show}};
+    <!--let vans_to_show = ;-->
+    <!--let user_to_show = ;-->
+
+    let user_to_show =  {x_pos: {{user_to_show.x_pos}}, y_pos: {{user_to_show.y_pos}} };
+
+    // incoming string with no escape
+    let vans_to_show = [{{{vans_to_show}}}];
 
     let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
 
@@ -84,8 +89,10 @@
         };
     });
 
+
     vans_to_show.forEach((van) => {
-        let van_point = new BMapGL.Point(van.position.pos_x, van.position.pos_y);
+        let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
+        console.log('create map point: ' + van.location.x_pos +', ' + van.location.y_pos);
         let marker = new BMapGL.Marker(van_point, {icon:blueIcon});
 
         // van info
@@ -112,6 +119,3 @@
 </body>
 
 </html>
-
-
-
