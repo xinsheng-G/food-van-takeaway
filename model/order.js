@@ -3,16 +3,19 @@ let mongoose = require('./mongoDB'),
 
 // need to design details
 let orderSchema = new Schema({
-    login_id: String,
-    password: String,
-    username: String,
-    firstname: String,
-    lastname: String,
-    birthday: String,
+    order_id: Number,
 
-    location: {x_pos: Number, y_pos: Number},
-    current_order_ids:[String],
-    previous_order_ids:[String]
+    // "foreign key"
+    order_customer_id: String,
+    order_van_name: String,
+
+    // CONFIRMING , PREPARING, READY, COMPLETE
+    status: String,
+    start_time: Date,
+    end_time: Date,
+
+    snacks: [{snack_name:String, number: Number, remark: String}],
+    total_price: Number
 });
 
 

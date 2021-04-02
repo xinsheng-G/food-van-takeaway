@@ -6,13 +6,21 @@ let customerSchema = new Schema({
     login_id: String,
     password: String,
     username: String,
+
+    // optional
     firstname: String,
     lastname: String,
     birthday: String,
 
+    // maybe we can store image path to db rather than store huge byte data.
+    // the image could be located in upload_images folder
+    avatar_path: String,
+
     location: {x_pos: Number, y_pos: Number},
-    current_order_ids:[String],
-    previous_order_ids:[String]
+
+    // customer can get his orders by query Orders collection from db by user_id, so don't need store orders in customer model
+    // current_order_ids:[String],
+    // previous_order_ids:[String]
 });
 
 
