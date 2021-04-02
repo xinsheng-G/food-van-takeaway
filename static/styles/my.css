@@ -1,4 +1,5 @@
 
+/* standard purple from UI mock up */
 /* override default primary button */
 /* see login page's login button  */
 .btn-primary {background-color: #8699F7 !important;
@@ -19,14 +20,31 @@
     opacity: 0.9;
 }
 
-/* define login/register/... pages' baciground color  */
-.login-page, .register-page {
+/* standard background color from UI mock up  */
+.standard-background, .login-page, .register-page {
     background: #7f95fb !important;
+}
+
+/* standard background color from UI mock up  */
+.standard-dark-white-background {
+    background: #f5f5f5 !important;
 }
 
 /* attach it to the input element to make radius border */
 .my-round-border {
     border-radius: 15px/15px !important;
+}
+
+.left-normal-right-round {
+    border-radius: 0 15px 15px 0;
+}
+
+.small-left-normal-right-round {
+    border-radius: 0 5px 5px 0;
+}
+
+.left-round-right-normal {
+    border-radius: 15px 0 0 15px;
 }
 
 /* login overlay content's padding top, see login page*/
@@ -36,7 +54,12 @@
 
 /* define white text */
 .text-white {
-    color: #ECF0F5 !important;
+    color: #edf1f5 !important;
+}
+
+/* standard purple from mock up */
+.text-purple {
+    color: #7a8eea !important;
 }
 
 /* define validator message float to the left*/
@@ -45,6 +68,17 @@
     margin-top: 5px;
     margin-bottom: 10px;
     text-align: left;
+}
+
+/* define the bottom buttons overlay*/
+.map-bottom {
+    z-index: 999 !important;
+    position: fixed;
+    bottom: 5.5rem;
+}
+
+.active-sub {
+
 }
 
 

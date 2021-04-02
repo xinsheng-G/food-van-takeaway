@@ -15,6 +15,9 @@ eg. <i class="fa fa-chevron-left"></i>
 ============================
 We can override original styles or create new styles in my.css
 
+For defining locations of elements, try to use Bootstrap Grid System or table first, because
+they can adapt different screen size and easy to code, if they doesn't work, then change position
+by writing css.
 ============================
 For the static path, it has been hosted by express framework of Node.js in file app.js ('app.use(express.static('static'));')
 

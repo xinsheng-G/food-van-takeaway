@@ -27,18 +27,168 @@
 </head>
 
 <body>
-<!-- 144.9597098711528,-37.79830229214481 -->
-<!-- 144.9608068315597,-37.798468097073105 -->
-<!-- 144.95961192825933,-37.799525094668184 -->
-<!-- 144.96213232538466,-37.797654613047214 -->
-<div class = "info">
-    <p>Overlay <a href='#' target="_blank">link</a> Test</p>
+
+<div class="row map-bottom">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row" style="z-index: 999 !important;">
+        </div>
+    </div>
+    <div class="col-md-4"></div>
 </div>
-<div id="map"></div>
-<ul class="drawing-panel" style="z-index: 99;">
-    <li class = "light btn current">Button!</li>
-    <li class = "night btn">Button!</li>
-</ul>
+
+<div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+    <div class="boxed">
+
+        <!--Map CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container" style="padding-top: 1px; padding-bottom: 1px;">
+
+            <!--Page content-->
+            <!--===================================================-->
+            <div id="page-content" style="padding: 0px 0px 0;">
+
+                <div class="row" style="height:100vh;">
+                    <!--map container-->
+                    <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
+                </div>
+
+            </div>
+            <!--===================================================-->
+            <!--End map content-->
+
+        </div>
+
+        <!--MAIN NAVIGATION-->
+        <!--===================================================-->
+        <nav id="mainnav-container" style="padding-top: 1px;">
+            <div id="mainnav">
+                <!--Menu-->
+                <!--================================-->
+                <div id="mainnav-menu-wrap">
+                    <div class="nano has-scrollbar">
+                        <div class="nano-content standard-dark-white-background small-left-normal-right-round"
+                             tabindex="0" style="right: -15px;">
+
+                            <!--Profile Widget-->
+                            <!--================================-->
+                            <div id="mainnav-profile" class="mainnav-profile small-left-normal-right-round">
+                                <div class="profile-wrap text-center standard-background">
+                                    <div class="pad-btm">
+                                        <img class="img-circle img-md" src="./images/avator_demo.png"
+                                             alt="Profile Picture">
+                                    </div>
+                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"
+                                       aria-expanded="false">
+                                        <p class="mnp-name text-white">User-name</p>
+                                        <span class="mnp-desc text-white">username@idid.net</span>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <!--Shortcut buttons-->
+                            <!--================================-->
+                            <div id="mainnav-shortcut" class="hidden">
+                                <ul class="list-unstyled shortcut-wrap">
+                                    <li class="col-xs-3" data-content="My Profile" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
+                                                <i class="demo-pli-male"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Messages" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
+                                                <i class="demo-pli-speech-bubble-3"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Activity" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
+                                                <i class="demo-pli-thunder"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Lock Screen" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
+                                                <i class="demo-pli-lock-2"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--================================-->
+                            <!--End shortcut buttons-->
+
+
+                            <ul id="mainnav-menu" class="list-group standard-dark-white-background">
+
+                                <!--Category name-->
+                                <li class="list-header">WANNA SNACK?</li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-user-circle-o"></i>
+                                        <span class="menu-title">My Account</span>
+                                        <i class="arrow"></i>
+                                    </a>
+
+                                    <!--Submenu-->
+                                    <ul class="collapse" aria-expanded="false">
+                                        <li><a href="#">Edit Profiles</a></li>
+                                        <li><a href="#">Edit Avatar</a></li>
+                                    </ul>
+                                </li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+												My Orders
+												<span class="pull-right badge badge-warning">24</span>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-power-off"></i>
+                                        <span class="menu-title">
+												Log Out
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="nano-pane" style="display: none;">
+                            <div class="nano-slider" style="height: 2815px; transform: translate(0px);"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--================================-->
+                <!--End menu-->
+
+            </div>
+        </nav>
+        <!--===================================================-->
+        <!--END MAIN NAVIGATION-->
+    </div>
+</div>
+
+<!--<ul class="drawing-panel" style="z-index: 99;">-->
+<!--    <li class = "light btn current">Button!</li>-->
+<!--    <li class = "night btn">Button!</li>-->
+<!--</ul>-->
 
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">

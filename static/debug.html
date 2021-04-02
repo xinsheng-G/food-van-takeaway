@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
     <link rel="stylesheet" href="./styles/bootstrap.min.css">
     <link rel="stylesheet" href="./styles/nifty.min.css">
     <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
     <link rel="stylesheet" href="./styles/my.css">
     <link rel="stylesheet" href="./styles/themify-icons.min.css">
     <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/map.css">
 
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
@@ -15,107 +20,275 @@
     <script src="./scripts/icons.js"></script>
     <script src="./scripts/bootstrap-datepicker.min.js"></script>
     <script src="./scripts/bootstrapValidator.min.js"></script>
-
-    <title>debug</title>
+    <script type="text/javascript"
+            src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
+    <title>Index</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
+
 <body>
-<div id="container" class="cls-container  login-page">
+<!-- 144.9597098711528,-37.79830229214481 -->
+<!-- 144.9608068315597,-37.798468097073105 -->
+<!-- 144.95961192825933,-37.799525094668184 -->
+<!-- 144.96213232538466,-37.797654613047214 -->
+<!--    <div style="width:697px;height:550px;border:#ccc solid 1px;" id="map"></div>-->
+<!--    <div class="info">-->
+<!--        <p>Overlay <a href='#' target="_blank">link</a> Test</p>-->
+<!--    </div>-->
 
-    <!-- BACKGROUND IMAGE -->
-    <!--===================================================-->
-    <div id="bg-overlay"></div>
-
-
-    <!-- LOGIN FORM -->
-    <!--===================================================-->
-    <h1 class="h1 text-white"><img src="./images/icon_drink_snack.png" alt="icon">Snacks in a Van</h1>
-    <div class="cls-content my-login-content-padding">
-        <div class="login-box pager-rounded cls-content-sm panel">
-
-
-            <div class="mar-ver pad-btm bord-btm">
-                <div class="row">
-                    <div class="col-xs-6 col-md-4">
-                        <div class="panel-control pull-left">
-                            <a href="/" class="btn btn-default">
-                                <i class="fa fa-2x fa-chevron-left"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-md-4">
-                        <div style="font-size: 36px; font-weight: 600;">Login</div>
-                    </div>
-                    <div class="col-xs-6 col-md-4"></div>
-                </div>
-            </div>
-
-            <div class="panel-body">
-
-                <form id='login_form' action="/login" method="post">
-
-                    <!-- username -->
-                    <div class="form-group">
-                        <input type="text" name="login_id" class="form-control my-round-border" placeholder="LoginID(E-mail)" autofocus="" data-bv-field="login_id">
-                        <!-- empty warning -->
-                        <small style="display: none; float: left !important;" class="pull-left help-block" data-bv-validator="notEmpty" data-bv-for="login_id" data-bv-result="NOT_VALIDATED">The loginID is required</small>
-                    </div>
-
-                    <!-- password -->
-                    <div class="form-group">
-                        <input type="password" name="password" class="form-control my-round-border" placeholder="password" data-bv-field="password">
-                        <!-- empty warning -->
-                        <small style="display: none; float: left !important;" class="pull-left help-block" data-bv-validator="notEmpty" data-bv-for="password" data-bv-result="NOT_VALIDATED">The password is required</small>
-                    </div>
-                    <!-- forget password -->
-                    <a href="#" class="btn-link mar-rgt pull-left">Forgot password?</a>
-                    <br>
-                    <!-- remember me -->
-                    <div class="checkbox pad-btm text-left pull-right">
-                        <input id="demo-form-checkbox" class="magic-checkbox" type="checkbox">
-                        <label for="demo-form-checkbox">Remember me</label>
-                    </div>
-
-                    <button class="btn my-round-border btn-primary btn-block" type="submit">SIGN IN</button>
-                </form>
-                <br>
-                <!-- register -->
-                <a class="btn my-round-border btn-primary-negative btn-block" href="/register">JOIN US TODAY</a>
-            </div>
-
+<div class="row map-bottom">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row" style="z-index: 999 !important;">
+            <div class="col-md-4">221</div>
+            <div class="col-md-4">222</div>
+            <div class="col-md-4">223</div>
         </div>
     </div>
-    <!--===================================================-->
-
+    <div class="col-md-4"></div>
 </div>
 
-<script>
-    // FORM VALIDATION ON TABS
-    // =================================================================
-    $(function () {
-        $('#login_form').bootstrapValidator({
-            message: 'This value is not valid',
-            fields: {
-                login_id: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The login_id is required'
-                        }
-                    }
-                },
-                password: {
-                    validators: {
-                        notEmpty: {
-                            message: 'The password is required'
-                        }
-                    }
-                }
-            }
+<div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+    <!--NAVBAR-->
+    <!--===================================================-->
+
+    <!--===================================================-->
+    <!--END NAVBAR-->
+
+    <div class="boxed">
+
+        <!--CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container" style="padding-top: 1px; padding-bottom: 1px;">
+
+            <!--Page content-->
+            <!--===================================================-->
+            <div id="page-content" style="padding: 0px 0px 0;">
+
+                <div class="row" style="height:100vh;">
+                    <!--百度地图容器-->
+                    <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
+                </div>
+
+            </div>
+            <!--===================================================-->
+            <!--End page content-->
+
+        </div>
+
+        <!--MAIN NAVIGATION-->
+        <!--===================================================-->
+        <nav id="mainnav-container" style="padding-top: 1px;">
+            <div id="mainnav">
+                <!--Menu-->
+                <!--================================-->
+                <div id="mainnav-menu-wrap">
+                    <div class="nano has-scrollbar">
+                        <div class="nano-content standard-dark-white-background small-left-normal-right-round"
+                             tabindex="0" style="right: -15px;">
+
+                            <!--Profile Widget-->
+                            <!--================================-->
+                            <div id="mainnav-profile" class="mainnav-profile small-left-normal-right-round">
+                                <div class="profile-wrap text-center standard-background">
+                                    <div class="pad-btm">
+                                        <img class="img-circle img-md" src="./images/avator_demo.png"
+                                             alt="Profile Picture">
+                                    </div>
+                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"
+                                       aria-expanded="false">
+                                        <p class="mnp-name text-white">User-name</p>
+                                        <span class="mnp-desc text-white">username@idid.net</span>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <!--Shortcut buttons-->
+                            <!--================================-->
+                            <div id="mainnav-shortcut" class="hidden">
+                                <ul class="list-unstyled shortcut-wrap">
+                                    <li class="col-xs-3" data-content="My Profile" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
+                                                <i class="demo-pli-male"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Messages" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
+                                                <i class="demo-pli-speech-bubble-3"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Activity" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
+                                                <i class="demo-pli-thunder"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="col-xs-3" data-content="Lock Screen" data-original-title="" title="">
+                                        <a class="shortcut-grid" href="#">
+                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
+                                                <i class="demo-pli-lock-2"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--================================-->
+                            <!--End shortcut buttons-->
+
+
+                            <ul id="mainnav-menu" class="list-group standard-dark-white-background">
+
+                                <!--Category name-->
+                                <li class="list-header">WANNA SNACK?</li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-user-circle-o"></i>
+                                        <span class="menu-title">My Account</span>
+                                        <i class="arrow"></i>
+                                    </a>
+
+                                    <!--Submenu-->
+
+                                    <ul class="collapse" aria-expanded="false">
+                                        <li><a href="#">Edit Profiles</a></li>
+                                        <li><a href="#">Edit Avatar</a></li>
+
+<!--                                        <li class="list-divider"></li>-->
+                                    </ul>
+                                </li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+												My Orders
+												<span class="pull-right badge badge-warning">24</span>
+											</span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-power-off"></i>
+                                        <span class="menu-title">
+												Log Out
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                            <!--Widget-->
+                            <!--================================-->
+
+                            <!--================================-->
+                            <!--End widget-->
+
+                        </div>
+                        <div class="nano-pane" style="display: none;">
+                            <div class="nano-slider" style="height: 2815px; transform: translate(0px);"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--================================-->
+                <!--End menu-->
+
+            </div>
+        </nav>
+        <!--===================================================-->
+        <!--END MAIN NAVIGATION-->
+    </div>
+</div>
+
+<!-- path is set in app.js : app.use(express.static('static')); -->
+<script type="text/javascript">
+    var map = new BMapGL.Map("map");
+
+    let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
+    let blueIcon = new BMapGL.Icon("./images/bluemark.png", new BMapGL.Size(25, 25));
+    console.log("asdasd");
+
+    // init map points (static)
+    var user_point = new BMapGL.Point(144.95782936759818, -37.79872198514221);
+    var van1_point = new BMapGL.Point(144.9597098711528, -37.79830229214481);
+    var van2_point = new BMapGL.Point(144.9608068315597, -37.798468097073105);
+    var van3_point = new BMapGL.Point(144.95961192825933, -37.799525094668184);
+    var van4_point = new BMapGL.Point(144.96213232538466, -37.797654613047214);
+
+    var vans_to_show = [van1_point, van2_point, van3_point, van4_point];
+
+    // dynamic load vans and user
+    <!--let vans_to_show = ;-->
+    <!--let user_to_show = ;-->
+
+    // let user_to_show =  {x_pos: {{user_to_show.x_pos}}, y_pos: {{user_to_show.y_pos}} };
+    //
+    // // incoming string with no escape
+    // let vans_to_show = [{{{vans_to_show}}}];
+
+    // let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
+
+    // focus the map
+    map.centerAndZoom(user_point, 18);
+
+    let userMarker = new BMapGL.Marker(user_point, {icon: redIcon});
+    map.addOverlay(userMarker);
+    // User info window
+    var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme2.jpg' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
+    This is You!
+    </p></div>`;
+    var infoWindow = new BMapGL.InfoWindow(sContent);
+    // click event
+    userMarker.addEventListener('click', function () {
+        this.openInfoWindow(infoWindow);
+        // infoWindow
+        document.getElementById('imgDemo').onload = function () {
+            infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+        };
+    });
+
+
+    vans_to_show.forEach((van) => {
+        let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
+        console.log('create map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
+        let marker = new BMapGL.Marker(van_point, {icon: blueIcon});
+
+        // van info
+        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van ` + van.van_name + `</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme.jpg' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
+            + van.description + `, stars:` + van.stars +
+            `</p>
+    <a href="#">Van Link ` + van.van_name + `</a>
+    </div>`;
+        var infoWindow = new BMapGL.InfoWindow(sContent);
+        // click event
+        marker.addEventListener('click', function () {
+            this.openInfoWindow(infoWindow);
+            // infoWindow
+            document.getElementById('imgDemo').onload = function () {
+                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            };
         });
+        map.addOverlay(marker);
     });
 
 </script>
-
-
-
 </body>
+
 </html>
