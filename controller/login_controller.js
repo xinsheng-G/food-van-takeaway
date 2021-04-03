@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const md5_util = require('../utils/MD5_utils')
+const path = require('path');
 
 // render login page
 let show_page = (req, res) => {
@@ -14,6 +15,8 @@ let check_login = (req, res) => {
        "login_id": req.body.login_id,
        "password": md5_util.encrypt(req.body.password)
    }
+
+   console.log('input password to MD5: ' +user.password)
 
    // select user model
    let customer_model = require('../model/customer')
@@ -30,18 +33,33 @@ let check_login = (req, res) => {
             // if no login id record match
             if(resp === null) {
                 console.log('no match password')
-                res.redirect('/login')
+                res.redirect('/customer/login')
             } else {
                 // if login id record match
                 console.log('got result, password: ' + resp.password)
 
                 // if password equals the record
                 if(resp.password === user.password) {
-                    res.redirect('/login/success')
+
+                    // sent user_id information to session
+                    req.session.user = user.login_id;
+
+                    // If the original request path exists, redirect the user to the previous request path
+                    let redirectUrl = '/';
+                    if (req.session.originalUrl) {
+                        redirectUrl = req.session.originalUrl;
+                        // Clear the original request path stored in the session
+                        req.session.originalUrl = null;
+                    } else {
+                        // No original request path exists, redirect the user to the success page
+                        redirectUrl = '/customer/login_success';
+                    }
+
+                    res.redirect(redirectUrl);
                 } else {
 
                     // password error, failed
-                    res.redirect('/login/fail')
+                    res.redirect('/customer/login_failed')
                 }
             }
         }
@@ -56,7 +74,8 @@ let show_success_page = (req, res) => {
 }
 
 let show_failed_page = (req, res) => {
-    res.render('login_failed', {title: 'Login Failed'})
+
+    res.render('login_failed', {title: 'Login failed'});
 }
 
 // export functions above

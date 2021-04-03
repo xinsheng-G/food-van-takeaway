@@ -1,8 +1,8 @@
-Models need to be designed
+Models need to be improved
 
 ===============
 mongoDB.js provides mongoDB connection.
-the rest of files are entity models.
+the rest of .js files are entity models.
 
 ===============
 connect to MongoDB Atlas online:

@@ -12,7 +12,6 @@ let show_page = async (req, res) => {
     // dynamic component: Vans location
     let vans = []
 
-
     let van_model = require('../model/van')
     await van_model.find({}, '-_id van_name is_open picture_path description location stars', function (err, resp) {
         if (err) {
@@ -20,23 +19,7 @@ let show_page = async (req, res) => {
         } else {
             vans = resp;
         }
-
-        console.log('result + ', resp)
     });
-
-    // let query = van_model.find()
-    // // select all vans from Vans collection
-    // query.select('van_name is_open picture_path description location stars');
-    //
-    // await query.exec(await function (err, resp) {
-    //     console.log('checking db!')
-    //     if (err) {
-    //         console.log('error: ' + err);
-    //     } else {
-    //         vans = resp;
-    //     }
-    //     console.log('result + ', resp)
-    // })
 
     console.log(vans)
     if (vans.length === 0) {
