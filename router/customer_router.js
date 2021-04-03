@@ -19,7 +19,7 @@ router.get('/login', loginController.show_page);
 // receive info login page's form
 router.post('/login', loginController.check_login);
 
-// show login success page(now it just direct to home page)
+// show login success page(now it just directs to home page)
 router.get('/login_success', loginController.show_success_page);
 
 // show fail page

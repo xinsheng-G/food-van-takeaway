@@ -12,6 +12,7 @@ const exceptionHandler = require('../controller/handle_exceptions')
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.use(express.static('static'));
+router.use(express.static('upload_images'));
 
 // '/' means route path, 'indexController.show_page' means show_page
 // function from  indexController

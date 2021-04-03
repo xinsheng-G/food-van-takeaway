@@ -220,8 +220,9 @@
     let userMarker = new BMapGL.Marker(user_point, {icon:redIcon});
     map.addOverlay(userMarker);
     // User info window
+    // user's image path is hard coded, waiting for making dynamic
     var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme2.jpg' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../avator_demo.png' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
     This is You!
     </p></div>`;
@@ -242,8 +243,9 @@
         let marker = new BMapGL.Marker(van_point, {icon:blueIcon});
 
         // van info
+        // van's image path is hard coded, waiting for making dynamic
         var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van `+ van.van_name +`</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme.jpg' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='./van_demo.jpg' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
               + van.description + `, stars:`+ van.stars +
     `</p>

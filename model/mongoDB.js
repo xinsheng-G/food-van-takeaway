@@ -4,25 +4,24 @@ let mongoose = require('mongoose');
 // !!! EDIT CONFIGURATION HERE !!!
 // params to setup mongoDB
 
-// if using local:
-// let url = 'mongodb://localhost:27017/';
-// let databaseName = 'test'
-// const DB_URL = url + databaseName;
-
-
 // if use mongoDB atlas online
 let username = 'admin'
 let password = 'admin'
+// for production environment in final release: 'snackApp-production'
 let databaseName = 'snackApp'
 
-// for production environment in final release:
-// let databaseName = 'snackApp-production'
+const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@x3ra-demo.9ztkf.mongodb.net/'+ databaseName +'?retryWrites=true&w=majority';
+
+// if using local:
+// let url = 'mongodb://localhost:27017/';
+// let databaseName = 'test'
+//
+// const DB_URL = url + databaseName;
 
 //========================================
 
 
-const url = 'mongodb+srv://'+ username +':'+ password + '@x3ra-demo.9ztkf.mongodb.net/'+ databaseName +'?retryWrites=true&w=majority'
-const DB_URL = url;
+
 
 /**
  * connect

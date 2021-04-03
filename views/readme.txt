@@ -13,4 +13,10 @@ res.render('templateName', {
 		variable3: req.params.def,
 	});
 
+if you want to render a view without a parent layout:
+
+res.render('templateName', {layout: false})
+
 for more information, see lectures and workshop demo files.
+
+==============================================================
