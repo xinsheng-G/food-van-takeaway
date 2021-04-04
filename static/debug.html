@@ -29,15 +29,10 @@
 
 <body>
 
-<!-- using for debug/design static html, then we can move it to hbs -->
-
 <div class="row map-bottom">
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <div class="row" style="z-index: 999 !important;">
-            <div class="col-md-4">221</div>
-            <div class="col-md-4">222</div>
-            <div class="col-md-4">223</div>
         </div>
     </div>
     <div class="col-md-4"></div>
@@ -45,30 +40,61 @@
 
 <div id="container" class="effect aside-float aside-bright mainnav-lg">
 
-    <!--NAVBAR-->
-    <!--===================================================-->
-
-    <!--===================================================-->
-    <!--END NAVBAR-->
-
     <div class="boxed">
 
-        <!--CONTENT CONTAINER-->
+        <!--Map CONTENT CONTAINER-->
         <!--===================================================-->
         <div id="content-container" style="padding-top: 1px; padding-bottom: 1px;">
 
             <!--Page content-->
             <!--===================================================-->
-            <div id="page-content" style="padding: 0px 0px 0;">
+            <div id="page-content" style="padding: 0px 0px 0; ">
 
-                <div class="row" style="height:100vh;">
-                    <!--百度地图容器-->
+                <div class="row" style="height:100vh; position:relative; text-align:center;">
+
+
+                    <!-- Top search -->
+                    <!-- for mobile size -->
+                    <div class="row map-top map-top-mini-search top-mini-search-behavior" >
+                        <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></button>
+                    </div>
+
+                    <!-- for desktop size -->
+                    <div class="row map-top map-top-full-search top-full-search-behavior" >
+                        <form action="#" method="post" class="col-xs-4 col-sm-6 col-sm-offset-1 pad-hor">
+                            <div class="input-group mar-btm">
+                                <input type="text" placeholder="Search van name..." class="form-control input-lg">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-lg" type="button">Search</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                    <!-- bottom button group (shows in mobile device) -->
+                    <div class="map-bottom bottom-button-group-behavior">
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_default_avatar.png" alt="My Account" title="My Account" style="width: 27px; height: 26px"></button>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></button>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-shopping-cart" title="Cart"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--map container-->
                     <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
                 </div>
 
             </div>
-            <!--===================================================-->
-            <!--End page content-->
+            <!--End map content-->
 
         </div>
 
@@ -103,36 +129,7 @@
                             <!--Shortcut buttons-->
                             <!--================================-->
                             <div id="mainnav-shortcut" class="hidden">
-                                <ul class="list-unstyled shortcut-wrap">
-                                    <li class="col-xs-3" data-content="My Profile" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
-                                                <i class="demo-pli-male"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Messages" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
-                                                <i class="demo-pli-speech-bubble-3"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Activity" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
-                                                <i class="demo-pli-thunder"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Lock Screen" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
-                                                <i class="demo-pli-lock-2"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <ul class="list-unstyled shortcut-wrap"></ul>
                             </div>
                             <!--================================-->
                             <!--End shortcut buttons-->
@@ -152,12 +149,24 @@
                                     </a>
 
                                     <!--Submenu-->
-
                                     <ul class="collapse" aria-expanded="false">
-                                        <li><a href="#">Edit Profiles</a></li>
-                                        <li><a href="#">Edit Avatar</a></li>
+                                        <li>
+                                            <a href="#" data-original-title="" title="">
+                                            <i class="fa fa-address-card"></i>
+                                            <span class="menu-title">
+												Manage Profile
+                                            </span>
+                                            </a>
+                                        </li>
 
-<!--                                        <li class="list-divider"></li>-->
+                                        <li>
+                                            <a href="#" data-original-title="" title="">
+                                            <i class="fa fa-power-off"></i>
+                                            <span class="menu-title">
+												Log Out
+                                            </span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -167,29 +176,30 @@
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
 												My Orders
-												<span class="pull-right badge badge-warning">24</span>
-											</span>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span class="menu-title">
+												Cart
+                                        </span>
                                     </a>
                                 </li>
 
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="#" data-original-title="" title="">
-                                        <i class="fa fa-power-off"></i>
-                                        <span class="menu-title">
-												Log Out
-                                        </span>
+                                    <a href="#">
+                                        <i class="fa fa-exchange"></i>
+                                        <span class="menu-title">Vendor APP</span>
                                     </a>
                                 </li>
                             </ul>
 
 
-                            <!--Widget-->
-                            <!--================================-->
-
-                            <!--================================-->
-                            <!--End widget-->
 
                         </div>
                         <div class="nano-pane" style="display: none;">
@@ -206,8 +216,6 @@
         <!--END MAIN NAVIGATION-->
     </div>
 </div>
-
-<!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
     var map = new BMapGL.Map("map");
 
@@ -222,18 +230,15 @@
     var van3_point = new BMapGL.Point(144.95961192825933, -37.799525094668184);
     var van4_point = new BMapGL.Point(144.96213232538466, -37.797654613047214);
 
-    var vans_to_show = [van1_point, van2_point, van3_point, van4_point];
+    var vanPoints = [van1_point, van2_point, van3_point, van4_point];
 
     // dynamic load vans and user
-    <!--let vans_to_show = ;-->
-    <!--let user_to_show = ;-->
+    let user_to_show = user_point;
 
-    // let user_to_show =  {x_pos: {{user_to_show.x_pos}}, y_pos: {{user_to_show.y_pos}} };
-    //
-    // // incoming string with no escape
-    // let vans_to_show = [{{{vans_to_show}}}];
+    // incoming string with no escape
+    let vans_to_show = vanPoints;
 
-    // let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
+    //let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
 
     // focus the map
     map.centerAndZoom(user_point, 18);
@@ -241,8 +246,9 @@
     let userMarker = new BMapGL.Marker(user_point, {icon: redIcon});
     map.addOverlay(userMarker);
     // User info window
+    // user's image path is hard coded, waiting for making dynamic
     var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme2.jpg' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../avator_demo.png' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
     This is You!
     </p></div>`;
@@ -263,8 +269,9 @@
         let marker = new BMapGL.Marker(van_point, {icon: blueIcon});
 
         // van info
+        // van's image path is hard coded, waiting for making dynamic
         var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van ` + van.van_name + `</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../images/meme.jpg' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='./van_demo.jpg' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
             + van.description + `, stars:` + van.stars +
             `</p>
@@ -283,6 +290,7 @@
     });
 
 </script>
+
 </body>
 
 </html>

@@ -10,10 +10,11 @@ let show_page = (req, res) => {
 // check login info
 let check_login = (req, res) => {
 
-    // encrypt to MD5, so that to compare with the record from db
+    // encrypt to MD5, so that to compare with the MD5 record from db
     let user = {
        "login_id": req.body.login_id,
-       "password": md5_util.encrypt(req.body.password)
+       "password": md5_util.encrypt(req.body.password),
+        "user_type": 'CUSTOMER'
    }
 
    console.log('input password to MD5: ' +user.password)
@@ -43,6 +44,7 @@ let check_login = (req, res) => {
 
                     // sent user_id information to session
                     req.session.user = user.login_id;
+                    req.session.user_type = user.user_type;
 
                     // If the original request path exists, redirect the user to the previous request path
                     let redirectUrl = '/';

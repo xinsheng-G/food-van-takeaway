@@ -47,9 +47,47 @@
 
             <!--Page content-->
             <!--===================================================-->
-            <div id="page-content" style="padding: 0px 0px 0;">
+            <div id="page-content" style="padding: 0px 0px 0; ">
 
-                <div class="row" style="height:100vh;">
+                <div class="row" style="height:100vh; position:relative; text-align:center;">
+
+
+                    <!-- Top search -->
+                    <!-- for mobile size -->
+                    <div class="row map-top map-top-mini-search top-mini-search-behavior" >
+                        <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></button>
+                    </div>
+
+                    <!-- for desktop size -->
+                    <div class="row map-top map-top-full-search top-full-search-behavior" >
+                        <form action="#" method="post" class="col-xs-4 col-sm-6 col-sm-offset-1 pad-hor">
+                            <div class="input-group mar-btm">
+                                <input type="text" placeholder="Search van name..." class="form-control input-lg">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-lg" type="button">Search</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                    <!-- bottom button group (shows in mobile device) -->
+                    <div class="map-bottom bottom-button-group-behavior">
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_default_avatar.png" alt="My Account" title="My Account" style="width: 27px; height: 26px"></button>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></button>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-shopping-cart" title="Cart"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+
                     <!--map container-->
                     <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
                 </div>
@@ -90,36 +128,7 @@
                             <!--Shortcut buttons-->
                             <!--================================-->
                             <div id="mainnav-shortcut" class="hidden">
-                                <ul class="list-unstyled shortcut-wrap">
-                                    <li class="col-xs-3" data-content="My Profile" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-mint">
-                                                <i class="demo-pli-male"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Messages" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-warning">
-                                                <i class="demo-pli-speech-bubble-3"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Activity" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-success">
-                                                <i class="demo-pli-thunder"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-xs-3" data-content="Lock Screen" data-original-title="" title="">
-                                        <a class="shortcut-grid" href="#">
-                                            <div class="icon-wrap icon-wrap-sm icon-circle bg-purple">
-                                                <i class="demo-pli-lock-2"></i>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <ul class="list-unstyled shortcut-wrap"></ul>
                             </div>
                             <!--================================-->
                             <!--End shortcut buttons-->
@@ -140,8 +149,23 @@
 
                                     <!--Submenu-->
                                     <ul class="collapse" aria-expanded="false">
-                                        <li><a href="#">Edit Profiles</a></li>
-                                        <li><a href="#">Edit Avatar</a></li>
+                                        <li>
+                                            <a href="#" data-original-title="" title="">
+                                                <i class="fa fa-address-card"></i>
+                                                <span class="menu-title">
+												Manage Profile
+                                            </span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#" data-original-title="" title="">
+                                                <i class="fa fa-power-off"></i>
+                                                <span class="menu-title">
+												Log Out
+                                            </span>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -151,7 +175,15 @@
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
 												My Orders
-												<span class="pull-right badge badge-warning">24</span>
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="#" data-original-title="" title="">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span class="menu-title">
+												Cart
                                         </span>
                                     </a>
                                 </li>
@@ -159,14 +191,14 @@
                                 <li class="list-divider"></li>
 
                                 <li>
-                                    <a href="#" data-original-title="" title="">
-                                        <i class="fa fa-power-off"></i>
-                                        <span class="menu-title">
-												Log Out
-                                        </span>
+                                    <a href="/vendor">
+                                        <i class="fa fa-exchange"></i>
+                                        <span class="menu-title">Vendor APP</span>
                                     </a>
                                 </li>
                             </ul>
+
+
 
                         </div>
                         <div class="nano-pane" style="display: none;">
@@ -184,13 +216,34 @@
     </div>
 </div>
 
-<!--<ul class="drawing-panel" style="z-index: 99;">-->
-<!--    <li class = "light btn current">Button!</li>-->
-<!--    <li class = "night btn">Button!</li>-->
-<!--</ul>-->
-
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
+
+
+    // Get user's location demo
+    // at the final release, user's location is defined here
+
+    /** IMPORTANT!!
+     *
+     * Safari browser requires SSL of the website to get access to HTML5 Geolocation API ! (make the website into https)
+     * error message: "Access to geolocation was blocked over insecure connection to http://localhost:8080."
+     *
+     * We can overcome it by using Baidu API
+     *
+     * */
+    navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude;
+        let longtitude = position.coords.longitude;
+        let accuracy = position.coords.accuracy;
+
+        console.log("locating demo: user location：" + latitude + "," + longitude);
+        console.log("accuracy：" + accuracy);
+
+    }, positionError => {
+        alert('locating failed. Make sure your Browser supports geolocation.')
+        alert('Are you using Apple \'s Safari Brower? :)')
+    });
+
     var map = new BMapGL.Map("map");
 
     let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));

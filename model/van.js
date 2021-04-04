@@ -8,11 +8,12 @@ let vanSchema = new Schema({
     is_open: Boolean,
     stars: Number,
 
-    // maybe we can store image path to db rather than store huge byte data.
+    // We can store image path to online DB rather than store huge byte data.
     // the image could be located in upload_images folder
     picture_path: String,
     description: String,
 
+    text_address: String,
     location: {x_pos: Number, y_pos: Number},
 
     // van can get it's orders by query Orders collection from db by van name, so don't need store orders in model

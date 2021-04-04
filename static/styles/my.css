@@ -70,15 +70,57 @@
     text-align: left;
 }
 
-/* define the bottom buttons overlay*/
+/* define the map overlay*/
 .map-bottom {
-    z-index: 999 !important;
-    position: fixed;
-    bottom: 5.5rem;
+    z-index: 99;
+    position:absolute;
+    left: 45%;
+    bottom: 7.5%;
+    margin-left: -50px;
+}
+
+.map-top {
+    z-index: 99;
+    position:absolute;
+    left: 50%;
+    top: 5%;
+    margin-left: -50px;
+}
+
+.map-top-full-search {
+    left: 25%;
+}
+
+.map-top-mini-search {
+    left: 55%;
+}
+
+.my-circle-button {
+    padding: 9px !important;
+    border-radius: 50% !important;
+    background-color: #7a8eea !important;
+    border-color: #7a8eea !important;
+    color: #fff !important;
 }
 
 .active-sub {
 
+}
+
+@media screen and (max-width:750px){
+    .top-full-search-behavior {
+        display: none;
+    }
+}
+
+@media screen and (min-width:750px){
+    .bottom-button-group-behavior {
+        display: none;
+    }
+
+    .top-mini-search-behavior {
+        display: none;
+    }
 }
 
 

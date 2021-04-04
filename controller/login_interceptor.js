@@ -1,5 +1,11 @@
 
-// still under construction
+/**
+ *
+ * DEMO
+ *
+ * Is under construction
+ *
+ * */
 
 let login_interceptor = function (req, res, next) {
     if (req.session.user) {

@@ -7,6 +7,7 @@ const session = require('express-session');
 
 const index_router = require('./router/index_router');
 const customer_router = require('./router/customer_router');
+const vendor_router = require('./router/vendor_router')
 
 const exceptionHandler = require('./controller/handle_exceptions');
 
@@ -47,8 +48,11 @@ app.use(express.static('upload_images'));
 // make post router can parse form
 app.use(bodyParser.urlencoded({extended:true}))
 
-// customer router
+// customer router, for customer app functionalities
 app.use('/customer', customer_router)
+
+// vendor router, for Vendor app functionalities
+app.use('/vendor', vendor_router)
 
 // index router
 app.use('/', index_router)
