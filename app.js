@@ -60,6 +60,11 @@ app.use('/', index_router)
 // handle 404 exception
 app.all('*', exceptionHandler.handle404);
 
-app.listen(8080, () => {
-    console.log('8080 plz')
+app.listen(process.env.PORT || 8080, () => {
+    // process.env.PORT is for Heroku's port
+    if (process.env.PORT) {
+        console.log('port: ' + process.env.PORT);
+    } else {
+        console.log('port: 8080')
+    }
 })
