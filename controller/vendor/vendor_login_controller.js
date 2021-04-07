@@ -1,5 +1,5 @@
 const bodyParser = require('body-parser')
-const md5_util = require('../utils/MD5_utils')
+const md5_util = require('../../utils/MD5_utils')
 const path = require('path');
 
 /**
@@ -12,7 +12,7 @@ const path = require('path');
 
 // render login page
 let show_page = (req, res) => {
-    res.render('vendor_login.hbs',{title: 'Login'});
+    res.render('./vendor/vendor_login.hbs',{title: 'Login'});
 }
 
 // check login info
@@ -26,7 +26,7 @@ let show_success_page = (req, res) => {
 
 let show_failed_page = (req, res) => {
 
-    res.render('login_failed', {title: 'Login failed'});
+    res.render('./vendor/login_failed', {title: 'Login failed'});
 }
 
 // export functions above

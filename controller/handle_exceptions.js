@@ -7,7 +7,7 @@ let handle404 = (req, res) => {
 let handle500 = (req, res) => {
 
     // render error pages
-    res.status(500).render('./500')
+    res.status(500).render('/500')
 }
 
 // exports functions above

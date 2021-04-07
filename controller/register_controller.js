@@ -3,7 +3,7 @@ const path = require('path');
 
 let show_page = (req, res) => {
     // render index page
-    res.render('register',{title: 'register'});
+    res.render('./customer/register',{title: 'register'});
 }
 
 let add_customer = (req, res) => {
@@ -58,7 +58,7 @@ let add_customer = (req, res) => {
 
 let show_success_page = (req, res) => {
 
-    res.render('register_success', {title: 'Success'});
+    res.render('./customer/register_success', {title: 'Success'});
 }
 
 // export functions above

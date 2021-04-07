@@ -29,267 +29,72 @@
 
 <body>
 
-<div class="row map-bottom">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <div class="row" style="z-index: 999 !important;">
-        </div>
-    </div>
-    <div class="col-md-4"></div>
-</div>
+<div class="tab-base">
 
-<div id="container" class="effect aside-float aside-bright mainnav-lg">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class=""><a href="#demo-bsc-tab-1" data-toggle="tab" aria-expanded="false">Information</a></li>
+        <li class="active"><a href="#demo-bsc-tab-2" data-toggle="tab" aria-expanded="true">Address</a></li>
+    </ul>
 
-    <div class="boxed">
-
-        <!--Map CONTENT CONTAINER-->
-        <!--===================================================-->
-        <div id="content-container" style="padding-top: 1px; padding-bottom: 1px;">
-
-            <!--Page content-->
-            <!--===================================================-->
-            <div id="page-content" style="padding: 0px 0px 0; ">
-
-                <div class="row" style="height:100vh; position:relative; text-align:center;">
-
-
-                    <!-- Top search -->
-                    <!-- for mobile size -->
-                    <div class="row map-top map-top-mini-search top-mini-search-behavior" >
-                        <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></button>
-                    </div>
-
-                    <!-- for desktop size -->
-                    <div class="row map-top map-top-full-search top-full-search-behavior" >
-                        <form action="#" method="post" class="col-xs-4 col-sm-6 col-sm-offset-1 pad-hor">
-                            <div class="input-group mar-btm">
-                                <input type="text" placeholder="Search van name..." class="form-control input-lg">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary btn-lg" type="button">Search</button>
-                                </span>
-                            </div>
-                        </form>
-                    </div>
-
-
-
-                    <!-- bottom button group (shows in mobile device) -->
-                    <div class="map-bottom bottom-button-group-behavior">
-                        <div class="row">
-                            <div class="col-xs-4 col-md-4">
-                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_default_avatar.png" alt="My Account" title="My Account" style="width: 27px; height: 26px"></button>
-                            </div>
-                            <div class="col-xs-4 col-md-4">
-                                <button class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></button>
-                            </div>
-                            <div class="col-xs-4 col-md-4">
-                                <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-shopping-cart" title="Cart"></i></button>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!--map container-->
-                    <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
+    <!-- Tabs Content -->
+    <form id="demo-bv-bsc-tabs" class="form-horizontal bv-form" action="#" method="post" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+        <div class="tab-content">
+            <div class="tab-pane pad-btm fade" id="demo-bsc-tab-1">
+                <p class="text-main text-bold">First Tab</p>
+                <hr>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Full name</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="fullName" placeholder="Full name" data-bv-field="fullName"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="fullName"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="fullName" data-bv-result="NOT_VALIDATED">The full name is required</small></div>
                 </div>
-
-            </div>
-            <!--End map content-->
-
-        </div>
-
-        <!--MAIN NAVIGATION-->
-        <!--===================================================-->
-        <nav id="mainnav-container" style="padding-top: 1px;">
-            <div id="mainnav">
-                <!--Menu-->
-                <!--================================-->
-                <div id="mainnav-menu-wrap">
-                    <div class="nano has-scrollbar">
-                        <div class="nano-content standard-dark-white-background small-left-normal-right-round"
-                             tabindex="0" style="right: -15px;">
-
-                            <!--Profile Widget-->
-                            <!--================================-->
-                            <div id="mainnav-profile" class="mainnav-profile small-left-normal-right-round">
-                                <div class="profile-wrap text-center standard-background">
-                                    <div class="pad-btm">
-                                        <img class="img-circle img-md" src="./images/avator_demo.png"
-                                             alt="Profile Picture">
-                                    </div>
-                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"
-                                       aria-expanded="false">
-                                        <p class="mnp-name text-white">User-name</p>
-                                        <span class="mnp-desc text-white">username@idid.net</span>
-                                    </a>
-                                </div>
-                            </div>
-
-
-                            <!--Shortcut buttons-->
-                            <!--================================-->
-                            <div id="mainnav-shortcut" class="hidden">
-                                <ul class="list-unstyled shortcut-wrap"></ul>
-                            </div>
-                            <!--================================-->
-                            <!--End shortcut buttons-->
-
-
-                            <ul id="mainnav-menu" class="list-group standard-dark-white-background">
-
-                                <!--Category name-->
-                                <li class="list-header">WANNA SNACK?</li>
-
-                                <!--Menu list item-->
-                                <li>
-                                    <a href="#" data-original-title="" title="">
-                                        <i class="fa fa-user-circle-o"></i>
-                                        <span class="menu-title">My Account</span>
-                                        <i class="arrow"></i>
-                                    </a>
-
-                                    <!--Submenu-->
-                                    <ul class="collapse" aria-expanded="false">
-                                        <li>
-                                            <a href="#" data-original-title="" title="">
-                                            <i class="fa fa-address-card"></i>
-                                            <span class="menu-title">
-												Manage Profile
-                                            </span>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#" data-original-title="" title="">
-                                            <i class="fa fa-power-off"></i>
-                                            <span class="menu-title">
-												Log Out
-                                            </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <!--Menu list item-->
-                                <li>
-                                    <a href="#" data-original-title="" title="">
-                                        <i class="fa fa-book"></i>
-                                        <span class="menu-title">
-												My Orders
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a href="#" data-original-title="" title="">
-                                        <i class="fa fa-shopping-cart"></i>
-                                        <span class="menu-title">
-												Cart
-                                        </span>
-                                    </a>
-                                </li>
-
-                                <li class="list-divider"></li>
-
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-exchange"></i>
-                                        <span class="menu-title">Vendor APP</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-
-
-                        </div>
-                        <div class="nano-pane" style="display: none;">
-                            <div class="nano-slider" style="height: 2815px; transform: translate(0px);"></div>
-                        </div>
-                    </div>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Company</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="company" placeholder="Company" data-bv-field="company"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="company"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="company" data-bv-result="NOT_VALIDATED">The company name is required</small></div>
                 </div>
-                <!--================================-->
-                <!--End menu-->
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Member Type</label>
+                    <div class="col-lg-7">
+                        <div class="radio">
+                            <input id="demo-radio-1" class="magic-radio" type="radio" name="memberType" value="free" data-bv-field="memberType">
+                            <label for="demo-radio-1">Free</label>
 
+                            <input id="demo-radio-2" class="magic-radio" type="radio" name="memberType" value="personal" data-bv-field="memberType">
+                            <label for="demo-radio-2">Personal</label>
+
+                            <input id="demo-radio-3" class="magic-radio" type="radio" name="memberType" value="bussines" data-bv-field="memberType">
+                            <label for="demo-radio-3">Bussiness</label>
+                        </div><i style="display: none;" class="form-control-feedback" data-bv-icon-for="memberType"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="memberType" data-bv-result="NOT_VALIDATED">Please choose the membership type that best meets your needs</small></div>
+                </div>
             </div>
-        </nav>
-        <!--===================================================-->
-        <!--END MAIN NAVIGATION-->
-    </div>
+            <div class="tab-pane fade active in" id="demo-bsc-tab-2">
+                <p class="text-main text-bold">Second Tab</p>
+                <hr>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Address</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="address" placeholder="Address" data-bv-field="address"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="address"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="address" data-bv-result="NOT_VALIDATED">The address is required</small></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">City</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="city" placeholder="City" data-bv-field="city"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="city"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="city" data-bv-result="NOT_VALIDATED">The city is required</small></div>
+                </div>
+            </div>
+            <div class="tab-footer clearfix">
+                <div class="col-lg-7 col-lg-offset-3">
+                    <button type="submit" class="btn btn-primary">Validate</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-<script type="text/javascript">
-    var map = new BMapGL.Map("map");
-
-    let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
-    let blueIcon = new BMapGL.Icon("./images/bluemark.png", new BMapGL.Size(25, 25));
-    console.log("asdasd");
-
-    // init map points (static)
-    var user_point = new BMapGL.Point(144.95782936759818, -37.79872198514221);
-    var van1_point = new BMapGL.Point(144.9597098711528, -37.79830229214481);
-    var van2_point = new BMapGL.Point(144.9608068315597, -37.798468097073105);
-    var van3_point = new BMapGL.Point(144.95961192825933, -37.799525094668184);
-    var van4_point = new BMapGL.Point(144.96213232538466, -37.797654613047214);
-
-    var vanPoints = [van1_point, van2_point, van3_point, van4_point];
-
-    // dynamic load vans and user
-    let user_to_show = user_point;
-
-    // incoming string with no escape
-    let vans_to_show = vanPoints;
-
-    //let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
-
-    // focus the map
-    map.centerAndZoom(user_point, 18);
-
-    let userMarker = new BMapGL.Marker(user_point, {icon: redIcon});
-    map.addOverlay(userMarker);
-    // User info window
-    // user's image path is hard coded, waiting for making dynamic
-    var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../avator_demo.png' width='139' height='104'/>
-    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
-    This is You!
-    </p></div>`;
-    var infoWindow = new BMapGL.InfoWindow(sContent);
-    // click event
-    userMarker.addEventListener('click', function () {
-        this.openInfoWindow(infoWindow);
-        // infoWindow
-        document.getElementById('imgDemo').onload = function () {
-            infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
-        };
-    });
-
-
-    vans_to_show.forEach((van) => {
-        let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
-        console.log('create map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
-        let marker = new BMapGL.Marker(van_point, {icon: blueIcon});
-
-        // van info
-        // van's image path is hard coded, waiting for making dynamic
-        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van ` + van.van_name + `</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='./van_demo.jpg' width='139' height='104'/>
-    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
-            + van.description + `, stars:` + van.stars +
-            `</p>
-    <a href="#">Van Link ` + van.van_name + `</a>
-    </div>`;
-        var infoWindow = new BMapGL.InfoWindow(sContent);
-        // click event
-        marker.addEventListener('click', function () {
-            this.openInfoWindow(infoWindow);
-            // infoWindow
-            document.getElementById('imgDemo').onload = function () {
-                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
-            };
-        });
-        map.addOverlay(marker);
-    });
-
-</script>
 
 </body>
 

@@ -21,7 +21,8 @@ let show_page = async (req, res) => {
         }
     });
 
-    console.log(vans)
+    // console.log(vans)
+
     if (vans.length === 0) {
 
         res.render('index', {layout: false, user_to_show: user_pos, vans_to_show: []});

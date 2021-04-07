@@ -22,6 +22,10 @@ router.get('/index', ((req, res) => {
     res.redirect('/');
 }));
 
+router.get('/search', ((req, res) => {
+    res.end('search page');
+}));
+
 // handle 404
 router.all('*', exceptionRouter);
 

@@ -13,10 +13,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
  *
  * */
 
-
-const vendor_loginController = require('../controller/vendor_login_controller');
-const registerController = require('../controller/vendor_register_controller');
-const exceptionHandler = require('../controller/handle_exceptions');
+const vendor_loginController = require('../../controller/vendor/vendor_login_controller');
+const registerController = require('../../controller/vendor/vendor_register_controller');
+const exceptionHandler = require('../../controller/handle_exceptions');
 
 router.use(express.static('./static'));
 

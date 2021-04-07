@@ -2,12 +2,15 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
+
 // application/x-www-form-urlencoded for post from forms
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const loginController = require('../controller/login_controller');
 const registerController = require('../controller/register_controller');
 const exceptionHandler = require('../controller/handle_exceptions');
+
+const login_interceptor = require('../controller/login_interceptor')
 
 router.use(express.static('./static'));
 
@@ -33,6 +36,19 @@ router.post('/register', registerController.add_customer);
 
 // show register success
 router.get('/register_success', registerController.show_success_page);
+
+// using login_interceptor
+router.get('/profile', login_interceptor.customer_login_interceptor, ((req, res) => {
+    res.end('<h1>user profile</h1>')
+}));
+
+router.get('/my_orders', login_interceptor.customer_login_interceptor,((req, res) => {
+    res.end('<h1>my_orders</h1>')
+}));
+
+router.get('/cart', login_interceptor.customer_login_interceptor, ((req, res) => {
+    res.end('<h1>cart</h1>')
+}));
 
 // handle 404
 router.all('*', exceptionHandler.handle404)

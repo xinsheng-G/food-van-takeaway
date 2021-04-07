@@ -4,7 +4,7 @@ const path = require('path');
 
 // render login page
 let show_page = (req, res) => {
-    res.render('login',{title: 'Login'});
+    res.render('./customer/login',{title: 'Login'});
 }
 
 // check login info
@@ -34,7 +34,7 @@ let check_login = (req, res) => {
             // if no login id record match
             if(resp === null) {
                 console.log('no match password')
-                res.redirect('/customer/login')
+                res.redirect('/customer/login_failed')
             } else {
                 // if login id record match
                 console.log('got result, password: ' + resp.password)
@@ -45,6 +45,13 @@ let check_login = (req, res) => {
                     // sent user_id information to session
                     req.session.user = user.login_id;
                     req.session.user_type = user.user_type;
+
+                    // sent user_id to cookie, remember the user
+                    if(req.body.remember_me === 'on') {
+                        res.cookie("user_type",
+                            'CUSTOMER',
+                            {maxAge: 1000 * 60 * 60 * 48})
+                    }
 
                     // If the original request path exists, redirect the user to the previous request path
                     let redirectUrl = '/';
@@ -77,7 +84,7 @@ let show_success_page = (req, res) => {
 
 let show_failed_page = (req, res) => {
 
-    res.render('login_failed', {title: 'Login failed'});
+    res.render('./customer/login_failed', {title: 'Login failed'});
 }
 
 // export functions above
