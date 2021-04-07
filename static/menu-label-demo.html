@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/map.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <script type="text/javascript"
+            src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
+    <title>Index</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+
+<body>
+
+<div class="tab-base">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class=""><a href="#demo-bsc-tab-1" data-toggle="tab" aria-expanded="false">Snacks</a></li>
+        <li class="active"><a href="#demo-bsc-tab-2" data-toggle="tab" aria-expanded="true">Drinks</a></li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <form id="demo-bv-bsc-tabs" class="form-horizontal bv-form" action="#" method="post" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+        <div class="tab-content">
+            <div class="tab-pane pad-btm fade" id="demo-bsc-tab-1">
+                <p class="text-main text-bold">First Tab</p>
+                <hr>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Full name</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="fullName" placeholder="Full name" data-bv-field="fullName"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="fullName"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="fullName" data-bv-result="NOT_VALIDATED">The full name is required</small></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Company</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="company" placeholder="Company" data-bv-field="company"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="company"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="company" data-bv-result="NOT_VALIDATED">The company name is required</small></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Member Type</label>
+                    <div class="col-lg-7">
+                        <div class="radio">
+                            <input id="demo-radio-1" class="magic-radio" type="radio" name="memberType" value="free" data-bv-field="memberType">
+                            <label for="demo-radio-1">Free</label>
+
+                            <input id="demo-radio-2" class="magic-radio" type="radio" name="memberType" value="personal" data-bv-field="memberType">
+                            <label for="demo-radio-2">Personal</label>
+
+                            <input id="demo-radio-3" class="magic-radio" type="radio" name="memberType" value="bussines" data-bv-field="memberType">
+                            <label for="demo-radio-3">Bussiness</label>
+                        </div><i style="display: none;" class="form-control-feedback" data-bv-icon-for="memberType"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="memberType" data-bv-result="NOT_VALIDATED">Please choose the membership type that best meets your needs</small></div>
+                </div>
+            </div>
+            <div class="tab-pane fade active in" id="demo-bsc-tab-2">
+                <p class="text-main text-bold">Second Tab</p>
+                <hr>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">Address</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="address" placeholder="Address" data-bv-field="address"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="address"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="address" data-bv-result="NOT_VALIDATED">The address is required</small></div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-lg-3 control-label">City</label>
+                    <div class="col-lg-7">
+                        <input type="text" class="form-control" name="city" placeholder="City" data-bv-field="city"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="city"></i>
+                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="city" data-bv-result="NOT_VALIDATED">The city is required</small></div>
+                </div>
+            </div>
+            <div class="tab-footer clearfix">
+                <div class="col-lg-7 col-lg-offset-3">
+                    <button type="submit" class="btn btn-primary">Validate</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+
+</html>
