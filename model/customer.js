@@ -13,7 +13,7 @@ let customerSchema = new Schema({
     birthday: String,
 
     // maybe we can store image path to db rather than store huge byte data.
-    // the image could be located in upload_images folder
+    // the image could be uploaded by users to `upload_images` folder,
     avatar_path: String,
 
     location: {x_pos: Number, y_pos: Number},

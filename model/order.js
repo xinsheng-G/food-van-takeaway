@@ -11,6 +11,7 @@ let orderSchema = new Schema({
 
     // CONFIRMING , PREPARING, READY, COMPLETE
     status: String,
+
     start_time: Date,
     end_time: Date,
 

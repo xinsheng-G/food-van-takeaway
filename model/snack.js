@@ -10,6 +10,7 @@ let snackSchema = new Schema({
 
     // maybe we can store image path to db rather than store huge byte data.
     // the image could be located in upload_images folder
+    // in this project, we don't really need to implement food image uploading functionalities
     picture_path: String,
 });
 
