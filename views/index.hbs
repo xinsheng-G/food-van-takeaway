@@ -219,21 +219,19 @@
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
 
-
     // Get user's location demo
     // at the final release, user's location is defined here
-
-    /** IMPORTANT!!
+    /** IMPORTANT:
      *
      * Safari browser requires SSL of the website to get access to HTML5 Geolocation API ! (make the website into https)
      * error message: "Access to geolocation was blocked over insecure connection to http://localhost:8080."
      *
-     * We can overcome it by using Baidu API
+     * Heroku is in https, don't worry.
      *
      * */
     navigator.geolocation.getCurrentPosition(position => {
         let latitude = position.coords.latitude;
-        let longtitude = position.coords.longitude;
+        let longitude = position.coords.longitude;
         let accuracy = position.coords.accuracy;
 
         console.log("locating demo: user location：" + latitude + "," + longitude);
@@ -241,7 +239,6 @@
 
     }, positionError => {
         alert('locating failed. Make sure your Browser supports geolocation.')
-        alert('Are you using Apple \'s Safari Brower? :)')
     });
 
     var map = new BMapGL.Map("map");
@@ -259,10 +256,25 @@
 
     // var vanPoints = [van1_point, van2_point, van3_point, van4_point];
 
-    // dynamic load vans and user
-    let user_to_show =  {x_pos: {{user_to_show.x_pos}}, y_pos: {{user_to_show.y_pos}} };
+    // load vans and user for debugging
+    let user_to_show =  {x_pos: 144.95782936759818, y_pos: -37.79872198514221 };
 
-    // incoming string with no escape
+    /**
+     * An api for OSM search: get coordinate from address
+     *
+     * eg:
+     * https://nominatim.openstreetmap.org/search?q=Grattan+st+Melbourne+Australia&format=geojson
+     *
+     * will be useful in finding coordinate based on address
+     *
+     * website: https://nominatim.org/release-docs/develop/api/Search/
+     *
+     * this api will be used in Vendor App
+     *
+     * */
+
+    // dynamic load vans, incoming string with no escape
+    // Need to be changed into Ajax later
     let vans_to_show = [{{{vans_to_show}}}];
 
     let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
@@ -275,7 +287,7 @@
     // User info window
     // user's image path is hard coded, waiting for making dynamic
     var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='../avator_demo.png' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgAvator' src='./avator_demo.png' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
     This is You!
     </p></div>`;
@@ -284,7 +296,7 @@
     userMarker.addEventListener('click', function () {
         this.openInfoWindow(infoWindow);
         // infoWindow
-        document.getElementById('imgDemo').onload = function () {
+        document.getElementById('imgAvator').onload = function () {
             infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
         };
     });

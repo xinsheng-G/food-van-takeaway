@@ -5,6 +5,7 @@ let mongoose = require('./mongoDB'),
 let snackSchema = new Schema({
     snack_name: String,
     is_drink: Boolean,
+    is_available: Boolean,
     price: Number,
     description: String,
 

@@ -9,13 +9,14 @@ let orderSchema = new Schema({
     order_customer_id: String,
     order_van_name: String,
 
-    // CONFIRMING , PREPARING, READY, COMPLETE
+    // CONFIRMING , PREPARING, READY, COMPLETE, CANCELLED
     status: String,
 
     start_time: Date,
     end_time: Date,
 
     snacks: [{snack_name:String, number: Number, remark: String}],
+    is_given_discount: Boolean,
     total_price: Number
 });
 

@@ -1,13 +1,22 @@
 =============
 
 Since free version of MongoDB Atlas is quite slow, it is definitely not suitable for images transfer, So, we can upload
-customers' uploading images (van, customer avatar, snack) to upload_images folder with the help of some node.js modules,
-and store image path to the MongoDB, which increase efficiency of DB query and page rendering. For rendering, using Handlebars
-to render the <img>'s src attribute.
-
+users' uploading images (like customer avatars) to this `upload_images` folder with the help of some node.js modules,
+and store image path to the MongoDB. Then we can render these images based on the path quickly, which increase efficiency of DB
+query and page rendering. For rendering, using Handlebars to render the <img>'s src attribute.
 
 ============================================
-Moudle we can use:
+
+IMPORTANT!
+
+As for this project, We just need to upload Customer's Avatar and let the file name
+be user_id. (maybe we don't need to modify avatars either, since project spec doesn't require us to do so)
+
+The other images(foods or van pictures) are just hard-coded here, don't need to implement
+uploading them. Just hard-code their pathes (eg. './flat_white.jpg') to database model
+
+============================================
+Module we can use:
 
 multer
 

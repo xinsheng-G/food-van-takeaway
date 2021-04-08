@@ -7,9 +7,10 @@ let customerSchema = new Schema({
     password: String,
     username: String,
 
-    // optional
     firstname: String,
     lastname: String,
+
+    // optional
     birthday: String,
 
     // maybe we can store image path to db rather than store huge byte data.
