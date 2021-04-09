@@ -12,12 +12,19 @@ let orderSchema = new Schema({
     // CONFIRMING , PREPARING, READY, COMPLETE, CANCELLED
     status: String,
 
-    start_time: Date,
+    start_time: {
+        type: Date,
+        default: Date.now
+    },
+
     end_time: Date,
 
     snacks: [{snack_name:String, number: Number, remark: String}],
     is_given_discount: Boolean,
     total_price: Number
+
+}, {
+    timestamps: {createdAt: 'start_time'}
 });
 
 
@@ -26,4 +33,4 @@ collection name corresponding to the model. Mongoose
 will automatically find collections whose names are the
 plural of model names. For the example, the Customer
 model corresponds to the customer collection in the database. */
-module.exports = mongoose.model('Order',customerSchema);
+module.exports = mongoose.model('Order',orderSchema);
