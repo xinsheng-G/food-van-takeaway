@@ -6,11 +6,11 @@ let mongoose = require('mongoose');
 
 // if use mongoDB atlas online
 let username = 'admin'
-let password = 'admin'
+let password = '3ulH5EXbBpj5mcax'
 // for production environment in final release: 'snackApp-production'
 let databaseName = 'snackApp'
 
-const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@x3ra-demo.9ztkf.mongodb.net/'+ databaseName +'?retryWrites=true&w=majority';
+const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@cluster0.1saxw.mongodb.net/'+ databaseName +'?retryWrites=true&w=majority';
 
 // if using local:
 // let url = 'mongodb://localhost:27017/';
@@ -20,7 +20,14 @@ const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@x3ra-demo.9ztkf.mon
 
 //========================================
 
-
+/*
+* Old MongoDB server:
+* let username = 'admin'
+* let password = 'admin'
+* let databaseName = 'snackApp'
+* const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@x3ra-demo.9ztkf.mongodb.net/'+ databaseName +'?retryWrites=true&w=majority';
+*
+* */
 
 
 /**
