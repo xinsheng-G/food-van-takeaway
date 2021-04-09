@@ -33,7 +33,17 @@ const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@cluster0.1saxw.mong
 /**
  * connect
  */
-mongoose.connect(DB_URL, { useNewUrlParser: true,  useUnifiedTopology: true });
+mongoose.connect(DB_URL, { useNewUrlParser: true,  useUnifiedTopology: true }, function () {
+    console.log('Mongoose connection established')
+});
+
+/**
+ * success
+ */
+mongoose.connection.on('connecting', function () {
+    console.log('Mongoose is trying to connect to MongoDB Atlas server ' + DB_URL);
+    console.log('Please wait...');
+});
 
 /**
  * success
