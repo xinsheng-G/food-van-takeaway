@@ -20,6 +20,7 @@ let add_customer = (req, res) => {
         "firstname": req.body.firstname,
         "lastname": req.body.lastname,
         "birthday": req.body.birthday,
+        "avatar_path": 'https://source.unsplash.com/Tn8DLxwuDMA'
     })
 
     // find by login_id, return the 'password' field of the model

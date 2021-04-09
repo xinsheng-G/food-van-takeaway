@@ -37,6 +37,9 @@ router.post('/register', registerController.add_customer);
 // show register success
 router.get('/register_success', registerController.show_success_page);
 
+// handle log out
+router.get('/logout', login_interceptor.customer_login_interceptor, loginController.handle_logout);
+
 // using login_interceptor
 router.get('/profile', login_interceptor.customer_login_interceptor, ((req, res) => {
     res.end('<h1>user profile</h1>')

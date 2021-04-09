@@ -1,3 +1,7 @@
+Maybe we don't need this folder anymore, because we are not required to maintain image (avatar, van or snack picture)
+uploads/changes, Just hard-code online Splash images path to the database entity like `https://source.unsplash.com/rYOqbTcGp1c`
+also works. (Use splash source is recommended by lecturer)
+
 =============
 
 Since free version of MongoDB Atlas is quite slow, it is definitely not suitable for images transfer, So, we can upload
@@ -9,11 +13,16 @@ query and page rendering. For rendering, using Handlebars to render the <img>'s 
 
 IMPORTANT!
 
-As for this project, We just need to upload Customer's Avatar and let the file name
-be user_id. (maybe we don't need to modify avatars either, since project spec doesn't require us to do so)
+As for this project, We can upload Customer's Avatar and let the file name
+be user_id. (maybe we don't need to upload/modify avatars, since project spec doesn't require us to do so)
 
 The other images(foods or van pictures) are just hard-coded here, don't need to implement
-uploading them. Just hard-code their pathes (eg. './flat_white.jpg') to database model
+uploading/modify them. Just hard-code their pathes (eg. './flat_white.jpg') to database model
+
+OR
+
+Just hard-code online Splash images path to the database entity like `https://source.unsplash.com/rYOqbTcGp1c` and
+this folder is not needed anymore
 
 ============================================
 Module we can use:

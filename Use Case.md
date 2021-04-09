@@ -24,7 +24,7 @@
 - [ ] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
 - [ ] A cancelled order shouldn't be seen to Customers and Vendors
 - [ ] Changing order can reset change timestamp
-- [ ] A Customer can rate the order, rating shoud be 1-5
+- [ ] A Customer can rate the order, rating should be 1-5
 - [ ] Customer app will be used on phones and also desktops.
 
 
@@ -35,12 +35,12 @@
 - [ ] A vendor can be registered by name and password.
 - [ ] A vendor can send their location to the database, address input is short text address (.*** st, Melbourne )
 - [ ] Vendor APP can capture coordinate with the address text
-- [ ] A vandor can mark his van as open-for-business OR quit for the day
-- [ ] A vandor can change location address
+- [ ] A vendor can mark his van as open-for-business OR quit for the day
+- [ ] A vendor can change location address
 - [ ] A vendor need a list of van's orders that are not yet fulfilled, in time order, urgent on the top
 - [ ] A vendor can click on the order in the list and see order detail ( order number, customer's given name, order items, time remains for 20% discount )
 - [ ] A vendor can mark an order as fufilled ( snacks are prepared ), should be seen
-- [ ] A vandor can mark an order as finished ( snacks are picked up ), should be invisible, but not deleted in database
+- [ ] A vendor can mark an order as finished ( snacks are picked up ), should be invisible, but not deleted in database
 - [ ] A finished order should be findable and show again
 - [ ] Vendor APP will be used on ipad size. Design should be clear so that operators will make less mistakes.
 

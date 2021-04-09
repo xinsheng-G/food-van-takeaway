@@ -51,6 +51,9 @@ let check_login = (req, res) => {
                         res.cookie("user_type",
                             'CUSTOMER',
                             {maxAge: 1000 * 60 * 60 * 48})
+                        res.cookie("user",
+                            user.login_id,
+                            {maxAge: 1000 * 60 * 60 * 48})
                     }
 
                     // If the original request path exists, redirect the user to the previous request path
@@ -78,6 +81,14 @@ let check_login = (req, res) => {
 
 }
 
+let handle_logout = (req, res) => {
+    res.clearCookie('user_type')
+    res.clearCookie('user')
+    req.session.destroy();
+
+    res.render('./customer/logout', {title: 'Log Out'});
+}
+
 let show_success_page = (req, res) => {
     res.redirect('/index')
 }
@@ -89,5 +100,5 @@ let show_failed_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_page, check_login, show_success_page, show_failed_page
+    show_page, check_login, show_success_page, show_failed_page, handle_logout
 }

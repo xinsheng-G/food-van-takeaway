@@ -76,7 +76,7 @@
                     <div class="map-bottom bottom-button-group-behavior">
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
-                                <a href="/customer/profile" class="btn btn-icon my-circle-button"><img src="./images/icon_default_avatar.png" alt="My Account" title="My Account" style="width: 27px; height: 26px"></a>
+                                <a href="/customer/profile" class="btn btn-icon my-circle-button"><img src="{{{customer_avatar_path}}}" class = "img-circle" alt="My Account" title="My Account" style="width: 27px; height: 26px"></a>
                             </div>
                             <div class="col-xs-4 col-md-4">
                                 <a href="/customer/my_orders" class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></a>
@@ -113,13 +113,13 @@
                             <div id="mainnav-profile" class="mainnav-profile small-left-normal-right-round">
                                 <div class="profile-wrap text-center standard-background">
                                     <div class="pad-btm">
-                                        <img class="img-circle img-md" src="./images/avator_demo.png"
+                                        <img class="img-circle img-md" src="{{{customer_avatar_path}}}"
                                              alt="Profile Picture">
                                     </div>
-                                    <a href="#profile-nav" class="box-block" data-toggle="collapse"
+                                    <a href="" onclick="location='/customer/profile'" class="box-block" data-toggle="collapse"
                                        aria-expanded="false">
-                                        <p class="mnp-name text-white">User-name</p>
-                                        <span class="mnp-desc text-white">username@idid.net</span>
+                                        <p class="mnp-name text-white">{{{customer_username}}}</p>
+                                        <span class="mnp-desc text-white">{{{customer_login_id}}}</span>
                                     </a>
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
 
                                 <!--Menu list item-->
                                 <li>
-                                    <a href="#" data-original-title="" title="">
+                                    <a href="" data-original-title="" title="">
                                         <i class="fa fa-user-circle-o"></i>
                                         <span class="menu-title">My Account</span>
                                         <i class="arrow"></i>
@@ -150,7 +150,7 @@
                                     <!--Submenu-->
                                     <ul class="collapse" aria-expanded="false">
                                         <li>
-                                            <a href="#" data-original-title="" title="">
+                                            <a href="/customer/profile" data-original-title="" title="">
                                                 <i class="fa fa-address-card"></i>
                                                 <span class="menu-title">
 												Manage Profile
@@ -159,7 +159,7 @@
                                         </li>
 
                                         <li>
-                                            <a href="#" data-original-title="" title="">
+                                            <a href="/customer/logout" data-original-title="" title="">
                                                 <i class="fa fa-power-off"></i>
                                                 <span class="menu-title">
 												Log Out
@@ -171,7 +171,7 @@
 
                                 <!--Menu list item-->
                                 <li>
-                                    <a href="#" data-original-title="" title="">
+                                    <a href="/customer/my_orders" data-original-title="" title="">
                                         <i class="fa fa-book"></i>
                                         <span class="menu-title">
 												My Orders
@@ -180,7 +180,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#" data-original-title="" title="">
+                                    <a href="/customer/cart" data-original-title="" title="">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span class="menu-title">
 												Cart
@@ -256,7 +256,7 @@
 
     // var vanPoints = [van1_point, van2_point, van3_point, van4_point];
 
-    // load vans and user for debugging
+    // load fixed user coordinate for debugging
     let user_to_show =  {x_pos: 144.95782936759818, y_pos: -37.79872198514221 };
 
     /**
@@ -286,10 +286,10 @@
     map.addOverlay(userMarker);
     // User info window
     // user's image path is hard coded, waiting for making dynamic
-    var sContent = `<div><h4 style='margin:0 0 5px 0;'>User!</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgAvator' src='./avator_demo.png' width='139' height='104'/>
+    var sContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgAvator' src='{{{customer_avatar_path}}}' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
-    This is You!
+    This is You~
     </p></div>`;
     var infoWindow = new BMapGL.InfoWindow(sContent);
     // click event
@@ -310,7 +310,7 @@
         // van info
         // van's image path is hard coded, waiting for making dynamic
         var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van `+ van.van_name +`</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='./van_demo.jpg' width='139' height='104'/>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='`+ van.picture_path +`' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
               + van.description + `, stars:`+ van.stars +
     `</p>
