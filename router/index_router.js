@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const path = require('path')
 
 const exceptionRouter = require('../router/exception_router');
 const menuRouter = require('../router/menu_router');

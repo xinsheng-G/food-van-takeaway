@@ -38,7 +38,11 @@ let show_page = async (req, res) => {
 }
 
 let add_new_order = (req, res) => {
-    res.end('<h1>Get order</h1>')
+    res.end('<h1>redirect to /customer/my_orders/checkout, implement data persistence there</h1>')
+    // this function will retrieve data from menu page, create data objects based on posted data,
+    // then send these data objects to `/customer/my_orders/checkout` page template
+    // ,and `/customer/my_orders/checkout` page will have a controller function to store the
+    // order data to `orders` collection in database.
 
 }
 

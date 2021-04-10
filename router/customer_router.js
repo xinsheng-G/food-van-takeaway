@@ -12,11 +12,15 @@ const exceptionHandler = require('../controller/handle_exceptions');
 
 const login_interceptor = require('../controller/login_interceptor')
 
+const myOrdersRouter = require('../router/my_orders_router')
+
 router.use(express.static('./static'));
+router.use(express.static('upload_images'));
+
+/** child router: my_orders */
+router.use('/my_orders', login_interceptor.customer_login_interceptor, myOrdersRouter);
 
 // show logging page
-// '/' means route path, 'indexController.show_page' means show_page
-// function from  loginController
 router.get('/login', loginController.show_page);
 
 // receive info login page's form
@@ -40,13 +44,19 @@ router.get('/register_success', registerController.show_success_page);
 // handle log out
 router.get('/logout', login_interceptor.customer_login_interceptor, loginController.handle_logout);
 
-// using login_interceptor
+// show profile
 router.get('/profile', login_interceptor.customer_login_interceptor, ((req, res) => {
     res.end('<h1>user profile</h1>')
 }));
 
-router.get('/my_orders', login_interceptor.customer_login_interceptor,((req, res) => {
-    res.end('<h1>my_orders</h1>')
+// show edit profile page
+router.get('/edit_profile/:customer_id', login_interceptor.customer_login_interceptor, ((req, res) => {
+    res.end('<h1>edit user profile</h1>')
+}));
+
+// receive edit form data, store it
+router.post('/edit_profile', login_interceptor.customer_login_interceptor, ((req, res) => {
+    res.end('<h1>receive posted edit data, store them </h1>')
 }));
 
 router.get('/cart', login_interceptor.customer_login_interceptor, ((req, res) => {

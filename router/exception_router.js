@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const path = require('path')
 
 // application/x-www-form-urlencoded for post from forms
 var urlencodedParser = bodyParser.urlencoded({ extended: false });

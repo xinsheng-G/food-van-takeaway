@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const path = require('path')
 
 const login_interceptor = require('../controller/login_interceptor')
 
@@ -14,10 +13,13 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.use(express.static('static'));
 router.use(express.static('upload_images'));
 
+/** menu router based on index_router */
+
 // show menu page
 router.get('/:van_name', menuController.show_page);
 
-// submit a new menu order
+// place a new order based on menu page
+// if not login, ask login first before post operation.
 router.post('/', login_interceptor.customer_login_interceptor, menuController.add_new_order);
 
 // handle 404
