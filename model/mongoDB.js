@@ -57,7 +57,6 @@ mongoose.connection.on('connected', function () {
  */
 mongoose.connection.on('error',function (err) {
     console.log('Mongoose connection error: ' + err);
-    conlole.log('MongoDB Atlas connection is unstable, please try to get the web URL again');
 });
 
 /**

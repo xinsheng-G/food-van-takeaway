@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path')
 
 const exceptionRouter = require('../router/exception_router');
+const menuRouter = require('../router/menu_router');
 
 const indexController = require('../controller/index_controller');
 const exceptionHandler = require('../controller/handle_exceptions')
@@ -13,6 +14,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.use(express.static('static'));
 router.use(express.static('upload_images'));
+
+router.use('/menu', menuRouter);
 
 // '/' means route path, 'indexController.show_page' means show_page
 // function from  indexController
@@ -25,6 +28,11 @@ router.get('/index', ((req, res) => {
 router.get('/search', ((req, res) => {
     res.end('search page');
 }));
+
+
+
+// use for ajax map loading
+router.get('/get_van_objects', indexController.get_van_objects);
 
 // handle 404
 router.all('*', exceptionRouter);

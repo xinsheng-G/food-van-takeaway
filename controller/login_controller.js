@@ -77,8 +77,6 @@ let check_login = (req, res) => {
         }
     });
 
-
-
 }
 
 let handle_logout = (req, res) => {

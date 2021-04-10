@@ -70,10 +70,26 @@
                         </form>
                     </div>
 
-
+                    <!-- for desktop size refresh -->
+                    <div class="row map-top map-top-refresh top-full-search-behavior" >
+                        <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                    </div>
 
                     <!-- bottom button group (shows in mobile device) -->
                     <div class="map-bottom bottom-button-group-behavior">
+                        <div class="row" style="height: 15px">
+                            <div class="col-xs-2 col-md-2">
+
+                            </div>
+                            <div class="col-xs-8 col-md-8">
+                                <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                                <br>
+                            </div>
+                            <div class="col-xs-2 col-md-2">
+
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
                                 <a href="/customer/profile" class="btn btn-icon my-circle-button"><img src="{{{customer_avatar_path}}}" class = "img-circle" alt="My Account" title="My Account" style="width: 27px; height: 26px"></a>
@@ -273,9 +289,7 @@
      *
      * */
 
-    // dynamic load vans, incoming string with no escape
-    // Need to be changed into Ajax later
-    let vans_to_show = [{{{vans_to_show}}}];
+
 
     let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
 
@@ -301,6 +315,9 @@
         };
     });
 
+    // dynamic load vans, incoming string with no escape
+    // Need to be changed into Ajax later, to support refreshing
+    let vans_to_show = [{{{vans_to_show}}}];
 
     vans_to_show.forEach((van) => {
         let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
@@ -314,7 +331,7 @@
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
               + van.description + `, stars:`+ van.stars +
     `</p>
-    <a href="#">Van Link `+ van.van_name +`</a>
+    <a class="btn btn-primary"  href="/menu/`+ van.van_name +`">Menu</a>
     </div>`;
         var infoWindow = new BMapGL.InfoWindow(sContent);
         // click event

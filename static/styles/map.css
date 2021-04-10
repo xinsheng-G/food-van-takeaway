@@ -34,3 +34,61 @@ ul li {
     background-color: rgba(27, 142, 236, 0.8);
     color: #fff;
 }
+
+/* define the map overlay*/
+.map-bottom {
+    z-index: 99;
+    position:absolute;
+    left: 45%;
+    bottom: 6%;
+    margin-left: -50px;
+}
+
+/* define the map overlay*/
+.map-second-bottom {
+    z-index: 99;
+    position:absolute;
+    left: 45%;
+    bottom: 15%;
+    margin-left: -50px;
+}
+
+.map-top {
+    z-index: 99;
+    position:absolute;
+    left: 50%;
+    top: 4%;
+    margin-left: -50px;
+}
+
+.map-top-full-search {
+    left: 25%;
+}
+
+.map-top-mini-search {
+    left: 55%;
+}
+
+.map-top-refresh {
+    position:absolute;
+    left: 50%;
+    top: 12%;
+    margin-left: -50px;
+}
+
+
+@media screen and (max-width:750px){
+    .top-full-search-behavior {
+        display: none;
+    }
+}
+
+@media screen and (min-width:750px){
+    .bottom-button-group-behavior {
+        display: none;
+    }
+
+    .top-mini-search-behavior {
+        display: none;
+    }
+}

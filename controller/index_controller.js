@@ -68,31 +68,41 @@ let show_page = async (req, res) => {
 
 }
 
-let _get_customer_login_info = async (req, res) => {
-    // define default user showing info
-    let user_info = {login_id: ' ', username: 'Please Login', avatar_path: './images/icon_drink_snack.png'};
+let get_van_objects = async (req, res) => {
+    let vans = []
 
-    // if customer has login-in, get customer's information from db
-    if ((req.session.user && req.session.user_type === 'CUSTOMER') || (req.cookies.user_type && req.cookies.user_type === 'CUSTOMER')) {
-        let customer_model = require('../model/customer');
-        let customer_id  = '';
+    let van_model = require('../model/van')
 
-        if(req.session.user) {
-            customer_id = req.session.user;
+    await van_model.find({}, '-_id van_name is_open picture_path description location stars picture_path', function (err, resp) {
+        if (err) {
+            console.log('error: ' + err);
         } else {
-            customer_id = req.cookies.user;
+            vans = resp;
         }
+    });
 
-        console.log('customer_id : ' + customer_id)
+    // vans that need to be showed
+    let vans_to_show = [];
 
-        let resp = await customer_model.findOne({'login_id': customer_id}, '-_id login_id username avatar_path');
-        user_info = {login_id: resp.login_id, username: resp.username, avatar_path: resp.avatar_path};
+    if (vans.length === 0) {
+
+        res.send(vans_to_show)
+
+    } else {
+
+        // pick open van to show
+        vans.forEach((van) => {
+            if (van.is_open) {
+                vans_to_show.push(van);
+            }
+        })
+
+        vans = []
+        res.send(vans_to_show)
     }
-
-    return user_info;
 }
 
 // export functions above
 module.exports = {
-    show_page
+    show_page, get_van_objects
 }

@@ -8,8 +8,8 @@
 - [x] Customer App can get customer's location.
 - [x] Customer App can access van locations from database.
 - [ ] Customer App can calculate five nearest vans. ( show van locations in list )
-- [ ] A customer can choose a van to purchase from.
-- [ ] A menu should appear, which list snacks after a customer choosing a van
+- [x] A customer can choose a van to purchase from.
+- [x] A menu should appear, which list snacks after a customer choosing a van
 - [x] Customer App needs to handle login registrations.
 
 *When customer is login-in*
