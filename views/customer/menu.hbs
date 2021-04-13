@@ -10,12 +10,12 @@
 
             <!-- navigation buttons  -->
             <div class="nav_logo">
-                <div class="nav_check nav_check_sure">
+                <div id="drinks_nav" class="nav_check nav_check_sure">
                     <img class="logo_size" src="./images/drink.png" alt="">
-                    <span class="logo_title">COFFEE</span>
+                    <span class="logo_title">DRINKS</span>
                 </div>
                 <div class="line"></div>
-                <div class="nav_check ">
+                <div id="snacks_nav" class="nav_check ">
                     <img class="logo_size" src="./images/snack.png" alt="">
                     <span class="logo_title">SNACKS</span>
                 </div>
@@ -34,7 +34,7 @@
 
             {{#each foods}}
 
-            <div class="shop_conter food_item">
+            <div class="shop_conter snack_item" style="display: none">
                 <div class="shop_left">
                     <div>
                         <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
@@ -108,6 +108,38 @@
 
 <script>
 
+    // nav label function
+
+    let drinks_nav = $('#drinks_nav');
+    let snacks_nav = $('#snacks_nav');
+
+    let drink_item = $('.drink_item');
+    let snack_item = $('.snack_item');
+
+    drinks_nav.click(function () {
+
+        if(!drinks_nav.hasClass("nav_check_sure")) {
+
+            drinks_nav.toggleClass("nav_check_sure")
+            snacks_nav.toggleClass("nav_check_sure")
+
+            drink_item.toggle()
+            snack_item.toggle()
+        }
+    })
+
+    snacks_nav.click(function () {
+
+        if(!snacks_nav.hasClass("nav_check_sure")) {
+            drinks_nav.toggleClass("nav_check_sure")
+            snacks_nav.toggleClass("nav_check_sure")
+
+            drink_item.toggle()
+            snack_item.toggle()
+        }
+    })
+
+    // cart function
     {{#each foods}}
 
     $(function () {
