@@ -18,7 +18,7 @@ router.use(express.static('upload_images'));
 // show menu page
 router.get('/:van_name', menuController.show_page);
 
-// place a new order based on menu page
+// place a new order based on menu page, store order info in a cookie
 // if not login, ask login first before post operation.
 router.post('/', login_interceptor.customer_login_interceptor, menuController.add_new_order);
 

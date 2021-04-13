@@ -55,7 +55,7 @@
                     <!-- Top search -->
                     <!-- for mobile size -->
                     <div class="row map-top map-top-mini-search top-mini-search-behavior" >
-                        <button class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></button>
+                        <a href="/search" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></a>
                     </div>
 
                     <!-- for desktop size -->
@@ -257,7 +257,7 @@
         alert('locating failed. Make sure your Browser supports geolocation.')
     });
 
-    var map = new BMapGL.Map("map");
+    var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST' });
 
     let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
     let blueIcon = new BMapGL.Icon("./images/bluemark.png", new BMapGL.Size(25, 25));
@@ -304,7 +304,9 @@
     <img style='float:right;margin:0 4px 22px' id='imgAvator' src='{{{customer_avatar_path}}}' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
     This is You~
-    </p></div>`;
+    </p>
+    <a href="" id="btn-van" style="z-index: 999"></a>
+    </div>`;
     var infoWindow = new BMapGL.InfoWindow(sContent);
     // click event
     userMarker.addEventListener('click', function () {
@@ -331,20 +333,45 @@
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
               + van.description + `, stars:`+ van.stars +
     `</p>
-    <a class="btn btn-primary"  href="/menu/`+ van.van_name +`">Menu</a>
+    <button class="btn btn-primary" id="btn-van" onclick="window.location.href = '/menu/`+ van.van_name +`'">Menu</>
     </div>`;
         var infoWindow = new BMapGL.InfoWindow(sContent);
         // click event
         marker.addEventListener('click', function () {
             this.openInfoWindow(infoWindow);
+
             // infoWindow
             document.getElementById('imgDemo').onload = function () {
                 infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
             };
         });
+
+        // if (!infoWindow.isOpen()) {
+        //     infoWindow.addEventListener("open", function (e) {
+        //         console.log('opened!')
+        //         document.getElementById("btn-van").onclick = function () {
+        //             console.log('clicked!')
+        //         }
+        //     })
+        // } else {
+        //     let btn =  document.getElementById("btn-van");
+        //     btn.onclick = function () {
+        //         console.log('clicked!');
+        //     };
+        // }
         map.addOverlay(marker);
     });
 
+    map.addEventListener("touchmove", function (e) {
+        map.enableDragging();
+    });
+
+    map.addEventListener("touchend", function (e) {
+        map.disableDragging();
+    });
+
+    map.enableScrollWheelZoom(true);
+    
 </script>
 
 </body>

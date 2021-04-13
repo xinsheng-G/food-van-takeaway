@@ -50,7 +50,7 @@ router.get('/profile', login_interceptor.customer_login_interceptor, ((req, res)
 }));
 
 // show edit profile page
-router.get('/edit_profile/:customer_id', login_interceptor.customer_login_interceptor, ((req, res) => {
+router.get('/edit_profile', login_interceptor.customer_login_interceptor, ((req, res) => {
     res.end('<h1>edit user profile</h1>')
 }));
 

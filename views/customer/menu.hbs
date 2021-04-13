@@ -28,7 +28,7 @@
 
 
             <!-- confirm the van -->
-            <input type="hidden" name="van_name" value="{{{van_name}}}">
+            <input type="hidden" name="van_name" value="{{{van_name_without_space}}}">
             <!-- confirm the customer -->
 <!--        <input type="hidden" name="customer_id" value="">-->
 
@@ -42,14 +42,15 @@
                     <div class="shop_num">
                         <div style="color: black">{{this.snack_name}}</div>
                         <div class="price">
-                            <div class="add">+</div>&nbsp;
-                            <div style="color: black">&nbsp;&nbsp;0&nbsp;&nbsp;</div>&nbsp;
-                            <div class="del">-</div>
+                            <div id="{{this.snack_name_without_space}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                            <!-- number of snacks, not negative integer-->
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name_without_space}}_num" type="number" name="{{this.snack_name_without_space}}" value="0">
+                            <div id="{{this.snack_name_without_space}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
-                    <div class="h4">$&nbsp;{{this.price}}</div>
+                    <div class="h4">$&nbsp;<span id="{{this.snack_name_without_space}}_price">{{this.price}}</span></div>
                     <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
@@ -66,14 +67,15 @@
                     <div class="shop_num">
                         <div style="color: black">{{this.snack_name}}</div>
                         <div class="price">
-                            <div class="add">+</div>&nbsp;
-                            <div style="color: black">&nbsp;&nbsp;0&nbsp;&nbsp;</div>&nbsp;
-                            <div class="del">-</div>
+                            <div id="{{this.snack_name_without_space}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                            <!-- number of drinks，not negative integer -->
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name_without_space}}_num" type="number" name="{{this.snack_name_without_space}}" value="0">
+                            <div id="{{this.snack_name_without_space}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
-                    <div class="h4">$&nbsp;{{this.price}}</div>
+                    <div class="h4">$&nbsp;<span id="{{this.snack_name_without_space}}_price">{{this.price}}</span></div>
                     <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
@@ -86,10 +88,10 @@
             <div class="foot_left">
                 <div class="shop_car_img">
                     <img class="shop_car_icon" src="./images/cart.png" alt="">
-                    <div class="shop_car_num">3</div>
+                    <div class="shop_car_num" id="total_snacks">0</div>
                 </div>
                 <div class="price_all">
-                    $&nbsp;10.80
+                    $&nbsp;<input readonly="readonly" class="price_all_input" id="price_all" type="number" name="price_all" value="0">
                 </div>
 
             </div>
@@ -103,3 +105,85 @@
         <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
     </div>
 </div>
+
+<script>
+
+    {{#each foods}}
+
+    $(function () {
+        let input = $('#{{this.snack_name_without_space}}_num');
+        let price_all = $('#price_all')
+        let snack_price = parseFloat($('#{{this.snack_name_without_space}}_price').text());
+        let total_snacks = $('#total_snacks')
+        $('#{{this.snack_name_without_space}}_add').click(function () {
+            input.val(parseInt(input.val()) + 1);
+
+            let price = snack_price;
+            let original_price_all = parseFloat(price_all.val());
+            let new_price = original_price_all + price;
+
+            price_all.val(new_price)
+            total_snacks.text(parseInt(total_snacks.text()) + 1);
+        })
+
+        $('#{{this.snack_name_without_space}}_del').click(function () {
+            let x = parseInt(input.val())
+            if(x>0) {
+                input.val(x - 1);
+
+                let price = snack_price;
+                let original_price_all = parseFloat(price_all.val());
+                let new_price = original_price_all - price;
+
+                price_all.val(new_price)
+                total_snacks.text(parseInt(total_snacks.text()) - 1);
+            } else {
+                input.val(0);
+            }
+
+        })
+    })
+
+    {{/each}}
+
+        {{#each drinks}}
+
+        $(function () {
+            let input = $('#{{this.snack_name_without_space}}_num');
+            let price_all = $('#price_all')
+            let snack_price = parseFloat($('#{{this.snack_name_without_space}}_price').text());
+            let total_snacks = $('#total_snacks')
+            $('#{{this.snack_name_without_space}}_add').click(function () {
+                input.val(parseInt(input.val()) + 1);
+
+                let price = snack_price;
+                let original_price_all = parseFloat(price_all.val());
+                let new_price = original_price_all + price;
+
+                price_all.val(new_price)
+                total_snacks.text(parseInt(total_snacks.text()) + 1);
+            })
+
+            $('#{{this.snack_name_without_space}}_del').click(function () {
+                let x = parseInt(input.val())
+                if(x>0) {
+                    input.val(x - 1);
+
+                    let price = snack_price;
+                    let original_price_all = parseFloat(price_all.val());
+                    let new_price = original_price_all - price;
+
+                    price_all.val(new_price)
+                    total_snacks.text(parseInt(total_snacks.text()) - 1);
+                } else {
+                    input.val(0);
+                }
+
+            })
+        })
+
+        {{/each}}
+
+
+
+</script>

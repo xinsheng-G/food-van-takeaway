@@ -5,6 +5,10 @@ let show_page = async (req, res) => {
     let foods = []
 
     let van_name = req.params.van_name;
+
+    // TODO: if has a corresponding cart cookie, load from the cookie first
+    // .....
+
     console.log('van name: ' + van_name);
 
     // read all snacks from db
@@ -13,10 +17,14 @@ let show_page = async (req, res) => {
      * To prevent Handlebars access deny problem
      * */
     let snack_model = require('../model/snack')
-    snacks = await snack_model.find({}, '-_id snack_name is_drink is_available price picture_path').lean();
+    snacks = await snack_model.find({}, '_id snack_name is_drink is_available price picture_path').lean();
 
     // divide snacks into drinks and foods
     snacks.forEach((snack) => {
+
+        // replace spaces in the snack name with dash line
+        snack['snack_name_without_space'] = snack.snack_name.replace(/\ /g, "_");
+
         // if is drink
         if (snack.is_available && snack.is_drink) {
             drinks.push(snack);
@@ -32,6 +40,7 @@ let show_page = async (req, res) => {
     res.render('./customer/menu',{
         title: 'Menu',
         van_name: van_name,
+        van_name_without_space: van_name.replace(/\ /g, "_"),
         foods: foods,
         drinks: drinks
     })
@@ -40,9 +49,9 @@ let show_page = async (req, res) => {
 let add_new_order = (req, res) => {
     res.end('<h1>redirect to /customer/my_orders/checkout, implement data persistence there</h1>')
     // this function will retrieve data from menu page, create data objects based on posted data,
-    // then send these data objects to `/customer/my_orders/checkout` page template
-    // ,and `/customer/my_orders/checkout` page will have a controller function to store the
-    // order data to `orders` collection in database.
+    // then store these data objects into cookies and redirect to `/customer/my_orders/checkout`
+    // ,and `/customer/my_orders/checkout` page will have a controller function to render the cookie
+    // on the page and store the order data to `orders` collection in database.
 
 }
 

@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 
-const login_interceptor = require('../controller/login_interceptor')
-
 const exceptionHandler = require('../controller/handle_exceptions')
-const menuController = require('../controller/menu_controller')
 
 // application/x-www-form-urlencoded for post from forms
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -33,6 +30,17 @@ router.get('/checkout', ((req, res) => {
 // get checkout page's info and generate new order in orders collection of mongoDB
 router.post('/checkout', ((req, res) => {
     res.end("<h1> posted a new order form, store them in db </h1>")
+}));
+
+// show different order monitor pages
+router.get('/order_monitor/:order_id', ((req, res) => {
+    res.write("<h1> check an order's status with order_id, controller will check status record and renders responding page </h1>")
+    res.end("<p> eg: if this order's status is ready, then res.render('ready', {...})</p>")
+}));
+
+// show order feedback page
+router.get('/order_feedback/:order_id', ((req, res) => {
+    res.end("<h1> show feed back page of an order, then store the feedback to db </h1>")
 }));
 
 // show order edit page, select by order id

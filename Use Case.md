@@ -25,9 +25,7 @@
 - [ ] A cancelled order shouldn't be seen to Customers and Vendors
 - [ ] Changing order can reset change timestamp
 - [ ] A Customer can rate the order, rating should be 1-5
-- [ ] Customer app will be used on phones and also desktops.
-
-
+- [x] Customer app will be used on phones and also desktops.
 
 ## 2 Vendor
 
@@ -43,8 +41,6 @@
 - [ ] A vendor can mark an order as finished ( snacks are picked up ), should be invisible, but not deleted in database
 - [ ] A finished order should be findable and show again
 - [ ] Vendor APP will be used on ipad size. Design should be clear so that operators will make less mistakes.
-
-
 
 ## 3 Others
 
