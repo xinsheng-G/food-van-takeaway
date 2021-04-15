@@ -1,0 +1,89 @@
+
+/* standard purple from UI mock up */
+/* override default primary button */
+/* see login page's login button  */
+.btn-primary {background-color: #8699F7 !important;
+    border-color: #a1b1f3 !important;
+    color: #fff !important;}
+
+/* default primary negative, see login page's JOIN US TODAY button */
+.btn-primary-negative {background-color: #ECF0F5 !important;
+    border-color: #8699F7 !important;
+    color: #8699F7 !important;
+}
+
+/* define overlay_box */
+.login-box, .register-box {
+    padding: 15px 20px 25px;
+    background: #ECF0F5 !important;
+    border-radius: 15px/15px !important;
+    opacity: 0.9;
+}
+
+/* standard background color from UI mock up  */
+.standard-background, .login-page, .register-page {
+    background: #7f95fb !important;
+}
+
+/* standard background color from UI mock up  */
+.standard-dark-white-background {
+    background: #f5f5f5 !important;
+}
+
+/* attach it to the input element to make radius border */
+.my-round-border {
+    border-radius: 15px/15px !important;
+}
+
+.left-normal-right-round {
+    border-radius: 0 15px 15px 0;
+}
+
+.small-left-normal-right-round {
+    border-radius: 0 5px 5px 0;
+}
+
+.left-round-right-normal {
+    border-radius: 15px 0 0 15px;
+}
+
+/* login overlay content's padding top, see login page*/
+.my-login-content-padding, .my-register-content-padding, .my-top-padding {
+    padding-top: 5vh !important;
+}
+
+/* define white text */
+.text-white {
+    color: #edf1f5 !important;
+}
+
+/* standard purple from mock up */
+.text-purple {
+    color: #7a8eea !important;
+}
+
+/* define validator message float to the left*/
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+
+
+.my-circle-button {
+    padding: 9px !important;
+    border-radius: 50% !important;
+    background-color: #7a8eea !important;
+    border-color: #7a8eea !important;
+    color: #fff !important;
+}
+
+.active-sub {
+
+}
+
+
+
+

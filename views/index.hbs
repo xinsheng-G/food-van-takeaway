@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/map.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
+    <title>Index</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+
+<div class="row map-bottom">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row" style="z-index: 999 !important;">
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+<div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+    <div class="boxed">
+
+        <!--Map CONTENT CONTAINER-->
+        <!--===================================================-->
+        <div id="content-container" style="padding-top: 1px; padding-bottom: 1px;">
+
+            <!--Page content-->
+            <!--===================================================-->
+            <div id="page-content" style="padding: 0px 0px 0; ">
+
+                <div class="row" style="height:100vh; position:relative; text-align:center;">
+
+
+                    <!-- Top search -->
+                    <!-- for mobile size -->
+                    <div class="row map-top map-top-mini-search top-mini-search-behavior" >
+                        <a href="/search" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></a>
+                    </div>
+
+                    <!-- for desktop size -->
+                    <div class="row map-top map-top-full-search top-full-search-behavior" >
+                        <form action="#" method="post" class="col-xs-4 col-sm-6 col-sm-offset-1 pad-hor">
+                            <div class="input-group mar-btm">
+                                <input type="text" placeholder="Search van name..." class="form-control input-lg">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn-lg" type="button">Search</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- for desktop size refresh -->
+                    <div class="row map-top map-top-refresh top-full-search-behavior" >
+                        <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                    </div>
+
+                    <!-- bottom button group (shows in mobile device) -->
+                    <div class="map-bottom bottom-button-group-behavior">
+                        <div class="row" style="height: 15px">
+                            <div class="col-xs-2 col-md-2">
+
+                            </div>
+                            <div class="col-xs-8 col-md-8">
+                                <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                                <br>
+                            </div>
+                            <div class="col-xs-2 col-md-2">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4">
+                                <a href="/customer/profile" class="btn btn-icon my-circle-button"><img src="{{{customer_avatar_path}}}" class = "img-circle" alt="My Account" title="My Account" style="width: 27px; height: 26px"></a>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <a href="/customer/my_orders/current_orders" class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></a>
+                            </div>
+                            <div class="col-xs-4 col-md-4">
+                                <a href="/customer/cart" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-shopping-cart" title="Cart"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--map container-->
+                    <div style="width:100%;height:100%;border:#ccc solid 1px;" id="map"></div>
+                </div>
+
+            </div>
+            <!--End map content-->
+
+        </div>
+
+        <!--MAIN NAVIGATION-->
+        <!--===================================================-->
+        <nav id="mainnav-container" style="padding-top: 1px;">
+            <div id="mainnav">
+                <!--Menu-->
+                <!--================================-->
+                <div id="mainnav-menu-wrap">
+                    <div class="nano has-scrollbar">
+                        <div class="nano-content standard-dark-white-background small-left-normal-right-round"
+                             tabindex="0" style="right: -15px;">
+
+                            <!--Profile Widget-->
+                            <!--================================-->
+                            <div id="mainnav-profile" class="mainnav-profile small-left-normal-right-round">
+                                <div class="profile-wrap text-center standard-background">
+                                    <div class="pad-btm">
+                                        <img class="img-circle img-md" src="{{{customer_avatar_path}}}"
+                                             alt="Profile Picture">
+                                    </div>
+                                    <a href="" onclick="location='/customer/profile'" class="box-block" data-toggle="collapse"
+                                       aria-expanded="false">
+                                        <p class="mnp-name text-white">{{{customer_username}}}</p>
+                                        <span class="mnp-desc text-white">{{{customer_login_id}}}</span>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <!--Shortcut buttons-->
+                            <!--================================-->
+                            <div id="mainnav-shortcut" class="hidden">
+                                <ul class="list-unstyled shortcut-wrap"></ul>
+                            </div>
+                            <!--================================-->
+                            <!--End shortcut buttons-->
+
+
+                            <ul id="mainnav-menu" class="list-group standard-dark-white-background">
+
+                                <!--Category name-->
+                                <li class="list-header">WANNA SNACK?</li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="" data-original-title="" title="">
+                                        <i class="fa fa-user-circle-o"></i>
+                                        <span class="menu-title">My Account</span>
+                                        <i class="arrow"></i>
+                                    </a>
+
+                                    <!--Submenu-->
+                                    <ul class="collapse" aria-expanded="false">
+                                        <li>
+                                            <a href="/customer/profile" data-original-title="" title="">
+                                                <i class="fa fa-address-card"></i>
+                                                <span class="menu-title">
+												Manage Profile
+                                            </span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="/customer/logout" data-original-title="" title="">
+                                                <i class="fa fa-power-off"></i>
+                                                <span class="menu-title">
+												Log Out
+                                            </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <!--Menu list item-->
+                                <li>
+                                    <a href="/customer/my_orders/current_orders" data-original-title="" title="">
+                                        <i class="fa fa-book"></i>
+                                        <span class="menu-title">
+												My Orders
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/customer/cart" data-original-title="" title="">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span class="menu-title">
+												Cart
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li class="list-divider"></li>
+
+                                <li>
+                                    <a href="/vendor">
+                                        <i class="fa fa-exchange"></i>
+                                        <span class="menu-title">Vendor APP</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+
+                        </div>
+                        <div class="nano-pane" style="display: none;">
+                            <div class="nano-slider" style="height: 2815px; transform: translate(0px);"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--================================-->
+                <!--End menu-->
+
+            </div>
+        </nav>
+        <!--===================================================-->
+        <!--END MAIN NAVIGATION-->
+    </div>
+</div>
+
+<!-- path is set in app.js : app.use(express.static('static')); -->
+<script type="text/javascript">
+
+    // Get user's location demo
+    // at the final release, user's location is defined here
+    /** IMPORTANT:
+     *
+     * Safari browser requires SSL of the website to get access to HTML5 Geolocation API ! (make the website into https)
+     * error message: "Access to geolocation was blocked over insecure connection to http://localhost:8080."
+     *
+     * Heroku is in https, don't worry.
+     *
+     * */
+    navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let accuracy = position.coords.accuracy;
+
+        console.log("locating demo: user location：" + latitude + "," + longitude);
+        console.log("accuracy：" + accuracy);
+
+    }, positionError => {
+        alert('locating failed. Make sure your Browser supports geolocation.')
+    });
+
+    var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST' });
+
+    let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
+    let blueIcon = new BMapGL.Icon("./images/bluemark.png", new BMapGL.Size(25, 25));
+    console.log("asdasd");
+
+    // init map points (static)
+    // var user_point = new BMapGL.Point(144.95782936759818,-37.79872198514221);
+    // var van1_point = new BMapGL.Point(144.9597098711528,-37.79830229214481);
+    // var van2_point = new BMapGL.Point(144.9608068315597,-37.798468097073105);
+    // var van3_point = new BMapGL.Point(144.95961192825933,-37.799525094668184);
+    // var van4_point = new BMapGL.Point(144.96213232538466,-37.797654613047214);
+
+    // var vanPoints = [van1_point, van2_point, van3_point, van4_point];
+
+    // load fixed user coordinate for debugging
+    let user_to_show =  {x_pos: 144.95782936759818, y_pos: -37.79872198514221 };
+
+    /**
+     * An api for OSM search: get coordinate from address
+     *
+     * eg:
+     * https://nominatim.openstreetmap.org/search?q=Grattan+st+Melbourne+Australia&format=geojson
+     *
+     * will be useful in finding coordinate based on address
+     *
+     * website: https://nominatim.org/release-docs/develop/api/Search/
+     *
+     * this api will be used in Vendor App
+     *
+     * */
+
+
+
+    let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
+
+    // focus the map
+    map.centerAndZoom(user_point, 18);
+
+    let userMarker = new BMapGL.Marker(user_point, {icon:redIcon});
+    map.addOverlay(userMarker);
+    // User info window
+    // user's image path is hard coded, waiting for making dynamic
+    var sContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgAvator' src='{{{customer_avatar_path}}}' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>
+    This is You~
+    </p>
+    <a href="" id="btn-van" style="z-index: 999"></a>
+    </div>`;
+    var infoWindow = new BMapGL.InfoWindow(sContent);
+    // click event
+    userMarker.addEventListener('click', function () {
+        this.openInfoWindow(infoWindow);
+        // infoWindow
+        document.getElementById('imgAvator').onload = function () {
+            infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+        };
+    });
+
+    // dynamic load vans, incoming string with no escape
+    // Need to be changed into Ajax later, to support refreshing
+    let vans_to_show = [{{{vans_to_show}}}];
+
+    vans_to_show.forEach((van) => {
+        let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
+        console.log('create map point: ' + van.location.x_pos +', ' + van.location.y_pos);
+        let marker = new BMapGL.Marker(van_point, {icon:blueIcon});
+
+        // van info
+        // van's image path is hard coded, waiting for making dynamic
+        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van `+ van.van_name +`</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='`+ van.picture_path +`' width='139' height='104'/>
+    <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
+              + van.description + `, stars:`+ van.stars +
+    `</p>
+    <button class="btn btn-primary" id="btn-van" onclick="window.location.href = '/menu/`+ van.van_name +`'">Menu</>
+    </div>`;
+        var infoWindow = new BMapGL.InfoWindow(sContent);
+        // click event
+        marker.addEventListener('click', function () {
+            this.openInfoWindow(infoWindow);
+
+            // infoWindow
+            document.getElementById('imgDemo').onload = function () {
+                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            };
+        });
+
+        // if (!infoWindow.isOpen()) {
+        //     infoWindow.addEventListener("open", function (e) {
+        //         console.log('opened!')
+        //         document.getElementById("btn-van").onclick = function () {
+        //             console.log('clicked!')
+        //         }
+        //     })
+        // } else {
+        //     let btn =  document.getElementById("btn-van");
+        //     btn.onclick = function () {
+        //         console.log('clicked!');
+        //     };
+        // }
+        map.addOverlay(marker);
+    });
+
+    map.addEventListener("touchmove", function (e) {
+        map.enableDragging();
+    });
+
+    map.addEventListener("touchend", function (e) {
+        map.disableDragging();
+    });
+
+    map.enableScrollWheelZoom(true);
+    
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <title>{{{title}}}</title>
+
+</head>
+<body>
+<div class="main">
+    <div class="shopCar">
+        <div class="header">
+            <div class="nav_shop">
+                <div class="nav_title fa fa-map-marker"></div>
+                <div class="nav_title_conter">{{{van_name}}}</div>
+                <!--            X-->
+                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
+            </div>
+            <div class="nav_logo">
+                <div class="nav_check nav_check_sure">
+                    <img class="logo_size" src="./images/drink.png" alt="">
+                    <span class="logo_title">COFFEE</span>
+                </div>
+                <div class="line"></div>
+                <div class="nav_check ">
+                    <img class="logo_size" src="./images/snack.png" alt="">
+                    <span class="logo_title">SNACKS</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="h_k_b"></div>
+
+        <!-- Menu Items -->
+        <form method="post" class="conter">
+
+
+            <!-- confirm the van -->
+            <input type="hidden" name="van_name" value="{{{van_name}}}">
+            <!-- confirm the customer -->
+<!--        <input type="hidden" name="customer_id" value="{{{customer_id}}}">-->
+
+            {{#each snacks}}
+
+            <div class="shop_conter">
+                <div class="shop_left">
+                    <div>
+                        <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
+                    </div>
+                    <div class="shop_num">
+                        <div>{{this.snack_name}}</div>
+                        <div class="price">
+                            <div class="add">+</div>
+                            <div>0</div>
+                            <div class="del">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop_right">
+                    <div>{{this.price}}</div>
+                    <img class="del_shop" src="./images/note.png" alt="">
+                </div>
+            </div>
+
+            {{/each}}
+
+            {{#each drinks}}
+
+            <div class="shop_conter" style="display: none">
+                <div class="shop_left">
+                    <div>
+                        <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
+                    </div>
+                    <div class="shop_num">
+                        <div>{{this.snack_name}}</div>
+                        <div class="price">
+                            <div class="add">+</div>
+                            <div>0</div>
+                            <div class="del">-</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop_right">
+                    <div>{{this.price}}</div>
+                    <img class="del_shop" src="./images/note.png" alt="">
+                </div>
+            </div>
+
+            {{/each}}
+
+
+
+
+        </form>
+        <div class="k_b"></div>
+        <div class="foot">
+            <div class="foot_left">
+                <div class="shop_car_img">
+                    <img class="shop_car_icon" src="./images/cart.png" alt="">
+                    <div class="shop_car_num">3</div>
+                </div>
+                <div class="price_all">
+                    $10.80
+                </div>
+
+            </div>
+            <div class="foot_right">
+                CHECOUT
+            </div>
+        </div>
+    </div>
+    <div class="left_nav">
+        <img src="./images/drink.png" alt="">
+        <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+    </div>
+</div>
+
+</body>
+</html>

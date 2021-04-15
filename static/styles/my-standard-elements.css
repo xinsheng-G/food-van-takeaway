@@ -1,0 +1,265 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    .main {
+        width: 100%;
+        min-height: 100vh;
+        background: #8595f5;
+    }
+
+    .shopCar {
+        width: 50%;
+        min-height: 100vh;
+        background: #ffffff;
+        margin: auto;
+    }
+    .foot{
+        left: 25%!important;
+        right: 25%!important;
+
+    }
+    .header{
+        right: 25%!important;
+        left: 25%!important;
+    }
+    .left_nav{
+        display: block!important;
+    }
+}
+.header {
+    background: #e1eefe;
+    left: 0;
+    right: 0;
+    padding-bottom: 2rem;
+    box-shadow: 2px 4px 10px #d2cece;
+    position: fixed;
+    top: 0;
+}
+
+.h_k_b {
+    height: 14rem;
+}
+
+.nav_shop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    width: 50%;
+    margin: auto;
+    padding-top: 3rem;
+    position: relative;
+
+}
+.x{
+    position: absolute;
+    top:.5rem;
+    left: -6.5rem;
+}
+.nav_title {
+    color: #000099;
+    margin-right: .2rem;
+}
+
+.nav_title_conter {
+    font-weight: bold;
+    color: black;
+}
+
+.nav_logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 2rem auto 0;
+}
+
+.logo_size {
+    width: 2rem;
+    height: 2rem;
+}
+
+.logo_title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.line {
+    width: .1rem;
+    height: 1.6rem;
+    background: black;
+}
+
+.conter {
+    margin: 0 auto 0;
+    width: 80%;
+}
+
+.nav_check {
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+}
+
+.nav_check_sure {
+    background: #d1d4d17a;
+    border-radius: 1rem;
+}
+
+.shop_left {
+    display: flex;
+    align-items: center;
+
+}
+
+.shop_img {
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 1rem;
+}
+
+.shop_conter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #e2e7fb;
+    border-radius: 1rem;
+    margin: 2rem 0;
+}
+
+.del_shop {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: 1rem;
+}
+
+.price {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    margin-top: 1.5rem;
+
+}
+
+.shop_num {
+    margin-left: 1rem;
+}
+
+.add, .del {
+    width: 1.9rem;
+    height: 1.9rem;
+    border: .18rem solid black;
+    border-radius: 1rem;
+    text-align: center;
+    line-height: 1.5rem;
+    color: black;
+}
+
+.price_input {
+    color: black;
+    background-color: transparent;
+    border: 0;
+    width: 30px;
+    text-align: center;
+}
+
+.price_all_input {
+    color: black;
+    background-color: transparent;
+    border: 0;
+    width: 45px;
+    text-align: center;
+}
+
+.shop_car_icon {
+    height: 5rem;
+    width: 5rem;
+}
+
+.foot {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f5f5f5;
+}
+
+.k_b {
+    height: 70px;
+}
+
+.foot_left {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+
+}
+
+.shop_right {
+    width: 100%;
+    text-align: right;
+}
+
+.shop_car_img {
+    position: relative;
+    margin-left: 2rem;
+    margin-right: 1.5rem;
+}
+
+.shop_car_num {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #859efb;
+    color: #ffffff;
+    font-weight: bold;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    line-height: 2rem;
+
+}
+
+.foot_right {
+    width: 15rem;
+    height: 3rem;
+    /*line-height: 3rem;*/
+    text-align: center;
+    background: #8ca1f0;
+    color: #ffffff;
+    border-radius: 1.5rem 0 0 1.5rem;
+}
+.price_all{
+    font-size: 1.8rem;
+    color: black;
+}
+.left_nav{
+    position: fixed;
+    left: 3rem;
+    top:1.8rem;
+    color: #ffffff;
+    font-size: 1.5rem;
+    display: none;
+}
+.left_nav>img{
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+
