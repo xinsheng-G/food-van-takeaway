@@ -1,3 +1,5 @@
+const name_util = require('../utils/name_utils')
+
 let show_page = async (req, res) => {
     let snacks = []
 
@@ -9,7 +11,6 @@ let show_page = async (req, res) => {
     // TODO: if has a corresponding cart cookie, load from the cookie first
     // .....
 
-    console.log('van name: ' + van_name);
 
     // read all snacks from db
     /**
@@ -22,8 +23,9 @@ let show_page = async (req, res) => {
     // divide snacks into drinks and foods
     snacks.forEach((snack) => {
 
-        // replace spaces in the snack name with dash line
-        snack['snack_name_without_space'] = snack.snack_name.replace(/\ /g, "_");
+        // add new attribute: snack_title
+        // replace snack_name's dash line into spaces.
+        snack['snack_title'] = name_util.change_dash_into_space(snack.snack_name);
 
         // if is drink
         if (snack.is_available && snack.is_drink) {
@@ -40,7 +42,7 @@ let show_page = async (req, res) => {
     res.render('./customer/menu',{
         title: 'Menu',
         van_name: van_name,
-        van_name_without_space: van_name.replace(/\ /g, "_"),
+        van_title: name_util.change_dash_into_space(van_name),
         foods: foods,
         drinks: drinks
     })

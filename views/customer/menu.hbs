@@ -3,7 +3,7 @@
         <div class="header">
             <div class="nav_shop">
                 <div class="nav_title fa fa-map-marker"></div>
-                <div class="nav_title_conter">{{{van_name}}}</div>
+                <div class="nav_title_conter">{{{van_title}}}</div>
                 <!-- back button -->
                 <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
             </div>
@@ -28,7 +28,7 @@
 
 
             <!-- confirm the van -->
-            <input type="hidden" name="van_name" value="{{{van_name_without_space}}}">
+            <input type="hidden" name="van_name" value="{{{van_name}}}">
             <!-- confirm the customer -->
 <!--        <input type="hidden" name="customer_id" value="">-->
 
@@ -40,17 +40,17 @@
                         <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
                     </div>
                     <div class="shop_num">
-                        <div style="color: black">{{this.snack_name}}</div>
+                        <div style="color: black">{{this.snack_title}}</div>
                         <div class="price">
-                            <div id="{{this.snack_name_without_space}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                            <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
                             <!-- number of snacks, not negative integer-->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name_without_space}}_num" type="number" name="{{this.snack_name_without_space}}" value="0">
-                            <div id="{{this.snack_name_without_space}}_del" class="del"><i class="fa fa-minus"></i></div>
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                            <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
-                    <div class="h4">$&nbsp;<span id="{{this.snack_name_without_space}}_price">{{this.price}}</span></div>
+                    <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
                     <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
@@ -65,17 +65,17 @@
                         <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
                     </div>
                     <div class="shop_num">
-                        <div style="color: black">{{this.snack_name}}</div>
+                        <div style="color: black">{{this.snack_title}}</div>
                         <div class="price">
-                            <div id="{{this.snack_name_without_space}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                            <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
                             <!-- number of drinks，not negative integer -->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name_without_space}}_num" type="number" name="{{this.snack_name_without_space}}" value="0">
-                            <div id="{{this.snack_name_without_space}}_del" class="del"><i class="fa fa-minus"></i></div>
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                            <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
-                    <div class="h4">$&nbsp;<span id="{{this.snack_name_without_space}}_price">{{this.price}}</span></div>
+                    <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
                     <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
@@ -143,11 +143,11 @@
     {{#each foods}}
 
     $(function () {
-        let input = $('#{{this.snack_name_without_space}}_num');
+        let input = $('#{{this.snack_name}}_num');
         let price_all = $('#price_all')
-        let snack_price = parseFloat($('#{{this.snack_name_without_space}}_price').text());
+        let snack_price = parseFloat($('#{{this.snack_name}}_price').text());
         let total_snacks = $('#total_snacks')
-        $('#{{this.snack_name_without_space}}_add').click(function () {
+        $('#{{this.snack_name}}_add').click(function () {
             input.val(parseInt(input.val()) + 1);
 
             let price = snack_price;
@@ -158,7 +158,7 @@
             total_snacks.text(parseInt(total_snacks.text()) + 1);
         })
 
-        $('#{{this.snack_name_without_space}}_del').click(function () {
+        $('#{{this.snack_name}}_del').click(function () {
             let x = parseInt(input.val())
             if(x>0) {
                 input.val(x - 1);
@@ -181,11 +181,11 @@
         {{#each drinks}}
 
         $(function () {
-            let input = $('#{{this.snack_name_without_space}}_num');
+            let input = $('#{{this.snack_name}}_num');
             let price_all = $('#price_all')
-            let snack_price = parseFloat($('#{{this.snack_name_without_space}}_price').text());
+            let snack_price = parseFloat($('#{{this.snack_name}}_price').text());
             let total_snacks = $('#total_snacks')
-            $('#{{this.snack_name_without_space}}_add').click(function () {
+            $('#{{this.snack_name}}_add').click(function () {
                 input.val(parseInt(input.val()) + 1);
 
                 let price = snack_price;
@@ -196,7 +196,7 @@
                 total_snacks.text(parseInt(total_snacks.text()) + 1);
             })
 
-            $('#{{this.snack_name_without_space}}_del').click(function () {
+            $('#{{this.snack_name}}_del').click(function () {
                 let x = parseInt(input.val())
                 if(x>0) {
                     input.val(x - 1);
