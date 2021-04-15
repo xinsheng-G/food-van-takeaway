@@ -27,7 +27,7 @@ router.get('/checkout', ((req, res) => {
     res.end("<h1> Checkout page </h1>")
 }));
 
-// get checkout page's info and generate new order in orders collection of mongoDB
+// get checkout page's form info and generate new order in `orders` collection of mongoDB
 router.post('/checkout', ((req, res) => {
     res.end("<h1> posted a new order form, store them in db </h1>")
 }));

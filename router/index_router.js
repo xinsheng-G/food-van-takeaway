@@ -28,11 +28,6 @@ router.get('/search', ((req, res) => {
     res.end('search page');
 }));
 
-
-
-// use for ajax map loading
-router.get('/get_van_objects', indexController.get_van_objects);
-
 // handle 404
 router.all('*', exceptionRouter);
 

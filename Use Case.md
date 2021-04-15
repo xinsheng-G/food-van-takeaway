@@ -46,9 +46,9 @@
 
 ### 3.1 menu
 
-- [x] Snacks of menu should be stored in database include images and prices for each
+- [x] Snacks of menu should be stored in dataBase include images and prices for each
 
-  ( for the image, store it in node.js server folder and store its path to database to increase database efficiency )
+  ( for the image, hard-code UnSlash source url in dataBase is okay )
 
 ### 3.2 locations
 
@@ -72,7 +72,7 @@
 - Cart
 - Change/upload van images
 - Edit van profile
-- Maintain snacks in menu
+- Maintain snacks information
 
 These things just place/hard-code them in the database OR ignore some of them if 
 unnecessary.

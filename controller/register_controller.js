@@ -49,7 +49,6 @@ let add_customer = (req, res) => {
                 // if account has existed
                 console.log('existed! ' + resp.login_id)
 
-                // just a demo, need to make the page dynamic later
                 res.redirect('/customer/register');
             }
         }
