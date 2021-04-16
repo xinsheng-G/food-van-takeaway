@@ -1,11 +1,15 @@
 let mongoose = require('./mongoDB'),
     Schema = mongoose.Schema;
 
-// need to design details
+// order schema for orders collection
 let orderSchema = new Schema({
     order_id: Number,
 
-    // "foreign key"
+    /**  "foreign key" in one-to-many relationship's many-side.
+    *    These two references are used to identify this order belongs to which customer and which van.
+    *    These two references are used to do query, so they don't need to
+    *    be selected by find() method and then be shown on the front-end page
+     */
     order_customer_id: String,
     order_van_name: String,
 
@@ -19,7 +23,15 @@ let orderSchema = new Schema({
 
     end_time: Date,
 
-    snacks: [{snack_name:String, number: Number, remark: String}],
+    /** Line items for an order
+     *
+     * we just store an array of {snack_name, number}, because on the order monitor page, we just need to show snacks' names
+     * and their numbers, and we don't need to show other snack details from db such as snack images on order monitor page.
+     * What's more, snack_name is also acting as "primary key" of the snack schema, if we really want to get detailed snack
+     * info for a specific order (maybe we don't need to), we can query the snack_name in lineItems collections.
+     *
+     */
+    lineItems: [{snack_name:String, number: Number, remark: String}],
     is_given_discount: Boolean,
     total_price: Number
 

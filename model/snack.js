@@ -1,7 +1,11 @@
 let mongoose = require('./mongoDB'),
     Schema = mongoose.Schema;
 
-// need to design details
+// snack schema of snacks collection
+/**
+ * store snack details such as images or types
+* these info is used to render menu page
+ */
 let snackSchema = new Schema({
     snack_name: String,
     is_drink: Boolean,

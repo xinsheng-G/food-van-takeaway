@@ -1,7 +1,7 @@
 let mongoose = require('./mongoDB'),
     Schema = mongoose.Schema;
 
-// need to design details
+// customer schema for customers collection
 let customerSchema = new Schema({
     login_id: String,
     password: String,
@@ -20,7 +20,25 @@ let customerSchema = new Schema({
 
     location: {x_pos: Number, y_pos: Number},
 
-    // customer can get his orders by query Orders collection from db by user_id, so don't need store orders in customer model
+    /**
+     * customer can get his orders by query Orders collection from db by user_id, so don't need store orders in customer model.
+     * This is similar to one-to-many relationship in mysql, we leave one-side's reference at the many-side, i.e. leave the user_id
+     * in order schema.
+     *
+     * However, If we use these arrays for storing orders that belong to this customer, if we want to get order details,we have to
+     * travel all the order id in this array, and then call `orders.findOne(order_id)` method for each element in the array to query
+     * id-matched order in Orders collections to get order details, which will make the program travel the database over and over again.
+     *
+     * On the contrary, if we store user_id in order schema, as is similar to mysql one-to-many relationship, if we want to find a customer's
+     * order and its details, just call `orders.find(customer_id)` method for once, then this method will travel the database for only one time
+     * and returns an array of orders that belong to the customer.
+     *
+     * Another idea is storing Order objects that includes order details in the array, but it is not a good idea, because in this
+     * way we are creating our own `database` with an array that contains order objects, and when we do a query, we will travel the array,
+     * which will make query slow. Since we are using mongoDB, just use Orders collection to store order details, and use mongoose's
+     * high efficient find method to get them.
+     *
+    */
     // current_order_ids:[String],
     // previous_order_ids:[String]
 });
