@@ -25,12 +25,13 @@ let customerSchema = new Schema({
      * This is similar to one-to-many relationship in mysql, we leave one-side's reference at the many-side, i.e. leave the user_id
      * in order schema.
      *
-     * However, If we use these arrays for storing orders that belong to this customer, if we want to get order details,we have to
-     * travel all the order id in this array, and then call `orders.findOne(order_id)` method for each element in the array to query
-     * id-matched order in Orders collections to get order details, which will make the program travel the database over and over again.
+     * However, If we use these arrays for storing orders that belong to this customer, if we want to get all orders' detail show on
+     * my orders page,,we have to travel all the order id in this array, and then call `orders.findOne(order_id)` method for each
+     * element in the array to query id-matched order in Orders collections to get order details, which will make the
+     * program travel the database over and over again.
      *
      * On the contrary, if we store user_id in order schema, as is similar to mysql one-to-many relationship, if we want to find a customer's
-     * order and its details, just call `orders.find(customer_id)` method for once, then this method will travel the database for only one time
+     * orders and their details, just call `orders.find(customer_id)` method for once, then this method will travel the database for only one time
      * and returns an array of orders that belong to the customer.
      *
      * Another idea is storing Order objects that includes order details in the array, but it is not a good idea, because in this
