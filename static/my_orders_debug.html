@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <title>{{{title}}}</title>
+
+</head>
+<body>
+<div class="main">
+    <div class="shopCar">
+        <div class="header">
+            <div class="nav_shop">
+                <div class="nav_title_conter">MY ORDERS</div>
+                <!--            X-->
+                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
+            </div>
+            <div class="nav_logo">
+                <div class="nav_check nav_check_sure" id="current_nav">
+                    <img class="logo_size" src="./images/alarm_clock.png" alt="">
+                    <span class="logo_title">CURRENT</span>
+                </div>
+                <div class="line"></div>
+                <div class="nav_check" id="previous_nav">
+                    <img class="logo_size" src="./images/clock.png" alt="">
+                    <span class="logo_title">PREVIOUS</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="h_k_b"></div>
+
+        <!-- order Items -->
+        <div class="conter">
+
+
+            {{#each unfinished_snacks}}
+
+            <div class="shop_conter current_item">
+
+            </div>
+
+            {{/each}}
+
+            {{#each finished_snacks}}
+
+            <div class="shop_conter previous_item" style="display: none">
+
+            </div>
+
+            {{/each}}
+        </div>
+        <div class="k_b"></div>
+    </div>
+    <div class="left_nav">
+        <img src="./images/drink.png" alt="">
+        <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+    </div>
+</div>
+
+<script>
+    // nav label function
+    let current_nav = $('#current_nav');
+    let previous_nav = $('#previous_nav');
+
+    let current_item = $('.current_item');
+    let previous_item = $('.previous_item');
+
+    current_nav.click(function () {
+
+        if(!current_nav.hasClass("nav_check_sure")) {
+
+            current_nav.toggleClass("nav_check_sure")
+            previous_nav.toggleClass("nav_check_sure")
+
+            current_item.toggle()
+            previous_item.toggle()
+        }
+    })
+
+    previous_nav.click(function () {
+
+        if(!previous_nav.hasClass("nav_check_sure")) {
+            current_nav.toggleClass("nav_check_sure")
+            previous_nav.toggleClass("nav_check_sure")
+
+            current_item.toggle()
+            previous_item.toggle()
+        }
+    })
+</script>
+
+</body>
+</html>
