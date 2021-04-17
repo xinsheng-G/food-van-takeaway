@@ -3,7 +3,9 @@ let mongoose = require('./mongoDB'),
 
 // order schema for orders collection
 let orderSchema = new Schema({
-    order_id: Number,
+
+    // or we can use _id and do some slice at back-end
+    order_id: String,
 
     /**  "foreign key" in one-to-many relationship's many-side.
     *    These two references are used to identify this order belongs to which customer and which van.
