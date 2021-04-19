@@ -47,9 +47,10 @@ let show_my_orders_page = async (req, res) => {
 
     // add partial id to each element for display
     current_orders.forEach((current_order) => {
-        let full_id = current_order['_id']
+        let full_id = current_order['_id'].toString();
         // 6-digits to avoid collision
-        current_order['partial_id'] =  full_id.substring(full_id.length - 6);
+        console.log(full_id)
+        current_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
 
         // debug display:
         console.log('current orders:')
@@ -63,9 +64,9 @@ let show_my_orders_page = async (req, res) => {
 
     // add partial id to each element for display
     previous_orders.forEach((previous_order) => {
-        let full_id = previous_order['_id']
+        let full_id = previous_order['_id'].toString();
         // 6-digits to avoid collision
-        previous_order['partial_id'] =  full_id.substring(full_id.length - 6);
+        previous_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
 
         // debug display:
         console.log('previous orders:')
