@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmed Orders</title>
-    <link href="css/myStyle/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width: 1366px)">
-    <link href="css/myStyle/pro11OrderLists.css" rel="stylesheet" media="screen and (min-width:1194px)">
+    <title>Waiting Lists</title>
+    <link href="../static/styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
+    <link href="../static/styles/pro11OrderLists.css" rel="stylesheet" media="screen and (min-width:1194px)">
 
 </head>
 <style>
@@ -23,6 +23,7 @@
         <p class="pageTitle">
             ORDERS
         </p>
+
     </div>
     <!-- Page title END -->
 
@@ -37,15 +38,15 @@
                     </a>
                 </li>
                 <li class="navs">
-                    <a href="#Comfirmed"
-                       style="background-color: #ffda77;
-                       color: #af8baf;
-                       border-radius: 30px">
+                    <a href="#Comfirmed">
                         Confirmed Orders
                     </a>
                 </li>
                 <li class="navs">
-                    <a href="#Waiting">
+                    <a href="#Waiting"
+                       style="background-color: #ffda77;
+                              color: #af8baf;
+                              border-radius: 30px">
                         Waiting for Picking up
                     </a>
                 </li>
@@ -85,15 +86,14 @@
                 <!-- Example of an order START -->
                 <tr>
                     <td>0001</td>
-                    <td class="items">
+                    <td>
                         Cappuccino x 3<br>
                         Latte x 2<br>
-                        Hanburger x 3</td>
+                        Hanburger x 3
+                    </td>
                     <td>00:13:23</td>
                     <td>
-                        <button class="statusBtn">
-                            Fulfilled
-                        </button>
+                        <button class="statusBtn">Finished</button>
                     </td>
                 </tr>
                 <!-- Example of an order END -->
@@ -115,19 +115,17 @@
 
             </table>
         </div>
-        <!-- Table part (including tabel titles) END-->
+        <!-- Table part (including table titles) END-->
 
     </div>
     <!-- Content part of orders list END-->
 
     <!-- LEAVE button START-->
-    <div class="btnPart"
-         align="left">
-        <button class="btn">
-            LEAVE
-        </button>
+    <div class="btnPart">
+        <button class="btn">LEAVE</button>
     </div>
     <!-- LEAVE button END-->
+
 
 </div>
 
