@@ -9,10 +9,13 @@ let orderSchema = new Schema({
 
     /**  "foreign key" in one-to-many relationship's many-side.
     *    These two references are used to identify this order belongs to which customer and which van.
-    *    These two references are used to do query, so they don't need to
-    *    be selected by find() method and then be shown on the front-end page
+    *    These two references are used to do query:
      *
      *    order_van_name should be shown on previous order's detail page
+     *
+     *    order_customer_id should be used to check whether the order belongs to a logged-in user, so that
+     *    can decide whether to show the order detail to this user or not
+     *
      */
     order_customer_id: String,
     order_van_name: String,
@@ -38,6 +41,7 @@ let orderSchema = new Schema({
      */
     lineItems: [{snack_name:String, number: Number, remark: String}],
     is_given_discount: Boolean,
+    stars: Number,
     cost: Number,
     refund: Number,
     total_price: Number
