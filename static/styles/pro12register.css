@@ -1,0 +1,93 @@
+html{
+    width: 1366px;
+    height: 1024px;
+}
+
+/* Fonts Families */
+@font-face {
+    font-family: FuturaBold;
+    src: url("../fonts/FuturaStd-Bold.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaLight;
+    src: url("../fonts/FuturaStd-Light.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaMedium;
+    src: url("../fonts/FuturaStd-Medium.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaMediumOblique;
+    src: url("../fonts/FuturaStd-MediumOblique.otf") format("truetype");
+}
+
+/* Style of page's title*/
+.pageTitle{
+    font-family: FuturaBold;
+    color: #ffda77;
+    font-size: 45px;
+    letter-spacing: 15px
+}
+
+/* Left part (words) */
+.leftPart{
+    width:63%;
+    height:100%;
+    float: left;
+    background-color: #c8cce2
+}
+
+a:link{
+    text-decoration: none;
+    color: #f7f7f7;
+}
+
+a:hover, a:active{
+    color: #af8baf;
+}
+
+.formTitle{
+    font-family: FuturaMedium;
+    font-size: 30px;
+    letter-spacing: 3px;
+    color: #f7f7f7;
+    margin-bottom: 8px
+}
+
+.formInput{
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height:85px;
+    margin-bottom: 20px;
+}
+
+/* Right part (image) */
+.rightPart{
+    width:37%;
+    height:100%;
+    float: right
+}
+
+
+/* Area of button*/
+.btnPart{
+    width:95%;
+    height: 10%;
+    margin: 40px auto;
+}
+
+/* Style of Button LEAVE */
+.btn{
+    width: 300px;
+    height: 80px;
+    border: none;
+    border-radius: 30px;
+    background-color: #af8baf;
+    color: #f7f7f7;
+    font-family: FuturaBold;
+    font-size: 30px;
+    letter-spacing: 5px;
+    box-shadow: 0 3px 6px #02140D
+}

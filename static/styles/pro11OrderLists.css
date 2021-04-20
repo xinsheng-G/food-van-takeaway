@@ -1,0 +1,274 @@
+html{
+    width: 1194px;
+    height: 834px;
+}
+
+/* Font Families */
+@font-face {
+    font-family: FuturaBold;
+    src: url("../fonts/FuturaStd-Bold.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaLight;
+    src: url("../fonts/FuturaStd-Light.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaMedium;
+    src: url("../fonts/FuturaStd-Medium.otf") format("truetype");
+}
+@font-face {
+    font-family: FuturaMediumOblique;
+    src: url("../fonts/FuturaStd-MediumOblique.otf") format("truetype");
+}
+
+/* Area of whole background */
+.content{
+    width:100%;
+    height:100%;
+    float: left;
+    background-color: #c8cce2
+}
+
+/* Area of page's title*/
+.pageTitlePart{
+    width: 100%;
+    height: 8%;
+    margin: 0 auto
+}
+
+/* Style of page's title*/
+.pageTitle{
+    font-family: FuturaBold;
+    color: #ffda77;
+    font-size: 45px;
+    letter-spacing: 15px
+}
+
+/* Style of table content
+   (including the navigation part and search bar) */
+.tableContent{
+    width: 95%;
+    height: 70%;
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    margin: 0 auto
+}
+
+/* Basic style of table*/
+table{
+    width: 100%;
+    border-collapse: collapse
+}
+
+/* Search bar's style */
+input {
+    font-family: FuturaLight;
+    letter-spacing: 2px;
+    float: left;
+    padding-left: 1%;
+    margin-top: 20px;
+    margin-left: 20px;
+    border: none;
+    background-color: #eeeeee;
+    border-radius: 30px;
+    width: 30%;
+    height: 30px;
+    margin-bottom: 30px
+}
+
+/* INSIDE border style of the table */
+td{
+    border-right: 2px dotted #707070;
+}
+
+/* style of order content*/
+tr{
+    height: 45px;
+    border-bottom:2px solid #707070;
+    font-family: FuturaLight;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+/* When an order(a row) is hovered/clicked */
+tr:hover, tr:active{
+    background-color: #c8cce2;
+}
+
+/* content in "Items" column should be ALIGN TO LEFT
+   (which is the 2nd column)*/
+table tr td:nth-child(2){
+    padding: 10px;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-align: left;
+}
+
+/* The table has no outside border
+   (Delete the right border of the last column)*/
+table tr td:nth-child(6), th:nth-child(6){
+    border-right: none;
+}
+
+/* Style of checkbox of DISCOUNT & CANCELLATION*/
+.checkboxFini{
+    margin: 0 35%;
+}
+
+.checkbox{
+    margin: 0 5%;
+}
+
+/* Navigation bar's style */
+.navigations{
+    width: 96.6%;
+    border-radius: 30px;
+    height: 60px;
+    font-family: FuturaBold;
+    list-style-type: none;
+    color: black;
+    margin: 0;
+    overflow: hidden;
+    background-color: #af8baf;
+}
+
+/* Each item in navigation bar */
+.navs{
+    float: left;
+    letter-spacing: 3px;
+    width: 24.25%;
+    text-align: center;
+    padding:20px 0;
+}
+
+/* Original style of a link*/
+a:link{
+    text-decoration: none;
+    color: #f7f7f7;
+}
+
+/* style of a link when it is hovered/clicked */
+a:hover, a:active{
+    color: #af8baf;
+    height: 60px;
+    background-color: #ffda77;
+}
+
+
+/* Style of Table's title*/
+.tableTitle{
+    color: #534e52;
+    font-family: FuturaMedium;
+    letter-spacing: 3px;
+    font-size:20px;
+    height: 55px;
+    border-bottom:3px solid #707070;
+    border-right: 2px dotted #707070;
+}
+
+/* Basic style of table*/
+table{
+    width: 100%;
+    border-collapse: collapse
+}
+
+/* Table Part
+   (navigation bar and search bar excluded)*/
+.tablePart{
+    width: 95%;
+    height: 80%;
+    margin: 0 auto
+}
+
+/* INSIDE border style of the table */
+td{
+    border-right: 2px dotted #707070;
+}
+
+/* style of order content*/
+tr{
+    height: 45px;
+    border-bottom:2px solid #707070;
+    font-family: FuturaLight;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+/* When an order(a row) is hovered/clicked */
+tr:hover{
+    background-color: #c8cce2;
+}
+
+/* content in "Items" column should be ALIGN TO LEFT
+   (which is the 2nd column)*/
+table tr td:nth-child(2){
+    padding: 10px;
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-align: left;
+}
+
+
+
+/* Button for each order
+   (when an order is confirmed, this button will be clicked)*/
+.statusBtn{
+    font-size: 10px;
+    font-family: FuturaMedium;
+    color: #f7f7f7;
+    background-color: #af8baf;
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    height: 35px;
+    font-size: 18px;
+    letter-spacing: 3px
+}
+
+/* Area of button*/
+.btnPart{
+    width:95%;
+    height: 10%;
+    margin: 40px auto;
+}
+
+/* Style of Button LEAVE */
+.btn{
+    width: 300px;
+    height: 80px;
+    border: none;
+    border-radius: 30px;
+    background-color: #af8baf;
+    color: #f7f7f7;
+    font-family: FuturaBold;
+    font-size: 30px;
+    letter-spacing: 5px;
+    box-shadow: 0 3px 6px #02140D
+}
+
+/* Left part (words) */
+.leftPart{
+    width:63%;
+    height:100%;
+    float: left;
+    background-color: #c8cce2
+}
+
+/* Right part (image) */
+.rightPart{
+    width:37%;
+    height:100%;
+    float: right
+}
+
+a:link{
+    text-decoration: none;
+    color: #f7f7f7;
+}
+
+a:hover, a:active{
+    color: #af8baf;
+}
