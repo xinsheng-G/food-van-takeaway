@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+    <style>
+        html{
+            height: 1024px;
+            width: 1366px;
+        }
+
+        /* Fonts Families */
+        @font-face {
+            font-family: FuturaBold;
+            src: url("css/fonts/FuturaStd-Bold.otf") format("truetype");
+        }
+        @font-face {
+            font-family: FuturaLight;
+            src: url("css/fonts/FuturaStd-Light.otf") format("truetype");
+        }
+        @font-face {
+            font-family: FuturaMedium;
+            src: url("css/fonts/FuturaStd-Medium.otf") format("truetype");
+        }
+        @font-face {
+            font-family: FuturaMediumOblique;
+            src: url("css/fonts/FuturaStd-MediumOblique.otf") format("truetype");
+        }
+
+        .content{
+            width:100%;
+            height:100%;
+            float: left;
+            background-color: #c8cce2
+        }
+
+        /* Area of page's title*/
+        .pageTitlePart{
+            width: 100%;
+            height: 8%;
+            margin: 0 auto
+        }
+
+        /* Style of page's title*/
+        .pageTitle{
+            font-family: FuturaBold;
+            color: #ffda77;
+            font-size: 45px;
+            letter-spacing: 15px
+        }
+
+        /* Style of table content
+       (including the navigation part and search bar) */
+        .tableContent{
+            width: 95%;
+            height: 70%;
+            background-color: #f7f7f7;
+            border: none;
+            border-radius: 30px;
+            margin: 0 auto
+        }
+
+        /* style of details' title */
+        .detailTitle, .detailTitle:hover{
+            text-align: center;
+            width: 40%;
+            height: 75px;
+            font-size: 25px;
+
+            background-color: #c8cce2;
+        }
+
+        /* style of details' content */
+        .detailRow{
+            text-align: center;
+            height: 50px
+        }
+
+
+        th, td{
+            height: 30px;
+            letter-spacing: 3px;
+            text-align: left;
+        }
+
+        /* when basic info is clicked, the style won't change */
+        .basicInfo:hover{
+            background-color: transparent;
+        }
+
+
+        td{
+            font-family: FuturaMedium;
+        }
+
+        /* Each item's style will change when hovering */
+        tr:hover{
+            background-color: #c8cce2;
+        }
+
+        /* Title's style of table's basic information*/
+        th{
+            font-family: FuturaBold;
+            width: 50%;
+        }
+
+        /* detail content on even rows has different bkg-color */
+        .detailContent:nth-child(even){
+            background-color: #ebebeb;
+        }
+
+        /* detail content's bkg-color will change while hovering */
+        .detailContent:hover{
+            background-color: #c8cce2;
+        }
+
+        /* total part won't change when hovering */
+        .total, .total:hover{
+            background-color: #fce19b;
+        }
+
+        /* Area of button*/
+        .btnPart{
+            width:95%;
+            height: 10%;
+            margin: 40px auto
+        }
+
+        /* Style of Button GO BACK */
+        .btn{
+            width: 300px;
+            height: 80px;
+            border: none;
+            border-radius: 30px;
+            background-color: #af8baf;
+            color: #f7f7f7;
+            font-family: FuturaBold;
+            font-size: 30px;
+            letter-spacing: 5px;
+            box-shadow: 0 3px 6px #02140D
+        }
+
+    </style>
+</head>
+
+<body style="width: 100%; height: 100%">
+<div class="content">
+
+    <!-- Title of this page START-->
+    <div class="pageTitlePart"
+         align="center">
+        <p class="pageTitle">
+            ORDERS DETAILS
+        </p>
+    </div>
+    <!-- Title of this page END-->
+
+
+    <!-- Details of this order START -->
+    <div class="tableContent">
+        <!-- Customer and Order START -->
+        <div class="customerInfo"
+             style="width: 95%;
+                    height: 15%;
+                    margin: 0 auto;
+                    padding-top: 20px;">
+
+            <!-- Customer name and Order number START -->
+            <table width="50%"
+                   style="float: left">
+                <tr class="basicInfo">
+                    <th>Customer name:</th>
+                    <td>Miss Chen</td>
+                </tr>
+                <tr class="basicInfo">
+                    <th>Order Number:</th>
+                    <td>0001</td>
+                </tr>
+            </table>
+            <!-- Customer name and Order number END -->
+
+            <!-- Ordered time and Discount START-->
+            <table width="50%"
+                   style="float: right">
+                <tr class="basicInfo">
+                    <th>Ordered time:</th>
+                    <td>14:14:46 11/03/2021</td>
+                </tr>
+                <tr class="basicInfo">
+                    <th>Discount:</th>
+                    <td>Yes</td>
+                </tr>
+            </table>
+            <!-- Ordered time and Discount END-->
+        </div>
+        <!-- Customer and Order END -->
+
+        <!-- Detail table START -->
+        <div class="tableContent">
+            <table style="padding-top: 30px;
+                          width: 100%;
+                          margin: 0 auto;">
+                <tr>
+                    <th class="detailTitle">Item name</th>
+                    <th class="detailTitle" style="width: 30%;">Item number</th>
+                    <th class="detailTitle" style="width: 30%;">Unit price</th>
+                </tr>
+                <tr class="detailContent">
+                    <td class="detailRow">Cappuccino</td>
+                    <td class="detailRow">3</td>
+                    <td class="detailRow">$ 5</td>
+                </tr>
+                <tr class="detailContent">
+                    <td class="detailRow">Latte</td>
+                    <td class="detailRow">1</td>
+                    <td class="detailRow">$ 3</td>
+                </tr>
+                <tr class="detailContent">
+                    <td class="detailRow">Hamburger</td>
+                    <td class="detailRow">3</td>
+                    <td class="detailRow">$ 7</td>
+                </tr>
+                <tr class="total">
+                    <td class="detailRow"></td>
+                    <td class="detailRow"></td>
+                    <td class="detailRow"
+                        style="font-family:
+                         FuturaBold">Total: $ 39</td>
+                </tr>
+            </table>
+        </div>
+        <!-- Detail table END -->
+
+    </div>
+    <!-- Details of this order START -->
+
+    <!-- GO BACK button START -->
+    <div class="btnPart" align="center">
+        <button class="btn">GO BACK
+    </button>
+    </div>
+    <!-- GO BACK button END -->
+
+</div>
+</body>
