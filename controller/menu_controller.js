@@ -1,4 +1,4 @@
-const name_util = require('../utils/name_utils')
+const string_util = require('../utils/string_utils')
 
 let show_page = async (req, res) => {
     let snacks = []
@@ -25,7 +25,7 @@ let show_page = async (req, res) => {
 
         // add new attribute: snack_title
         // replace snack_name's dash line into spaces.
-        snack['snack_title'] = name_util.change_dash_into_space(snack.snack_name);
+        snack['snack_title'] = string_util.change_dash_into_space(snack.snack_name);
 
         // if is drink
         if (snack.is_available && snack.is_drink) {
@@ -42,7 +42,7 @@ let show_page = async (req, res) => {
     res.render('./customer/menu',{
         title: 'Menu',
         van_name: van_name,
-        van_title: name_util.change_dash_into_space(van_name),
+        van_title: string_util.change_dash_into_space(van_name),
         foods: foods,
         drinks: drinks
     })

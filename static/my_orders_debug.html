@@ -49,44 +49,55 @@
 
         <!-- order Items -->
         <div class="conter">
-            <div class="conter">
 
-                <div class="card" style="max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: bisque;">
-                    <div class="card-header" style="display:flex; justify-content: space-around;">
-                        <span style="font-size: 20px;"><b>Tasty Trailor</b></span>
-                        <span style="font-size: 20px;"><b>$18.75</b></span>
-                    </div>
-        
-                    <div style="padding-top: 0px;padding-bottom: 0px;">
-                        <hr style="max-width:100%;height:1px;border-width:0;background-color:gray;">
-                    </div>
-        
-                        <h3 class="card-title" style="text-align:center;">1013</h3>
-                        <p class="card-text" style="text-align:center;text-align: center;font-size: 16px;">MONDAY,  24 MARCH</p>
-                        
-                        <div class="card-text" style="display:flex; justify-content: center;">
-                            <span style="font-size: 15px;">7:28PM</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                            </svg>
-                            <span style="font-size: 15px;">7:39PM</span>
-                        </div>
-                    </div>
-                    
+            {{#each current_orders}}
+
+            <div class="card current_item current_item my-round-border" style="max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: bisque;">
+                <div class="card-header" style="display:flex; justify-content: space-around;">
+                    <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
+                    <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
                 </div>
 
-            
+                <div style="padding-top: 0px;padding-bottom: 0px;">
+                    <hr style="max-width:100%;height:1px;border-width:0;background-color:gray;">
+                </div>
 
-            <div class="shop_conter current_item">
-                <p>abcd</p>
+                <h3 class="card-title" style="text-align:center;">{{this.partial_id}}</h3>
+                <p class="card-text" style="text-align:center;text-align: center;font-size: 16px;">MONDAY,  24 MARCH</p>
+
+                <div class="card-text" style="display:flex; justify-content: center;">
+                    <span style="font-size: 15px;">7:28PM</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                    <span style="font-size: 15px;">7:39PM</span>
+                </div>
             </div>
 
             {{/each}}
 
-            {{#each finished_snacks}}
+            {{#each previous_orders}}
 
-            <div class="shop_conter previous_item" style="display: none">
+            <div class="card previous_item current_item my-round-border" style="display: none; max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: bisque;">
+                <div class="card-header" style="display:flex; justify-content: space-around;">
+                    <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
+                    <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
+                </div>
 
+                <div style="padding-top: 0px;padding-bottom: 0px;">
+                    <hr style="max-width:100%;height:1px;border-width:0;background-color:gray;">
+                </div>
+
+                <h3 class="card-title" style="text-align:center;">{{this.partial_id}}</h3>
+                <p class="card-text" style="text-align:center;text-align: center;font-size: 16px;">MONDAY,  24 MARCH</p>
+
+                <div class="card-text" style="display:flex; justify-content: center;">
+                    <span style="font-size: 15px;">7:28PM</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                    <span style="font-size: 15px;">7:39PM</span>
+                </div>
             </div>
 
             {{/each}}

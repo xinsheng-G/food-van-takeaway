@@ -1,6 +1,7 @@
 const moment = require('moment');
 const global_variables = require('../utils/global_variables')
 const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
+const string_utils = require('../utils/string_utils')
 
 let show_my_orders_page = async (req, res) => {
     // get user id from session
@@ -52,7 +53,7 @@ let show_my_orders_page = async (req, res) => {
         {'order_customer_id': user_id, $or:[{'status': 'CONFIRMING'}, {'status': 'PREPARING'}, {'status': 'READY'}]},
         '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
 
-    // add partial id to each element for display
+    // handle render format on front-end page
     // && update discount information
     for(let i in current_orders) {
         let current_order = current_orders[i];
@@ -60,6 +61,13 @@ let show_my_orders_page = async (req, res) => {
 
         // 6-digits to avoid collision in showing on the screen
         current_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
+
+        // change van name format into van title (change dash into space)
+        current_order['van_title'] = string_utils.change_dash_into_space(current_order['order_van_name'])
+
+        // retrieve date and time string from Date type of MongoDB
+        current_order['start_date'] =  string_utils.get_date_str_from_Date(current_order['start_time'])
+        current_order['start_clock'] = string_utils.get_hour_minute_from_Date(current_order['start_time'])
 
         /** update discount information before show them on the screen */
         /** this function is from /utils/dataBase_discount_handler */
@@ -81,6 +89,16 @@ let show_my_orders_page = async (req, res) => {
         // 6-digits to avoid collision
         previous_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
 
+        // change van name format into van title (change dash into space)
+        previous_order['van_title'] = string_utils.change_dash_into_space(previous_order['order_van_name'])
+
+        // retrieve date and time string from Date type of MongoDB
+        previous_order['start_date'] =  string_utils.get_date_str_from_Date(previous_order['start_time'])
+        previous_order['start_clock'] = string_utils.get_hour_minute_from_Date(previous_order['start_time'])
+
+        previous_order['end_date'] = string_utils.get_date_str_from_Date(previous_order['end_time'])
+        previous_order['end_clock'] = string_utils.get_hour_minute_from_Date(previous_order['end_time'])
+
         // debug display:
         console.log('previous orders:')
         console.log(previous_order)
@@ -88,13 +106,11 @@ let show_my_orders_page = async (req, res) => {
 
     // ready to render
 
-    // res.render('./customer/my_orders', {
-    //     current_orders: current_orders,
-    //     previous_orders: previous_orders
-    // })
-
-    res.end('Ready to render my orders page')
-
+    res.render('./customer/my_orders', {
+        title: 'My Orders',
+        current_orders: current_orders,
+        previous_orders: previous_orders
+    })
 }
 
 let show_previous_order_details_page = async (req, res) => {
