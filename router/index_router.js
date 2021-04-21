@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const exceptionRouter = require('../router/exception_router');
 const menuRouter = require('../router/menu_router');
+const customerMockUpRouter = require('./customer_mock_up_router');
 
 const indexController = require('../controller/index_controller');
 const exceptionHandler = require('../controller/handle_exceptions')
@@ -15,6 +16,7 @@ router.use(express.static('static'));
 router.use(express.static('upload_images'));
 
 router.use('/menu', menuRouter);
+router.use('/customer_mockup', customerMockUpRouter)
 
 // '/' means route path, 'indexController.show_page' means show_page
 // function from  indexController

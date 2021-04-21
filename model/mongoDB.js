@@ -30,11 +30,11 @@ const DB_URL = 'mongodb+srv://'+ username +':'+ password + '@cluster0.1saxw.mong
 *
 * */
 
-
 /**
  * connect
  */
-mongoose.connect(DB_URL, { useNewUrlParser: true,  useUnifiedTopology: true }, function () {
+mongoose.connect(DB_URL, { useNewUrlParser: true,  useUnifiedTopology: true,
+    connectTimeoutMS: 20000, socketTimeoutMS: 20000}, function () {
     console.log('Mongoose connection established')
 });
 
