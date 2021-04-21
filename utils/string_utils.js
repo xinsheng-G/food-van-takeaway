@@ -8,11 +8,11 @@ function change_dash_into_space(name) {
     return res.charAt(0).toUpperCase() + res.slice(1);
 }
 
-/** retrieve date YYYY-MM-DD from Date obj from Mongoose */
+/** retrieve date string YYYY-MM-DD from Date obj from Mongoose */
 function get_date_str_from_Date(date_obj) {
 
     // when show on the screen, convey the time zone from utc-0 to local
-    return moment(new Date(date_obj)).format('YYYY-MM-DD').toString()
+    return moment(new Date(date_obj)).format('dddd, D MMMM').toString()
 }
 
 /** retrieve clock time hour-minute from Date obj from Mongoose */

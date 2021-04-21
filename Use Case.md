@@ -17,9 +17,9 @@
 - [x] A customer can register & login with email and password
 - [x] Customer App's database will store a customer's loginID(email), password, family name and given name.
 - [ ] A Customer can change his/her profile details (names and password) 
-- [ ] A logged-in Customer can place an order.
-- [ ] An order consists of 1..* snacks, with quantities for each, needs to be timestamped.
-- [ ] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
+- [x] A logged-in Customer can place an order.
+- [x] An order consists of 1..* snacks, with quantities for each, needs to be timestamped.
+- [x] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
 - [ ] A customer can monitor order status (fulfilled or ready for pick up).
 - [ ] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
 - [ ] A cancelled order shouldn't be seen to Customers and Vendors

@@ -17,7 +17,7 @@ let update_discount_info = async function(current_order) {
 
     let time_now = moment().utc()
     let delta_minute = (time_now - current_order['start_time']) / 1000 / 60
-    console.log('current time period minutes: ' + delta_minute)
+    // console.log('current time period minutes: ' + delta_minute)
 
     /*
      if no discount given and exceeds discount period, then give discount
