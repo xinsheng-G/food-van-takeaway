@@ -10,46 +10,11 @@ let show_my_orders_page = async (req, res) => {
     // query orders that belong to the user
     let order_model = require('../model/order')
 
-    /**
-     * if we use current orders array in the Customer schema to query orders,
-     * we will call too many times of `find` function, as shown below
-
-    let user_model = require('../model/user')
-
-     // find() function called
-     // get order array from one customer
-     let orders = await user_model.find(
-        {'order_customer_id': user_id},
-        'current_order_ids previous_order_ids').lean();
-
-    let current_order_ids = orders['current_order_ids']
-    let previous_order_ids = orders['previous_order_ids']
-
-    let current_order_list = []
-    let previous_order_list = []
-
-     // find() function is called in a loop
-     // retrieve order details by query order_id in orders collection
-     for (const id of current_order_ids) {
-        current_order_list = await order_model.find(
-            {'_id': id, $or:[{'status': 'CONFIRMING'}, {'status': 'PREPARING'}, {'status': 'READY'}]},
-            '_id order_van_name status start_time total_price').lean();
-    }
-
-     // find() function is called in a loop
-     // loop find again
-    for (const id of previous_order_ids) {
-        previous_order_list = await order_model.find(
-            {'_id': id, $or:[{'status': 'CONFIRMING'}, {'status': 'PREPARING'}, {'status': 'READY'}]},
-            '_id order_van_name status start_time total_price').lean();
-    }
-     */
-
-
-    /** If we place user_id in Order schema, just call find function for 2 times*/
+    /** If we place user_id in Order schema, just call find function for 1 time*/
     // one query returns an array of current orders
     // sorted by start_time
     let current_orders = await order_model.find(
+
         {'order_customer_id': user_id, $or:[{'status': 'CONFIRMING'}, {'status': 'PREPARING'}, {'status': 'READY'}]},
         '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
 
@@ -59,8 +24,8 @@ let show_my_orders_page = async (req, res) => {
         let current_order = current_orders[i];
         let full_id = current_order['_id'].toString();
 
-        // 6-digits to avoid collision in showing on the screen
-        current_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
+        // 4-digits to avoid collision in showing on the screen
+        current_order['partial_id'] =  full_id.substring(full_id.length - 4).toUpperCase();
 
         // change van name format into van title (change dash into space)
         current_order['van_title'] = string_utils.change_dash_into_space(current_order['order_van_name'])
@@ -73,9 +38,6 @@ let show_my_orders_page = async (req, res) => {
         /** this function is from /utils/dataBase_discount_handler */
         await dataBase_discount_handler.update_discount_info(current_order)
 
-        // debug display:
-        console.log('current orders:')
-        console.log(current_order)
     }
 
     // sorted by end_time
@@ -87,7 +49,7 @@ let show_my_orders_page = async (req, res) => {
     previous_orders.forEach((previous_order) => {
         let full_id = previous_order['_id'].toString();
         // 6-digits to avoid collision
-        previous_order['partial_id'] =  full_id.substring(full_id.length - 6).toUpperCase();
+        previous_order['partial_id'] =  full_id.substring(full_id.length - 4).toUpperCase();
 
         // change van name format into van title (change dash into space)
         previous_order['van_title'] = string_utils.change_dash_into_space(previous_order['order_van_name'])
@@ -99,12 +61,7 @@ let show_my_orders_page = async (req, res) => {
         previous_order['end_date'] = string_utils.get_date_str_from_Date(previous_order['end_time'])
         previous_order['end_clock'] = string_utils.get_hour_minute_from_Date(previous_order['end_time'])
 
-        // debug display:
-        console.log('previous orders:')
-        console.log(previous_order)
     })
-
-    // ready to render
 
     res.render('./customer/my_orders', {
         title: 'My Orders',
@@ -129,10 +86,6 @@ let show_previous_order_details_page = async (req, res) => {
     }
 
     /** if the order belongs to logged-in user, show order details page */
-    // debug display:
-    console.log('prev order:')
-    console.log(order)
-
     // ready to render
 
     // res.render('./customer/previous_order_details', {
@@ -142,6 +95,7 @@ let show_previous_order_details_page = async (req, res) => {
     res.end('Ready to render previous order details page')
 }
 
+/** This page can automatically refresh itself from front-end script */
 let show_order_monitor_page = async (req, res) => {
     let order_model = require('../model/order')
     let order_id = req.params.order_id
@@ -162,7 +116,7 @@ let show_order_monitor_page = async (req, res) => {
             break
         case 'PREPARING':
             // judge time and show different page
-            let time_now = moment().utc().utcOffset(0)
+            let time_now = moment().utc()
             let delta_minute = (time_now - order['start_time']) / 1000 / 60
             if(delta_minute < global_variables.change_cancel_time_minutes) {
                 // show page with change button
@@ -191,7 +145,79 @@ let show_order_monitor_page = async (req, res) => {
     }
 }
 
+let place_new_order = async (req, res) => {
+    let form_elements = req.body;
+    let user_id = req.session.user;
+    let van_name = form_elements.van_name;
+    // time zone to utc 0
+    let time_now = moment().utc()
+    let total_price = 0;
+    let cost = 0;
+    let refund = 0;
+
+    // remove van_name from form_elements
+    delete form_elements.van_name
+    // need to query price again in back end for security
+    delete form_elements.price_all
+    delete form_elements.p
+
+    let lineItems = []
+    Object.keys(form_elements).forEach(key => {
+
+        // if purchased a item
+        if(parseInt(form_elements[key]) !== 0) {
+            let new_item = {snack_name: key, number: parseInt(form_elements[key])}
+            lineItems.push(new_item)
+        }
+    })
+
+    // query price into a list
+    // do price calculation in back-end is a security way
+    let snack_model = require('../model/snack')
+    let query_res = await snack_model.find({}, 'snack_name price').lean();
+
+    let snacks_price_list = {}
+    query_res.forEach(res_obj => {
+        snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
+    })
+
+    // calc total price
+    lineItems.forEach(item_obj => {
+        let snack_name = item_obj['snack_name']
+        let snack_number = parseInt(item_obj['number'])
+
+        total_price +=  snack_number * snacks_price_list[snack_name]
+    })
+
+    cost = total_price
+    refund = 0
+    // create new order and save to db
+    let order_model = require('../model/order')
+    let new_order = new order_model({
+        "order_customer_id": user_id,
+        "order_van_name": van_name,
+        "status": "CONFIRMING",
+        "start_time": time_now,
+        "end_time": time_now,
+        "lineItems": lineItems,
+        "is_given_discount": false,
+        "cost": cost,
+        "refund": refund,
+        "total_price": total_price,
+    })
+
+    await new_order.save()
+    res.redirect('/customer/my_orders/checkout_success')
+}
+
+let show_order_payment_success_page = (req, res) => {
+    res.render('./customer/payment_success', {
+        title: 'Payment success'
+    })
+}
+
+
 // export functions above
 module.exports = {
-    show_my_orders_page, show_previous_order_details_page
+    show_my_orders_page, show_previous_order_details_page, place_new_order, show_order_payment_success_page
 }

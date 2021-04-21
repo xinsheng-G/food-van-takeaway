@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1> Check out page temperate DEMO </h1>
+
+<form action="post" action="/customer/my_orders/checkout">
+    <p>Van name:<input readonly="readonly" name="van_name" value="{{{van_name}}}"></p>
+
+    <br>
+
+    {{#each lineItems}}
+    <p>{{this.snack_name}}:<input readonly="readonly" name="{{this.snack_name}}" value="{{this.number}}"></p>
+    {{/each}}
+
+    <br>
+
+    <p>total_price: ${{total_price}}</p>
+    <p>cost: ${{total_price}}</p>
+    <p>refund: ${{refund}}</p>
+    <br>
+    <button class="btn foot_right_button" type="submit">
+        confirm payment
+    </button>
+</form>
+
+</body>
+</html>

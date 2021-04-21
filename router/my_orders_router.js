@@ -25,15 +25,12 @@ router.get('/current_order/:order_id', ((req, res) => {
     res.end("<p> eg: if this order's status is ready, then res.render('ready', {...})</p>")
 }));
 
-// show checkout page
-router.get('/checkout', ((req, res) => {
-    res.end("<h1> Checkout page </h1>")
-}));
-
 // get checkout page's form info and generate new order in `orders` collection of mongoDB
-router.post('/checkout', ((req, res) => {
-    res.end("<h1> posted a new order form, store them in db </h1>")
-}));
+// check out page is rendered by menu_controller
+router.post('/checkout', myOrdersController.place_new_order);
+
+// show checkout page
+router.get('/checkout_success', myOrdersController.show_order_payment_success_page);
 
 // show order feedback page
 router.get('/order_feedback/:order_id', ((req, res) => {

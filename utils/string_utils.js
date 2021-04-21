@@ -11,19 +11,21 @@ function change_dash_into_space(name) {
 /** retrieve date YYYY-MM-DD from Date obj from Mongoose */
 function get_date_str_from_Date(date_obj) {
 
-    return moment(date_obj).format('YYYY-MM-DD').toString()
+    // when show on the screen, convey the time zone from utc-0 to local
+    return moment(new Date(date_obj)).format('YYYY-MM-DD').toString()
 }
 
 /** retrieve clock time hour-minute from Date obj from Mongoose */
 function get_hour_minute_from_Date(date_obj) {
 
-    let time_string = date_obj.toISOString()
+    // let time_string = new Date(date_obj).toISOString()
 
     // ISO Date String
     // 2021-04-16T16:00:00.000Z
-    let index_T = time_string.lastIndexOf("T")
-    let index_last_colon = time_string.lastIndexOf(":")
-    return time_string.substring(index_T + 1, index_last_colon)
+    // let index_T = time_string.lastIndexOf("T")
+    // let index_last_colon = time_string.lastIndexOf(":")
+    // return time_string.substring(index_T + 1, index_last_colon)
+    return moment(new Date(date_obj)).format('hh:mm A').toString()
 }
 
 module.exports = {change_dash_into_space, get_date_str_from_Date, get_hour_minute_from_Date}

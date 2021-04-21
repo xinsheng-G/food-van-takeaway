@@ -14,8 +14,8 @@ const global_variables = require('../utils/global_variables')
 const order_model = require('../model/order')
 
 let update_discount_info = async function(current_order) {
-    // transfer server time zone to utc 0
-    let time_now = moment().utc().utcOffset(0)
+
+    let time_now = moment().utc()
     let delta_minute = (time_now - current_order['start_time']) / 1000 / 60
     console.log('current time period minutes: ' + delta_minute)
 

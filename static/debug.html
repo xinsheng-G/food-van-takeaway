@@ -29,71 +29,60 @@
 
 <body>
 
-<div class="tab-base">
+<div id="container" class="cls-container  login-page">
 
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs">
-        <li class=""><a href="#demo-bsc-tab-1" data-toggle="tab" aria-expanded="false">Information</a></li>
-        <li class="active"><a href="#demo-bsc-tab-2" data-toggle="tab" aria-expanded="true">Address</a></li>
-    </ul>
+    <!-- BACKGROUND IMAGE -->
+    <!--===================================================-->
+    <div id="bg-overlay"></div>
 
-    <!-- Tabs Content -->
-    <form id="demo-bv-bsc-tabs" class="form-horizontal bv-form" action="#" method="post" novalidate="novalidate"><button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
-        <div class="tab-content">
-            <div class="tab-pane pad-btm fade" id="demo-bsc-tab-1">
-                <p class="text-main text-bold">First Tab</p>
-                <hr>
-                <div class="form-group has-feedback">
-                    <label class="col-lg-3 control-label">Full name</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" name="fullName" placeholder="Full name" data-bv-field="fullName"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="fullName"></i>
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="fullName" data-bv-result="NOT_VALIDATED">The full name is required</small></div>
+
+    <!-- LOGIN FORM -->
+    <!--===================================================-->
+    <h1 class="h2 text-white"><img src="./images/icon_drink_snack.png" alt="icon">Snacks in a Van</h1>
+    <div class="cls-content my-top-padding">
+        <div class="login-box pager-rounded cls-content-sm panel">
+
+            <div class="panel-body">
+                <div class="text-center">
+                    <h2 class="h2 text-uppercase text-bold">Payment Success</h2>
                 </div>
-                <div class="form-group has-feedback">
-                    <label class="col-lg-3 control-label">Company</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" name="company" placeholder="Company" data-bv-field="company"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="company"></i>
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="company" data-bv-result="NOT_VALIDATED">The company name is required</small></div>
+                <br>
+                <div class="text-center">
+                    <img src="./images/icon_smile.png" alt="warning">
                 </div>
-                <div class="form-group has-feedback">
-                    <label class="col-lg-3 control-label">Member Type</label>
-                    <div class="col-lg-7">
-                        <div class="radio">
-                            <input id="demo-radio-1" class="magic-radio" type="radio" name="memberType" value="free" data-bv-field="memberType">
-                            <label for="demo-radio-1">Free</label>
+                <br>
+                <div class="text-center">
+                    <h3 class="h3 text-uppercase text-bold">Thank you</h3>
+                </div>
+                <div class="text-center">
+                    <div class="pad-btm">
+                        Your snacks are on the way!
+                    </div>
+                </div>
+                <br>
 
-                            <input id="demo-radio-2" class="magic-radio" type="radio" name="memberType" value="personal" data-bv-field="memberType">
-                            <label for="demo-radio-2">Personal</label>
-
-                            <input id="demo-radio-3" class="magic-radio" type="radio" name="memberType" value="bussines" data-bv-field="memberType">
-                            <label for="demo-radio-3">Bussiness</label>
-                        </div><i style="display: none;" class="form-control-feedback" data-bv-icon-for="memberType"></i>
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="memberType" data-bv-result="NOT_VALIDATED">Please choose the membership type that best meets your needs</small></div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <a href="/customer/my_orders" class="btn btn-block btn-rounded btn-primary">See My Orders</a>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <a href="/" class="btn btn-block btn-rounded btn-primary-negative">Return to Homepage</a>
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
             </div>
-            <div class="tab-pane fade active in" id="demo-bsc-tab-2">
-                <p class="text-main text-bold">Second Tab</p>
-                <hr>
-                <div class="form-group has-feedback">
-                    <label class="col-lg-3 control-label">Address</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" name="address" placeholder="Address" data-bv-field="address"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="address"></i>
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="address" data-bv-result="NOT_VALIDATED">The address is required</small></div>
-                </div>
-                <div class="form-group has-feedback">
-                    <label class="col-lg-3 control-label">City</label>
-                    <div class="col-lg-7">
-                        <input type="text" class="form-control" name="city" placeholder="City" data-bv-field="city"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="city"></i>
-                        <small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="city" data-bv-result="NOT_VALIDATED">The city is required</small></div>
-                </div>
-            </div>
-            <div class="tab-footer clearfix">
-                <div class="col-lg-7 col-lg-offset-3">
-                    <button type="submit" class="btn btn-primary">Validate</button>
-                </div>
-            </div>
+
         </div>
-    </form>
+    </div>
+    <!--===================================================-->
+
+
 </div>
 
 </body>
