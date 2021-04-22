@@ -3,6 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 
 const exceptionHandler = require('../controller/handle_exceptions')
+const myOrdersController = require('../controller/my_orders_controller')
 
 // application/x-www-form-urlencoded for post from forms
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -12,31 +13,24 @@ router.use(express.static('upload_images'));
 
 /** my_orders_router based on customer_router */
 
-// show current orders
-router.get('/current_orders', ((req, res) => {
-    res.end("<h1> Current Orders page </h1>")
-}));
+// show my orders page
+router.get('/', myOrdersController.show_my_orders_page);
 
-// show previous orders
-router.get('/previous_orders', ((req, res) => {
-    res.end("<h1> Previous Orders page </h1>")
-}));
+// show previous order details
+router.get('/previous_order/:order_id', myOrdersController.show_previous_order_details_page);
 
-// show checkout page
-router.get('/checkout', ((req, res) => {
-    res.end("<h1> Checkout page </h1>")
-}));
-
-// get checkout page's form info and generate new order in `orders` collection of mongoDB
-router.post('/checkout', ((req, res) => {
-    res.end("<h1> posted a new order form, store them in db </h1>")
-}));
-
-// show different order monitor pages
-router.get('/order_monitor/:order_id', ((req, res) => {
+// show different order monitor pages for current orders
+router.get('/current_order/:order_id', ((req, res) => {
     res.write("<h1> check an order's status with order_id, controller will check status record and renders responding page </h1>")
     res.end("<p> eg: if this order's status is ready, then res.render('ready', {...})</p>")
 }));
+
+// get checkout page's form info and generate new order in `orders` collection of mongoDB
+// check out page is rendered by menu_controller
+router.post('/checkout', myOrdersController.place_new_order);
+
+// show checkout page
+router.get('/checkout_success', myOrdersController.show_order_payment_success_page);
 
 // show order feedback page
 router.get('/order_feedback/:order_id', ((req, res) => {

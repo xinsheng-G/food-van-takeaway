@@ -5,18 +5,16 @@
 
 Welcome!
 
-We have added to this repository a `README.md`, `.gitignore`, and `.gitattributes`.
+Our heroku app address: https://project-t05-x3ra.herokuapp.com/
 
-* **README.md**: is the document you are currently reading. It should be replaced with information about your project, and instructions on how to use your code in someone else's local computer.
+Our database entry: 
+mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=admin&replicaSet=atlas-gq4o85-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
 
-* **.gitignore**: lets you filter out files that should not be added to git. For example, Windows 10 and Mac OS create hidden system files (e.g., .DS_Store) that are local to your computer and should not be part of the repository. This files should be filtered by the `.gitignore` file. This initial `.gitignore` has  been created to filter local files when using MacOS and Node. Depending on your project make sure you update the `.gitignore` file.  More information about this can be found in this [link](https://www.atlassian.com/git/tutorials/saving-changes/gitignore).
-
-* **.gitattributes**: configures the line ending of files, to ensure consistency across development environments. More information can be found in this [link](https://git-scm.com/docs/gitattributes).
-
-Remember that _"this document"_ can use `different formats` to **highlight** important information. This is just an example of different formating tools available for you. For help with the format you can find a guide [here](https://docs.github.com/en/github/writing-on-github).
+For Mockup APP Server infromation, see [Mockup APP Server](#mockup-app-server).
 
 ## Table of contents
 * [Team Members](#team-members)
+* [Mockup APP Server](#mockup-app-server)
 * [General Info](#general-info)
 * [Technologies](#technologies)
 * [Code Implementation](#code-implementation)
@@ -26,19 +24,118 @@ Remember that _"this document"_ can use `different formats` to **highlight** imp
 
 | Name | Task | State |
 | :---         |     :---:      |          ---: |
-| Student Name 1  | Back End     |  Done |
+| Xiaotian Li  | Back End for Customer App     |  working |
 | Student Name 2    | Front End      |  Testing |
 | Student Name 3    | README Format      |  Amazing! |
 
+
+## Mockup APP Server
+
+### Customer APP mockup
+
+Customer mockup functionalities are fulfilled by `customer_mock_up_controller.js` in `controller` folder and `customer_mock_up_router.js` in `router` folder.
+
+Mockup interfaces ignored login interception to make it convenient for debugging, and customer id is hard-coded, but we have implemented login interception in the other route. For more information, see **Other features** below.
+
+#### Mockup features:
+
+*1. View menu of snacks (including pictures and prices):*
+Request to the url below with GET method, then it will return html document for menu, you can add/remove line items there:
+
+Input: van_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name` via GET. van_name param can be : `debug_van_name`,  `valve`,  `ubisoft`, `ea`...
+
+example: https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
+
+ Output: a html document of menu of snacks will show in the browser with 200 status.
+
+*2. View details of a snack*
+Request with a snack name with GET method, then it will return snack detail from database in JSON.
+
+Input: snack_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/:snack_name`  via GET. snack_name can be: `latte`, `plain_biscuit,` `fancy_biscuit`, `small_cake`, `big_cake`, `cappuccino`, `long_black`, `flat_white`
+
+Example: https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/fancy_biscuit
+
+Output: a JSON of snack details will show in the browser with 200 status
+
+Exception: when a snack is not exist, return a warning with 500 status.
+
+*3. Customer starts a new order by requesting a snack*
+There are two ways to place a new order:
+
+1. Request with a form via POST method, then it will place an order in database
+   
+   Input: A  form, the key-value should be `snack_name: number`,  for example:
+   
+   ``` javascript
+   fancy_biscuit: 2
+   small_cake: 1
+   latte: 3
+   not_valid_snack_name: 66
+   ```
+   
+then send the form with POST method to https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/debug_van_name. The van_name param at the end of url can be changed, for example: https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/ubisoft or https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/valve
+   
+   Output: a JSON of an order entity will show in the browser with 200 status.
+   
+   
+   
+2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name, in the html page, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON.
+
+    
+
+#### Other features:
+
+We have implemented more functionalities than requirements of the deliverable 2:
+
+1. Login interceptor for place an order:
+
+   User can see a menu of a van via https://project-t05-x3ra.herokuapp.com/menu/debug_van_name, if the user hasn't logged in and press `place an order` button at this route, login interception will redirect the user to the login in page. 
+
+   Login interceptor is based on session, which is defined in `login_interceptor.js` in `controller` folder
+
+2. Login/register/logout:
+
+   User can login via https://project-t05-x3ra.herokuapp.com/customer/login, and register via https://project-t05-x3ra.herokuapp.com/customer/register. 
+
+   A customer acoount for debugging: admin@admin.com, password: admina
+
+   You can see other RESTful routes for customer operations in `customer_router.js` file at `router` folder.
+
+3. Map:
+
+   User can see vans' position on the map in index via https://project-t05-x3ra.herokuapp.com/, vans' position is rendered from database.
+
+4. My orders:
+
+   If one user has logged in, he/she can see orders have made via  https://project-t05-x3ra.herokuapp.com/customer/my_orders/,
+
+   order records are from database.
+
+   You can see other RESTful routes for order operations in `my_orders_router.js` file at `router` folder.
+
+5. Others:
+
+   You could check `controller` and `router` to see more features we have implemented for the project so far.
+
+   
+
+### Vendor APP mockup
+
+
+
 ## General info
 This is project ...
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+Lorem ipsum dolor sit amet
 
 ## Technologies
 Project is created with:
-* NodeJs 14.16.X
-* Ipsum version: 2.33
-* Ament library version: 999
+* NodeJs 14.16.0
+* Express 4.17.1
+* MongoDB Atlas
+* mongoose 5.12.3
+* Bootstrap 3
+* Baidu Map API
+* Open Street map OSM API
 
 ## Code Implementation
 

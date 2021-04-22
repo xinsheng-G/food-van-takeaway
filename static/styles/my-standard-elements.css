@@ -58,6 +58,10 @@ input[type="number"] {
     height: 14rem;
 }
 
+.h_k_b_small {
+    height: 7rem;
+}
+
 .nav_shop {
     display: flex;
     justify-content: center;
@@ -200,6 +204,7 @@ input[type="number"] {
     left: 0;
     right: 0;
     height: 70px;
+    box-shadow: 2px 4px 10px #d2cece;
     display: flex;
     align-items: center;
     justify-content: space-between;

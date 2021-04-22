@@ -1,0 +1,21 @@
+
+<h1> DEMO CHECK OUT PAGE</h1>
+<form method="post" action="/customer/my_orders/checkout">
+    <p>Van name:<input readonly="readonly" name="van_name" value="{{van_name}}"></p>
+
+    <br>
+
+    {{#each lineItems}}
+        <p>{{this.snack_name}}:<input readonly="readonly" name="{{this.snack_name}}" value="{{this.number}}"></p>
+    {{/each}}
+
+    <br>
+
+    <p>total_price: ${{price_all}}</p>
+    <p>cost: ${{price_all}}</p>
+    <p>refund: $0</p>
+    <br>
+    <button class="btn foot_right_button" type="submit">
+        confirm payment
+    </button>
+</form>

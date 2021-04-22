@@ -10,6 +10,16 @@ let vanSchema = new Schema({
     is_open: Boolean,
     stars: Number,
 
+    // used to calculate average stars
+    // when an order is marked, get new_order_stars
+    // then query this order's van's stars and num_orders_completed.
+    // van's stars is an average value.
+    // then, new_stars_for_van = ((van's stars * num_orders_completed) + new_order_stars) / (num_orders_completed + 1)
+    // then, update van's stars with new_stars_for_van
+    // The reason to do this is that we don't want to travel the van's completed orders collection, and do loops
+    // to accumulate each order's stars and calculate the average star.
+    num_orders_completed: Number,
+
     // We can store image path to online DB rather than store huge byte data.
     // the image could be located in upload_images folder
     // For this project, we just hard-code an Unslash source url, don't need to implement upload function.

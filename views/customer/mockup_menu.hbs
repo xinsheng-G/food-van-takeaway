@@ -1,5 +1,5 @@
 <div class="main">
-    <form method="post" action="/menu/checkout" class="shopCar">
+    <form method="post" action="/customer_mockup/place_an_order/{{{van_name}}}" class="shopCar">
         <div class="header">
             <div class="nav_shop">
                 <div class="nav_title fa fa-map-marker"></div>
@@ -30,55 +30,55 @@
             <!-- confirm the van -->
             <input type="hidden" name="van_name" value="{{{van_name}}}">
             <!-- confirm the customer -->
-<!--        <input type="hidden" name="customer_id" value="">-->
+            <!--        <input type="hidden" name="customer_id" value="">-->
 
             {{#each foods}}
 
-            <div class="shop_conter snack_item" style="display: none">
-                <div class="shop_left">
-                    <div>
-                        <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
-                    </div>
-                    <div class="shop_num">
-                        <div style="color: black">{{this.snack_title}}</div>
-                        <div class="price">
-                            <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
-                            <!-- number of snacks, not negative integer-->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
-                            <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
+                <div class="shop_conter snack_item" style="display: none">
+                    <div class="shop_left">
+                        <div>
+                            <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
+                        </div>
+                        <div class="shop_num">
+                            <div style="color: black">{{this.snack_title}}</div>
+                            <div class="price">
+                                <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                                <!-- number of snacks, not negative integer-->
+                                <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                                <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="shop_right">
+                        <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
+                        <img class="del_shop" src="./images/note.png" alt="">
+                    </div>
                 </div>
-                <div class="shop_right">
-                    <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-                    <img class="del_shop" src="./images/note.png" alt="">
-                </div>
-            </div>
 
             {{/each}}
 
             {{#each drinks}}
 
-            <div class="shop_conter drink_item">
-                <div class="shop_left">
-                    <div>
-                        <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
-                    </div>
-                    <div class="shop_num">
-                        <div style="color: black">{{this.snack_title}}</div>
-                        <div class="price">
-                            <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
-                            <!-- number of drinks，not negative integer -->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
-                            <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
+                <div class="shop_conter drink_item">
+                    <div class="shop_left">
+                        <div>
+                            <img class="shop_img" src="{{this.picture_path}}" alt="{{this.snack_name}}">
+                        </div>
+                        <div class="shop_num">
+                            <div style="color: black">{{this.snack_title}}</div>
+                            <div class="price">
+                                <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
+                                <!-- number of drinks，not negative integer -->
+                                <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                                <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
+                            </div>
                         </div>
                     </div>
+                    <div class="shop_right">
+                        <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
+                        <img class="del_shop" src="./images/note.png" alt="">
+                    </div>
                 </div>
-                <div class="shop_right">
-                    <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-                    <img class="del_shop" src="./images/note.png" alt="">
-                </div>
-            </div>
 
             {{/each}}
 
@@ -139,43 +139,43 @@
     })
 
     // cart function
-    {{#each foods}}
+        {{#each foods}}
 
-    $(function () {
-        let input = $('#{{this.snack_name}}_num');
-        let price_all = $('#price_all')
-        let snack_price = parseFloat($('#{{this.snack_name}}_price').text());
-        let total_snacks = $('#total_snacks')
-        $('#{{this.snack_name}}_add').click(function () {
-            input.val(parseInt(input.val()) + 1);
-
-            let price = snack_price;
-            let original_price_all = parseFloat(price_all.val());
-            let new_price = original_price_all + price;
-
-            price_all.val(new_price)
-            total_snacks.text(parseInt(total_snacks.text()) + 1);
-        })
-
-        $('#{{this.snack_name}}_del').click(function () {
-            let x = parseInt(input.val())
-            if(x>0) {
-                input.val(x - 1);
+        $(function () {
+            let input = $('#{{this.snack_name}}_num');
+            let price_all = $('#price_all')
+            let snack_price = parseFloat($('#{{this.snack_name}}_price').text());
+            let total_snacks = $('#total_snacks')
+            $('#{{this.snack_name}}_add').click(function () {
+                input.val(parseInt(input.val()) + 1);
 
                 let price = snack_price;
                 let original_price_all = parseFloat(price_all.val());
-                let new_price = original_price_all - price;
+                let new_price = original_price_all + price;
 
                 price_all.val(new_price)
-                total_snacks.text(parseInt(total_snacks.text()) - 1);
-            } else {
-                input.val(0);
-            }
+                total_snacks.text(parseInt(total_snacks.text()) + 1);
+            })
 
+            $('#{{this.snack_name}}_del').click(function () {
+                let x = parseInt(input.val())
+                if(x>0) {
+                    input.val(x - 1);
+
+                    let price = snack_price;
+                    let original_price_all = parseFloat(price_all.val());
+                    let new_price = original_price_all - price;
+
+                    price_all.val(new_price)
+                    total_snacks.text(parseInt(total_snacks.text()) - 1);
+                } else {
+                    input.val(0);
+                }
+
+            })
         })
-    })
 
-    {{/each}}
+        {{/each}}
 
         {{#each drinks}}
 
