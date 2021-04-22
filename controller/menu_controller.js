@@ -45,6 +45,7 @@ let show_page = async (req, res) => {
     })
 }
 
+/** show checkout page when managed to place an order */
 let show_check_out_page = (req, res) => {
     let form_elements = req.body;
     let van_name = form_elements.van_name;

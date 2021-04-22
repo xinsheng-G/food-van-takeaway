@@ -41,19 +41,30 @@ Mockup interfaces ignored login interception to make it convenient for debugging
 
 *1. View menu of snacks (including pictures and prices):*
 Request to the url below with GET method, then it will return html document for menu, you can add/remove line items there:
-https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
+
+Input: van_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name` via GET. van_name param can be : `debug_van_name`,  `valve`,  `ubisoft`, `ea`...
+
+example: https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
+
+ Output: a html document of menu of snacks will show in the browser with 200 status.
 
 *2. View details of a snack*
 Request with a snack name with GET method, then it will return snack detail from database in JSON.
-https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/fancy_biscuit
+
+Input: snack_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/:snack_name`  via GET. snack_name can be: `latte`, `plain_biscuit,` `fancy_biscuit`, `small_cake`, `big_cake`, `cappuccino`, `long_black`, `flat_white`
+
+Example: https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/fancy_biscuit
+
+Output: a JSON of snack details will show in the browser with 200 status
+
+Exception: when a snack is not exist, return a warning with 500 status.
 
 *3. Customer starts a new order by requesting a snack*
 There are two ways to place a new order:
 
 1. Request with a form via POST method, then it will place an order in database
-   https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/debug_van_name
    
-   The form's key-value should be `snack_name: number`,  for example:
+   Input: A  form, the key-value should be `snack_name: number`,  for example:
    
    ``` javascript
    fancy_biscuit: 2
@@ -61,8 +72,14 @@ There are two ways to place a new order:
    latte: 3
    not_valid_snack_name: 66
    ```
-
-2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name, in the html page, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON
+   
+then send the form with POST method to https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/debug_van_name. The van_name param at the end of url can be changed, for example: https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/ubisoft or https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/valve
+   
+   Output: a JSON of an order entity will show in the browser with 200 status.
+   
+   
+   
+2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name, in the html page, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON.
 
     
 

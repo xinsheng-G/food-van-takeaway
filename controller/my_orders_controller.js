@@ -145,6 +145,7 @@ let show_order_monitor_page = async (req, res) => {
     }
 }
 
+/** place an new order and store it in db  */
 let place_new_order = async (req, res) => {
     let form_elements = req.body;
     let user_id = req.session.user;
