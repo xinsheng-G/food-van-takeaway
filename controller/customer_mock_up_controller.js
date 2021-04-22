@@ -4,7 +4,7 @@ const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_util = require('../utils/string_utils')
 
 /** show menu of a van*/
-let show_snack_for_a_van = async(req, res) => {
+let show_snack_for_a_van = async (req, res) => {
     let snacks = []
 
     let drinks = []
@@ -18,7 +18,12 @@ let show_snack_for_a_van = async(req, res) => {
      * To prevent Handlebars access deny problem
      * */
     let snack_model = require('../model/snack')
-    snacks = await snack_model.find({}, '_id snack_name is_drink is_available price picture_path').lean();
+
+    try {
+        snacks = await snack_model.find({}, '_id snack_name is_drink is_available price picture_path').lean();
+    } catch (err) {
+        console.log(err);
+    }
 
     // divide snacks into drinks and foods
     snacks.forEach((snack) => {
@@ -49,7 +54,7 @@ let show_snack_for_a_van = async(req, res) => {
 }
 
 /** place new order in the db */
-let place_new_order = async(req, res) => {
+let place_new_order = async (req, res) => {
     let form_elements = req.body;
     // for real system, get user_id from session
     // mockup interface ignored login interceptor
@@ -57,7 +62,7 @@ let place_new_order = async(req, res) => {
     console.log(user_id)
     let van_name = req.params.van_name;
     console.log(van_name)
-        // time zone to utc 0
+    // time zone to utc 0
     let time_now = moment().utc()
     let total_price = 0;
     let cost = 0;
@@ -65,7 +70,7 @@ let place_new_order = async(req, res) => {
 
     // remove van_name from form_elements
     delete form_elements.van_name
-        // need to query price again in back end for security
+    // need to query price again in back end for security
     delete form_elements.price_all
     delete form_elements.customer_id
 
@@ -74,7 +79,7 @@ let place_new_order = async(req, res) => {
 
         // if purchased a item
         if (parseInt(form_elements[key]) !== 0) {
-            let new_item = { snack_name: key, number: parseInt(form_elements[key]) }
+            let new_item = {snack_name: key, number: parseInt(form_elements[key])}
             lineItems.push(new_item)
         }
     })
@@ -82,7 +87,14 @@ let place_new_order = async(req, res) => {
     // query price into a list
     // do price calculation in back-end is a security way
     let snack_model = require('../model/snack')
-    let query_res = await snack_model.find({}, 'snack_name price').lean();
+
+    let query_res;
+    try {
+        query_res = await snack_model.find({}, 'snack_name price').lean();
+    } catch (err) {
+        console.log(err);
+    }
+
 
     let snacks_price_list = {}
     query_res.forEach(res_obj => {
@@ -110,7 +122,7 @@ let place_new_order = async(req, res) => {
 
     cost = total_price
     refund = 0
-        // create new order and save to db
+    // create new order and save to db
     let order_model = require('../model/order')
     let new_order = new order_model({
         "order_customer_id": user_id,
@@ -125,22 +137,37 @@ let place_new_order = async(req, res) => {
         "total_price": total_price,
     })
 
-    // save the order to db
-    await new_order.save()
+    try {
+        // save the order to db
+        await new_order.save()
+    } catch (err) {
+        console.log(err);
+    }
 
     // show json on the page
     res.json(new_order.toJSON())
 }
 
 /** show snack details from db */
-let show_snack_detail = async(req, res) => {
+let show_snack_detail = async (req, res) => {
 
     let snack_name = req.params.snack_name;
     let snack_model = require('../model/snack')
-    let query_res = await snack_model.find({ 'snack_name': snack_name }).lean();
 
-    // show snack detail on the page with JSON
-    res.send(query_res)
+    let query_res;
+
+    try {
+        query_res = await snack_model.find({'snack_name': snack_name}).lean();
+    } catch (err) {
+        console.log(err);
+    }
+
+    if (query_res.length === 0) {
+        res.end('<h1>no such snack_name </h1>')
+    } else {
+        // show snack detail on the page with JSON
+        res.json(query_res)
+    }
 }
 
 module.exports = {
