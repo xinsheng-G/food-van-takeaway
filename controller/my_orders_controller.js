@@ -15,7 +15,7 @@ let show_my_orders_page = async (req, res) => {
     // sorted by start_time
     let current_orders = await order_model.find(
 
-        {'order_customer_id': user_id, $or:[{'status': 'CONFIRMING'}, {'status': 'PREPARING'}, {'status': 'READY'}]},
+        {'order_customer_id': user_id, $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}]},
         '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
 
     // handle render format on front-end page
@@ -42,7 +42,7 @@ let show_my_orders_page = async (req, res) => {
 
     // sorted by end_time
     let previous_orders = await order_model.find(
-        {'order_customer_id': user_id, $or:[{'status': 'COMPLETE'}, {'status': 'CANCELLED'}]},
+        {'order_customer_id': user_id, $or:[{'status': 'complete'}, {'status': 'cancelled'}]},
         '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
 
     // add partial id to each element for display
@@ -111,10 +111,10 @@ let show_order_monitor_page = async (req, res) => {
 
     /** if the order belongs to logged-in user, show order monitor page */
     switch(order['status'].toString()) {
-        case 'CONFIRMING':
+        case 'confirming':
             res.end('render confirming status moniter page')
             break
-        case 'PREPARING':
+        case 'preparing':
             // judge time and show different page
             let time_now = moment().utc()
             let delta_minute = (time_now - order['start_time']) / 1000 / 60
@@ -126,10 +126,10 @@ let show_order_monitor_page = async (req, res) => {
             }
             
             break
-        case 'READY':
+        case 'ready':
             res.end('render ready status moniter page')
             break
-        case 'COMPLETE':
+        case 'complete':
 
             // if the order has already been given a feedback
             if(order['stars'] === 0) {
@@ -181,6 +181,17 @@ let place_new_order = async (req, res) => {
         snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
     })
 
+    // check whether lineItem is valid
+    for(let i = 0; i < lineItems.length; i++) {
+        let item_be_checked = lineItems[i]
+        let item_name = item_be_checked['snack_name']
+
+        if(snacks_price_list[item_name] == null) {
+            // remove the lineItem whose price is not in price_list
+            lineItems.splice(i, 1);
+        }
+    }
+
     // calc total price
     lineItems.forEach(item_obj => {
         let snack_name = item_obj['snack_name']
@@ -196,7 +207,7 @@ let place_new_order = async (req, res) => {
     let new_order = new order_model({
         "order_customer_id": user_id,
         "order_van_name": van_name,
-        "status": "CONFIRMING",
+        "status": "confirming",
         "start_time": time_now,
         "end_time": time_now,
         "lineItems": lineItems,

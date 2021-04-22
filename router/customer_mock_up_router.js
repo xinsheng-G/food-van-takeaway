@@ -12,17 +12,19 @@ router.use(express.static('static'));
 router.use('/menu', express.static('static'))
 router.use('/place_an_order', express.static('static'))
 
+/**
+ *
+ * Mock up router don't need customer to login in.
+ *
+ * */
 
-// based on index /customer_mockup
-
-
+// based on index `/customer_mockup`
 router.get('/menu/:van_name', customer_mock_up_controller.show_snack_for_a_van)
 router.get('/snack_detail/:snack_name', customer_mock_up_controller.show_snack_detail)
 
 /**
  * form:
  *
- *  customer_id: String(email)
  *  snack_name: number
  *  snack_name: number
  *  snack_name: number

@@ -50,7 +50,9 @@ let show_snack_for_a_van = async (req, res) => {
 
 let place_new_order = async (req, res) => {
     let form_elements = req.body;
-    let user_id = form_elements.customer_id;
+    // for real system, get user_id from session
+    // mockup interface ignored login interceptor
+    let user_id = 'mockup@example.com';
     console.log(user_id)
     let van_name = req.params.van_name;
     console.log(van_name)
@@ -86,6 +88,17 @@ let place_new_order = async (req, res) => {
         snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
     })
 
+    // check whether lineItem is valid
+    for(let i = 0; i < lineItems.length; i++) {
+        let item_be_checked = lineItems[i]
+        let item_name = item_be_checked['snack_name']
+
+        if(snacks_price_list[item_name] == null) {
+            // remove the lineItem whose price is not in price_list
+            lineItems.splice(i, 1);
+        }
+    }
+
     // calc total price
     lineItems.forEach(item_obj => {
         let snack_name = item_obj['snack_name']
@@ -101,7 +114,7 @@ let place_new_order = async (req, res) => {
     let new_order = new order_model({
         "order_customer_id": user_id,
         "order_van_name": van_name,
-        "status": "CONFIRMING",
+        "status": "confirming",
         "start_time": time_now,
         "end_time": time_now,
         "lineItems": lineItems,
@@ -111,7 +124,10 @@ let place_new_order = async (req, res) => {
         "total_price": total_price,
     })
 
+    // save the order to db
     await new_order.save()
+
+    // show json on the page
     res.json(new_order.toJSON())
 }
 
@@ -121,8 +137,8 @@ let show_snack_detail = async (req, res) => {
     let snack_model = require('../model/snack')
     let query_res = await snack_model.find({'snack_name': snack_name}).lean();
 
+    // show snack detail on the page with JSON
     res.json(query_res)
-
 }
 
 module.exports = {

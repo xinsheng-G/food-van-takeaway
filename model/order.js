@@ -23,7 +23,7 @@ let orderSchema = new Schema({
     order_customer_id: String,
     order_van_name: String,
 
-    // CONFIRMING , PREPARING, READY, COMPLETE, CANCELLED
+    // confirming, preparing, ready, complete, cancelled
     status: String,
 
     /**
