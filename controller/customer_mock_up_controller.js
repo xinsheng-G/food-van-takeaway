@@ -3,7 +3,7 @@ const global_variables = require('../utils/global_variables')
 const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_util = require('../utils/string_utils')
 
-
+/** show menu of a van*/
 let show_snack_for_a_van = async (req, res) => {
     let snacks = []
 
@@ -48,6 +48,7 @@ let show_snack_for_a_van = async (req, res) => {
     })
 }
 
+/** place new order in the db */
 let place_new_order = async (req, res) => {
     let form_elements = req.body;
     // for real system, get user_id from session
@@ -131,6 +132,7 @@ let place_new_order = async (req, res) => {
     res.json(new_order.toJSON())
 }
 
+/** show snack details from db */
 let show_snack_detail = async (req, res) => {
 
     let snack_name = req.params.snack_name;
