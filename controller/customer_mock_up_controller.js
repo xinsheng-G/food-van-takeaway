@@ -4,7 +4,7 @@ const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_util = require('../utils/string_utils')
 
 /** show menu of a van*/
-let show_snack_for_a_van = async (req, res) => {
+let show_snack_for_a_van = async(req, res) => {
     let snacks = []
 
     let drinks = []
@@ -39,7 +39,7 @@ let show_snack_for_a_van = async (req, res) => {
         }
     })
 
-    res.render('./customer/mockup_menu',{
+    res.render('./customer/mockup_menu', {
         title: 'Menu',
         van_name: van_name,
         van_title: string_util.change_dash_into_space(van_name),
@@ -49,7 +49,7 @@ let show_snack_for_a_van = async (req, res) => {
 }
 
 /** place new order in the db */
-let place_new_order = async (req, res) => {
+let place_new_order = async(req, res) => {
     let form_elements = req.body;
     // for real system, get user_id from session
     // mockup interface ignored login interceptor
@@ -57,7 +57,7 @@ let place_new_order = async (req, res) => {
     console.log(user_id)
     let van_name = req.params.van_name;
     console.log(van_name)
-    // time zone to utc 0
+        // time zone to utc 0
     let time_now = moment().utc()
     let total_price = 0;
     let cost = 0;
@@ -65,7 +65,7 @@ let place_new_order = async (req, res) => {
 
     // remove van_name from form_elements
     delete form_elements.van_name
-    // need to query price again in back end for security
+        // need to query price again in back end for security
     delete form_elements.price_all
     delete form_elements.customer_id
 
@@ -73,8 +73,8 @@ let place_new_order = async (req, res) => {
     Object.keys(form_elements).forEach(key => {
 
         // if purchased a item
-        if(parseInt(form_elements[key]) !== 0) {
-            let new_item = {snack_name: key, number: parseInt(form_elements[key])}
+        if (parseInt(form_elements[key]) !== 0) {
+            let new_item = { snack_name: key, number: parseInt(form_elements[key]) }
             lineItems.push(new_item)
         }
     })
@@ -90,11 +90,11 @@ let place_new_order = async (req, res) => {
     })
 
     // check whether lineItem is valid
-    for(let i = 0; i < lineItems.length; i++) {
+    for (let i = 0; i < lineItems.length; i++) {
         let item_be_checked = lineItems[i]
         let item_name = item_be_checked['snack_name']
 
-        if(snacks_price_list[item_name] == null) {
+        if (snacks_price_list[item_name] == null) {
             // remove the lineItem whose price is not in price_list
             lineItems.splice(i, 1);
         }
@@ -105,12 +105,12 @@ let place_new_order = async (req, res) => {
         let snack_name = item_obj['snack_name']
         let snack_number = parseInt(item_obj['number'])
 
-        total_price +=  snack_number * snacks_price_list[snack_name]
+        total_price += snack_number * snacks_price_list[snack_name]
     })
 
     cost = total_price
     refund = 0
-    // create new order and save to db
+        // create new order and save to db
     let order_model = require('../model/order')
     let new_order = new order_model({
         "order_customer_id": user_id,
@@ -133,16 +133,18 @@ let place_new_order = async (req, res) => {
 }
 
 /** show snack details from db */
-let show_snack_detail = async (req, res) => {
+let show_snack_detail = async(req, res) => {
 
     let snack_name = req.params.snack_name;
     let snack_model = require('../model/snack')
-    let query_res = await snack_model.find({'snack_name': snack_name}).lean();
+    let query_res = await snack_model.find({ 'snack_name': snack_name }).lean();
 
     // show snack detail on the page with JSON
-    res.json(query_res)
+    res.send(query_res)
 }
 
 module.exports = {
-    show_snack_for_a_van, place_new_order, show_snack_detail
+    show_snack_for_a_van,
+    place_new_order,
+    show_snack_detail
 }
