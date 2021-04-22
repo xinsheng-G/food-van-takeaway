@@ -14,10 +14,19 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
  * */
 
 const vendor_loginController = require('../../controller/vendor/vendor_login_controller');
+const vendor_Controller = require('../../controller/vendor/vendor_controller');
 const registerController = require('../../controller/vendor/vendor_register_controller');
 const exceptionHandler = require('../../controller/handle_exceptions');
 
+
+
 router.use(express.static('./static'));
+
+router.post('/van_open/:id', vendor_Controller.set_location);
+
+router.get('/orders/:van_name/:status', vendor_Controller.filtered_orders);
+
+//router.post('/update_order_staus/:id', vendor_Controller.update_order_status);
 
 router.get('/', (req, res) => {
 
