@@ -29,33 +29,40 @@ Mockup interfaces ignored login interception to make it convenient for debugging
 
 #### Mockup features:
 
-*1. View menu of snacks (including pictures and prices):*
-	Request to the url below with GET method, then it will return html document for menu, you can add/remove line items there:
+***1. View menu of snacks (including pictures and prices):***
 
-​	Input: van_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name` via GET. 			     	van_name param can be : `debug_van_name`,  `valve`,  `ubisoft`, `ea`...
+​	Request to the url below with GET method, then it will return html document for menu, you can add/remove line items there:
 
-​    Input example: https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
+​	Input: van_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name`            
 
-​    Output: a html document of menu of snacks with pictures will show in the browser with 200 status.
-​    Exception: When an error in database query occurs, print the error to console.
+​    van_name param can be : `debug_van_name`,  `valve`,  `ubisoft`, `ea`...
 
-*2. View details of a snack*
-	Request with a snack name with GET method, then it will return snack detail from database in JSON.
+   Input Example: https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
 
-​	Input: snack_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/:snack_name`  via 	GET. snack_name can be: `latte`, `plain_biscuit,` `fancy_biscuit`, `small_cake`, `big_cake`, `cappuccino`, `long_black`...
+   Output: a html document of menu of snacks will show in the browser with 200 status.
+
+​	Exception: If query database occurs a failure, show error message on the console.
+
+***2. View details of a snack***
+
+​	Request with a snack name with GET method, then it will return snack detail from database in JSON.
+
+​	Input: snack_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/:snack_name`    
+
+​    snack_name param can be: `latte`, `plain_biscuit,` `fancy_biscuit`, `small_cake`, `big_cake`, `cappuccino`, `long_black`...
 
 ​    Input Example: https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/fancy_biscuit
 
 ​    Output: a JSON of snack details will show in the browser with 200 status
 
-​    Exception: when a snack is not exist, return a warning. When an error in database query occurs, print the error to console.
+​    Exception: when a snack is not exist, returns a warning. If query database occurs a failure, show error message on the console.
 
-*3. Customer starts a new order by requesting a snack*
-     There are two ways to place a new order:
+***3. Customer starts a new order by requesting a snack***
+    There are two ways to place a new order:
 
 1. Request with a form via POST method, then it will place an order in database
    
-   Input: An  urlencoded form, the key-value should be `snack_name: number`,  for example:
+   Input: x-www-form-urlencoded form, the key-value should be `snack_name: number`,  for example:
    
    ``` javascript
    fancy_biscuit: 2
@@ -64,16 +71,21 @@ Mockup interfaces ignored login interception to make it convenient for debugging
    not_valid_snack_name: 66
    ```
    
-
-​      then send the form with POST method to https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/:van_name.         The van_name param at the end of url can be changed like `valve`, `ubisoft`...
-
-​    Url example: https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/ubisoft or https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/valve
-
-   Output: a JSON of an order entity will show in the browser with 200 status.
-
-
-
-2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name, in the html menu page for a specific van, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON.
+   Send the form with POST method to https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/:van_name. 
+   
+   van_name param at the end of url can be changed, 
+   
+   
+   
+   Input example: https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/ubisoft or https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/valve
+   
+   
+   
+   Output: a JSON of an order entity will show in the browser with 200 status. The new order will be placed in database's orders collection.
+   
+   
+   
+2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name, in the html page, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON.
 
     
 
@@ -144,102 +156,6 @@ We have implemented more functionalities than requirements of the deliverable 2:
   * Exception Handling:  Handles invalid order status and van name not found  | Catches Bad Requests (400), Internal Server Errors (50-x) and Database
 
   * API ENDPOINT: /vendor/update_order_status/:id  (:id is a order id)
-
-
-
-## Mockup APP Server
-
-### Customer APP mockup
-
-Customer mockup functionalities are fulfilled by `customer_mock_up_controller.js` in `controller` folder and `customer_mock_up_router.js` in `router` folder.
-
-Mockup interfaces ignored login interception to make it convenient for debugging, and customer id is hard-coded, but we have implemented login interception in the other route. For more information, see **Other features** below.
-
-#### Mockup features:
-
-*1. View menu of snacks (including pictures and prices):*
-Request to the url below with GET method, then it will return html document for menu, you can add/remove line items there:
-
-Input: van_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/:van_name` via GET. van_name param can be : `debug_van_name`,  `valve`,  `ubisoft`, `ea`...
-
-example: https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name
-
- Output: a html document of menu of snacks will show in the browser with 200 status.
-
-*2. View details of a snack*
-Request with a snack name with GET method, then it will return snack detail from database in JSON.
-
-Input: snack_name as a param at `https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/:snack_name`  via GET. snack_name can be: `latte`, `plain_biscuit,` `fancy_biscuit`, `small_cake`, `big_cake`, `cappuccino`, `long_black`, `flat_white`
-
-Example: https://project-t05-x3ra.herokuapp.com/customer_mockup/snack_detail/fancy_biscuit
-
-Output: a JSON of snack details will show in the browser with 200 status
-
-Exception: when a snack is not exist, return a warning with 500 status.
-
-*3. Customer starts a new order by requesting a snack*
-There are two ways to place a new order:
-
-1. Request with a form via POST method, then it will place an order in database
-   
-   Input: A  form, the key-value should be `snack_name: number`,  for example:
-   
-   ``` javascript
-   fancy_biscuit: 2
-   small_cake: 1
-   latte: 3
-   not_valid_snack_name: 66
-   ```
-   
-
-then send the form with POST method to https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/debug_van_name. The van_name param at the end of url can be changed, for example: https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/ubisoft or https://project-t05-x3ra.herokuapp.com/customer_mockup/place_an_order/valve
-
-   Output: a JSON of an order entity will show in the browser with 200 status.
-
-   
-
-2. Or, you can get access to https://project-t05-x3ra.herokuapp.com/customer_mockup/menu/debug_van_name, in the html page, you can edit line items, then press `place an order` button to submit the form. In this way you can also place an order in the MongoDB and get a return in JSON.
-
-    
-
-#### Other features:
-
-We have implemented more functionalities than requirements of the deliverable 2:
-
-1. Login interceptor for place an order:
-
-   User can see a menu of a van via https://project-t05-x3ra.herokuapp.com/menu/debug_van_name, if the user hasn't logged in and press `place an order` button at this route, login interception will redirect the user to the login in page. 
-
-   Login interceptor is based on session, which is defined in `login_interceptor.js` in `controller` folder
-
-2. Login/register/logout:
-
-   User can login via https://project-t05-x3ra.herokuapp.com/customer/login, and register via https://project-t05-x3ra.herokuapp.com/customer/register. 
-
-   A customer acoount for debugging: admin@admin.com, password: admina
-
-   You can see other RESTful routes for customer operations in `customer_router.js` file at `router` folder.
-
-3. Map:
-
-   User can see vans' position on the map in index via https://project-t05-x3ra.herokuapp.com/, vans' position is rendered from database.
-
-4. My orders:
-
-   If one user has logged in, he/she can see orders have made via  https://project-t05-x3ra.herokuapp.com/customer/my_orders/,
-
-   order records are from database.
-
-   You can see other RESTful routes for order operations in `my_orders_router.js` file at `router` folder.
-
-5. Others:
-
-   You could check `controller` and `router` to see more features we have implemented for the project so far.
-
-   
-
-### Vendor APP mockup
-
 
 
 ## General info
