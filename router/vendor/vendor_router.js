@@ -31,7 +31,7 @@ router.post('/van_open/:id', vendor_Controller.set_location);
 router.get('/orders/:van_name/:status', vendor_Controller.filtered_orders);
 
 //Deliverable 2.3 Route
-router.post('/update_order_staus/:id', vendor_Controller.update_order_status);
+router.post('/update_order_status/:id', vendor_Controller.update_order_status);
 
 
 router.get('/', (req, res) => {
