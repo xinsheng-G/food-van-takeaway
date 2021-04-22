@@ -122,12 +122,12 @@ We have implemented more functionalities than requirements of the deliverable 2:
 ### Vendor APP mockup
 1. Setting van status (vendor sendslocation,marksvan as ready-for-orders)
 
-* POST Request
-* INPUT: send van name in url | send van_location in x-www-form-url-encoded as {"x_pos": (Any Number),  "y_pos": (Any Number)}
-* OUTPUT:  Response  -> Open for Business: <van_name> | OPEN: true at { x_pos: <Number>, y_pos: <Number> }
-* Exception Handling: Handles van name not found | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+ * POST Request
+ * INPUT: send van name in url | send van_location in x-www-form-url-encoded as {"x_pos": (Any Number),  "y_pos": (Any Number)}
+ * OUTPUT:  Response  -> Open for Business: <van_name> | OPEN: true at { x_pos: <Number>, y_pos: <Number> }
+ * Exception Handling: Handles van name not found | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-* API ENDPOINT: /vendor/van_open/:id (:id is a van_name)
+ * API ENDPOINT: /vendor/van_open/:id (:id is a van_name)
 
 
 2. Show list of all outstanding orders
