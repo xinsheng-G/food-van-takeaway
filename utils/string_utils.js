@@ -20,11 +20,7 @@ function get_hour_minute_from_Date(date_obj) {
 
     // let time_string = new Date(date_obj).toISOString()
 
-    // ISO Date String
-    // 2021-04-16T16:00:00.000Z
-    // let index_T = time_string.lastIndexOf("T")
-    // let index_last_colon = time_string.lastIndexOf(":")
-    // return time_string.substring(index_T + 1, index_last_colon)
+    // to local timezone
     return moment(new Date(date_obj)).format('hh:mm A').toString()
 }
 

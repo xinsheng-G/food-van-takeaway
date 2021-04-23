@@ -1,11 +1,15 @@
 /**
  * This function update an order's discount info
- * This function should be called at:
+ * This function could be called at:
  *
  *  1. When a customer visits my_orders_pages to see current orders, the function will be called
  *     to update current orders' discount information
  *
  *  2. When a vendor periodically refreshes his order management page.
+ *
+ *
+ * For input parameter current_order, it is an order object from order_model.find(...), and this
+ * order object contains _id, start_time, is_given_discount, cost, fund, total_price fields
  *
  */
 
