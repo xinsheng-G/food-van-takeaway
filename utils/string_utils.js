@@ -13,7 +13,11 @@ function change_dash_into_space(name) {
  * 4-digits to avoid collision in showing on the screen */
 function get_partial_id(full_id) {
 
-    return full_id.toString().substring(full_id.length - 4).toUpperCase()
+    let full_id_string = full_id.toString()
+
+    let res = full_id_string.toString().substring(full_id_string.length - 4).toUpperCase()
+    console.log(res)
+    return res
 }
 
 /** retrieve date string YYYY-MM-DD from Date obj from Mongoose */

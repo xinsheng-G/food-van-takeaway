@@ -44,7 +44,8 @@ let show_my_orders_page = async (req, res) => {
     /**
      * Reminder:
      * `A cancelled order should be invisible to customer and vendor`
-     * according to project specification
+     * according to project specification，So previous order only shows
+     * completed orders
      * */
     let previous_orders = await order_model.find(
         {'order_customer_id': user_id, $or:[{'status': 'complete'}]},
@@ -96,7 +97,6 @@ let show_previous_order_details_page = async (req, res) => {
     }
 
     /** if the order belongs to logged-in user, show order details page */
-
     /** only shows compete order details */
     if (order['status'] === 'complete') {
         res.render('./customer/previous_order_details', {
