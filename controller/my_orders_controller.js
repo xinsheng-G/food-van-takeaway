@@ -14,10 +14,17 @@ let show_my_orders_page = async (req, res) => {
     /** If we place user_id in Order schema, just call find function for 1 time*/
     // one query returns an array of current orders
     // sorted by start_time
-    let current_orders = await order_model.find(
 
-        {'order_customer_id': user_id, $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}]},
-        '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
+
+    let current_orders
+    try{
+        current_orders = await order_model.find(
+
+            {'order_customer_id': user_id, $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}]},
+            '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
+    } catch (e) {
+        console.log(e)
+    }
 
     // handle render format on front-end page
     // && update discount information
@@ -48,9 +55,16 @@ let show_my_orders_page = async (req, res) => {
      * according to project specification，So previous order only shows
      * completed orders
      * */
-    let previous_orders = await order_model.find(
-        {'order_customer_id': user_id, $or:[{'status': 'complete'}]},
-        '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
+
+    let previous_orders
+
+    try{
+        previous_orders = await order_model.find(
+            {'order_customer_id': user_id, $or:[{'status': 'complete'}]},
+            '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
+    } catch (e) {
+        console.log(e)
+    }
 
     // add partial id to each element for display
     previous_orders.forEach((previous_order) => {
@@ -86,9 +100,16 @@ let show_previous_order_details_page = async (req, res) => {
 
     let order_model = require('../model/order')
     let order_id = req.params.order_id
-    let order = await order_model.findOne(
-        {'_id': order_id},
-        '_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+    let order
+
+    try{
+        order = await order_model.findOne(
+            {'_id': order_id},
+            '_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+    } catch (e) {
+        console.log(e)
+    }
 
     /** Security for GET method */
     /** check whether the order belongs to the logged-in customer or not */
