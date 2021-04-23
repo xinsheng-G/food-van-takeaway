@@ -41,8 +41,13 @@ let show_my_orders_page = async (req, res) => {
     }
 
     // sorted by end_time
+    /**
+     * Reminder:
+     * `A cancelled order should be invisible to customer and vendor`
+     * according to project specification
+     * */
     let previous_orders = await order_model.find(
-        {'order_customer_id': user_id, $or:[{'status': 'complete'}, {'status': 'cancelled'}]},
+        {'order_customer_id': user_id, $or:[{'status': 'complete'}]},
         '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
 
     // add partial id to each element for display
@@ -70,6 +75,11 @@ let show_my_orders_page = async (req, res) => {
     })
 }
 
+/**
+ * Reminder:
+ * `A cancelled order should be invisible to customer and vendor`
+ * according to project specification
+ * */
 let show_previous_order_details_page = async (req, res) => {
 
     let order_model = require('../model/order')
@@ -86,13 +96,27 @@ let show_previous_order_details_page = async (req, res) => {
     }
 
     /** if the order belongs to logged-in user, show order details page */
-    // ready to render
 
-    // res.render('./customer/previous_order_details', {
-    //     previous_order: order
-    // })
+    /** only shows compete order details */
+    if (order['status'] === 'complete') {
+        res.render('./customer/previous_order_details', {
+            title: 'Details',
+            van_title: string_utils.change_dash_into_space(order['order_van_name']),
+            partial_id: string_utils.get_partial_id(order['_id']),
+            start_date: string_utils.get_date_str_from_Date(order['start_time']),
+            start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+            end_clock: string_utils.get_hour_minute_from_Date(order['end_time']),
+            line_items: order['lineItems'],
+            cost: order['cost'],
+            refund: order['refund'],
+            total_price: order['total_price']
+        })
 
-    res.end('Ready to render previous order details page')
+    } else {
+        /** only shows compete order details */
+        res.redirect('/404');
+    }
+
 }
 
 /** This page can automatically refresh itself from front-end script */

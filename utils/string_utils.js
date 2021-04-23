@@ -8,6 +8,14 @@ function change_dash_into_space(name) {
     return res.charAt(0).toUpperCase() + res.slice(1);
 }
 
+/**
+ * get partial id from full_id string
+ * 4-digits to avoid collision in showing on the screen */
+function get_partial_id(full_id) {
+
+    return full_id.toString().substring(full_id.length - 4).toUpperCase()
+}
+
 /** retrieve date string YYYY-MM-DD from Date obj from Mongoose */
 function get_date_str_from_Date(date_obj) {
 
@@ -24,4 +32,4 @@ function get_hour_minute_from_Date(date_obj) {
     return moment(new Date(date_obj)).format('hh:mm A').toString()
 }
 
-module.exports = {change_dash_into_space, get_date_str_from_Date, get_hour_minute_from_Date}
+module.exports = {change_dash_into_space, get_date_str_from_Date, get_hour_minute_from_Date, get_partial_id}
