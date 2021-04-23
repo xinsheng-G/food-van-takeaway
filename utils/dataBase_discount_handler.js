@@ -16,6 +16,7 @@
 const moment = require('moment');
 const global_variables = require('../utils/global_variables')
 const order_model = require('../model/order')
+const math_util = require('./math_utils')
 
 let update_discount_info = async function(current_order) {
 
@@ -37,9 +38,9 @@ let update_discount_info = async function(current_order) {
         await order_model.findByIdAndUpdate(
             current_order['_id'].toString(),
             {'is_given_discount': true,
-                'cost': original_price,
-                'refund': refund,
-                'total_price': new_price}
+                'cost': math_util.my_round(original_price, 2),
+                'refund': math_util.my_round(refund, 2),
+                'total_price': math_util.my_round(new_price, 2)}
         );
     }
 }

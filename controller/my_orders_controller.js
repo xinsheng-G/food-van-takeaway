@@ -2,6 +2,7 @@ const moment = require('moment');
 const global_variables = require('../utils/global_variables')
 const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_utils = require('../utils/string_utils')
+const math_util = require('../utils/math_utils')
 
 let show_my_orders_page = async (req, res) => {
     // get user id from session
@@ -25,7 +26,7 @@ let show_my_orders_page = async (req, res) => {
         let full_id = current_order['_id'].toString();
 
         // 4-digits to avoid collision in showing on the screen
-        current_order['partial_id'] =  full_id.substring(full_id.length - 4).toUpperCase();
+        current_order['partial_id'] =  string_utils.get_partial_id(full_id);
 
         // change van name format into van title (change dash into space)
         current_order['van_title'] = string_utils.change_dash_into_space(current_order['order_van_name'])
@@ -55,7 +56,7 @@ let show_my_orders_page = async (req, res) => {
     previous_orders.forEach((previous_order) => {
         let full_id = previous_order['_id'].toString();
         // 6-digits to avoid collision
-        previous_order['partial_id'] =  full_id.substring(full_id.length - 4).toUpperCase();
+        previous_order['partial_id'] =  string_utils.get_partial_id(full_id);
 
         // change van name format into van title (change dash into space)
         previous_order['van_title'] = string_utils.change_dash_into_space(previous_order['order_van_name'])
@@ -107,9 +108,9 @@ let show_previous_order_details_page = async (req, res) => {
             start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
             end_clock: string_utils.get_hour_minute_from_Date(order['end_time']),
             line_items: order['lineItems'],
-            cost: order['cost'],
-            refund: order['refund'],
-            total_price: order['total_price']
+            cost: math_util.my_round(order['cost'],2),
+            refund: math_util.my_round(order['refund'],2),
+            total_price: math_util.my_round(order['total_price'],2)
         })
 
     } else {
