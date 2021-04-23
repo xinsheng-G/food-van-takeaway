@@ -212,8 +212,6 @@ let show_order_monitor_page = async (req, res) => {
         console.log(e)
         res.redirect('/500')
     }
-
-
 }
 
 /** place an new order and store it in db  */
