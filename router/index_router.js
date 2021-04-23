@@ -30,7 +30,7 @@ router.get('/search', ((req, res) => {
     res.end('search page');
 }));
 
-// handle 404
+// handle 404 or 500
 router.all('*', exceptionRouter);
 
 
