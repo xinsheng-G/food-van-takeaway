@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unconfirmed List</title>
+    <link href="../static/styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
+    <link href="../static/styles/pro11OrderLists.css" rel="stylesheet" media="screen and (min-width:1194px)">
+
+</head>
+<style>
+    /*UNIQUE*/
+    /* The table has no outside border
+       (Delete the right border of the last column)*/
+    table tr td:nth-child(4), th:nth-child(4){
+        border-right: none;
+    }
+</style>
+<body style="width: 100%; height: 100%">
+<div class="content">
+    <!-- Page title START -->
+    <div class="pageTitlePart"
+         align="center">
+        <p class="pageTitle">
+            ORDERS
+        </p>
+    </div>
+    <!-- Page title END -->
+
+    <!-- Content part of orders list START-->
+    <!-- including navigation bar -->
+    <div class="tableContent">
+        <div>
+            <ul class="navigations">
+                <li class="navs">
+                    <a href="#Uncomfirmed"
+                       style="background-color: #ffda77;
+                              color: #af8baf;
+                              border-radius: 30px">
+                        Unconfirmed Order
+                    </a>
+                </li>
+                <li class="navs">
+                    <a href="#Comfirmed">
+                        Confirmed Orders
+                    </a>
+                </li>
+                <li class="navs">
+                    <a href="#Waiting">
+                        Waiting for Picking up
+                    </a>
+                </li>
+                <li class="navs">
+                    <a href="#Finished">
+                        Finished Orders
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Search bar START -->
+        <div>
+            <input type="text"
+                   placeholder="🔍  Searching by 4-digital order number">
+        </div>
+        <!-- Search bar END-->
+
+        <!-- Table part (including table titles) START-->
+        <div class="tablePart">
+            <table>
+                <tr>
+                    <th class="tableTitle" style="width: 15%;">
+                        Order No.
+                    </th>
+                    <th class="tableTitle" style="width: 50%;">
+                        Items
+                    </th>
+                    <th class="tableTitle" style="width: 25%;">
+                        Minutes before discount
+                    </th>
+                    <th class="tableTitle" style="width: 10%;">
+                        Status
+                    </th>
+                </tr>
+
+                <!-- Example of an order START -->
+                <tr>
+                    <td>0001</td>
+                    <td>
+                        Cappuccino x 3<br>
+                        Latte x 2<br>
+                        Hanburger x 3
+                    </td>
+                    <td>00:13:23</td>
+                    <td>
+                        <button class="statusBtn">Confirm
+                        </button>
+                    </td>
+                </tr>
+                <!-- Example of an order END -->
+
+                <!-- Empty table example START-->
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- Empty table example END-->
+            </table>
+        </div>
+        <!-- Table part (including table titles) END-->
+
+    </div>
+    <!-- Content part of orders list END-->
+
+    <!-- LEAVE Button START -->
+    <div class="btnPart"
+         align="left">
+        <button class="btn">LEAVE</button>
+    </div>
+    <!-- LEAVE Button END -->
+
+</div>
+
+</body>
+</html>
