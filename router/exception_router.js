@@ -13,4 +13,10 @@ router.get('/404', (req, res) => {  // 'default' route to catch user errors
     res.render('404', {title: '404'});
 })
 
+// handle 500
+router.get('/500', (req, res) => {  // 'default' route to catch user errors
+
+    res.render('500', {title: '500'});
+})
+
 module.exports = router;

@@ -9,7 +9,8 @@ const myOrdersController = require('../controller/my_orders_controller')
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.use(express.static('static'));
-router.use(express.static('upload_images'));
+router.use('/previous_order', express.static('static'));
+router.use('/current_order', express.static('static'));
 
 /** my_orders_router based on customer_router */
 
