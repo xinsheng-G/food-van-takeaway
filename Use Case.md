@@ -22,7 +22,7 @@
 - [x] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
 - [ ] A customer can monitor order status (fulfilled or ready for pick up).
 - [ ] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
-- [ ] A cancelled order shouldn't be seen to Customers and Vendors
+- [x] A cancelled order shouldn't be seen to Customers and Vendors
 - [ ] Changing order can reset change timestamp
 - [ ] A Customer can rate the order, rating should be 1-5
 - [x] Customer app will be used on phones and also desktops.

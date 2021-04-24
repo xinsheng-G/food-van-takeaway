@@ -13,7 +13,7 @@ const exceptionHandler = require('../controller/handle_exceptions')
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.use(express.static('static'));
-router.use(express.static('upload_images'));
+router.use('/van_details', express.static('static'));
 
 router.use('/menu', menuRouter);
 router.use('/customer_mockup', customerMockUpRouter)
@@ -25,6 +25,14 @@ router.get('/', indexController.show_page);
 router.get('/index', ((req, res) => {
     res.redirect('/');
 }));
+
+// show van_details page
+router.get('/dan_details/:van_name', ((req, res) => {
+    res.end('van detail page');
+}));
+
+// get user's location from index with AJAX
+router.post('/get_location', indexController.store_user_location_from_post_to_session)
 
 router.get('/search', ((req, res) => {
     res.end('search page');

@@ -1,3 +1,6 @@
+const math_utils = require('../utils/math_utils')
+const string_utils = require('../utils/string_utils')
+
 let show_page = async (req, res) => {
 
     try{
@@ -115,7 +118,70 @@ let get_van_objects = async (req, res) => {
     }
 }
 
+let show_van_detail_page = async (req, res) => {
+    try{
+        let van_name = req.params.van_name
+        let van_model = require('../model/van')
+        let van_obj = await van_model.findOne({'van_name': van_name},
+            'picture_path text_address stars location').lean();
+
+        let van_title = string_utils.change_dash_into_space(van_name)
+        let text_address = van_obj['text_address']
+        let picture_path = van_obj['picture_path']
+
+        let van_location = van_obj['location']
+        let user_location
+        // if session doesn't get position
+        if(req.body.x_pos == null || req.body.y_pos == null) {
+
+            // default value
+            user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+        } else {
+
+            // get location from session
+            user_location = {x_pos: req.session.user_x_pos, y_pos: req.session.user_y_pos}
+        }
+
+
+        let distance_full = math_utils.findDistance(
+            user_location.x_pos,
+            user_location.y_pos,
+            van_location['x_pos'],
+            van_location['y_pos']
+        )
+
+        // reverse 2 digits after the dot
+        let distance = math_utils.my_round(distance_full, 2)
+
+        res.render('customer/van_details', {
+            van_name: van_name,
+            van_title: van_title,
+            distance: distance,
+            text_address: text_address,
+            picture_path: picture_path
+        })
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+let store_user_location_from_post_to_session = (req, res) => {
+    try{
+        let x_pos = req.body.x_pos
+        let y_pos = req.body.y_pos
+
+        req.session.user_x_pos = parseFloat(x_pos)
+        req.session.user_y_pos = parseFloat(y_pos)
+
+        res.json({ ok: true });
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
 // export functions above
 module.exports = {
-    show_page, get_van_objects
+    show_page, get_van_objects, store_user_location_from_post_to_session
 }
