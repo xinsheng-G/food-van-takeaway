@@ -7,15 +7,21 @@
                 <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
             </div>
             <div class="nav_logo">
-                <div class="nav_check nav_check_sure" id="current_nav">
-                    <img class="logo_size" src="./images/alarm_clock.png" alt="">
-                    <span class="logo_title">CURRENT</span>
-                </div>
+                <a href="">
+                    <div class="nav_check nav_check_sure" id="current_nav">
+                        <img class="logo_size" src="./images/alarm_clock.png" alt="">
+                        <span class="logo_title">CURRENT</span>
+                    </div>
+                </a>
+
                 <div class="line"></div>
-                <div class="nav_check" id="previous_nav">
-                    <img class="logo_size" src="./images/clock.png" alt="">
-                    <span class="logo_title">PREVIOUS</span>
-                </div>
+
+                <a href="">
+                    <div class="nav_check" id="previous_nav">
+                        <img class="logo_size" src="./images/clock.png" alt="">
+                        <span class="logo_title">PREVIOUS</span>
+                    </div>
+                </a>
             </div>
 
         </div>
@@ -26,7 +32,7 @@
 
             {{#each current_orders}}
 
-                <div class="current_item current_item my-round-border" style="max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: bisque;">
+                <div class="current_item current_item my-round-border" style="max-width: 90rem;height:21rem;margin-top:20px;padding-top:10px;background-color: bisque;">
                     <div class="card-header" style="display:flex; justify-content: space-around;">
                         <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
                         <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
@@ -46,6 +52,7 @@
                         </svg>
                         <span style="font-size: 15px;">&emsp;Now&emsp;</span>
                     </div>
+                    <div class="h5 pull-right" style="justify-content: center;">More Details >>&emsp;</div>
                 </div>
 
             {{/each}}
@@ -53,7 +60,7 @@
             {{#each previous_orders}}
 
                 <a href="/customer/my_orders/previous_order/{{this._id}}">
-                    <div class="previous_item my-round-border" style="display: none; max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: #bcefb9;">
+                    <div class="previous_item my-round-border" style="display: none; max-width: 90rem;height:21rem;margin-top:20px;padding-top:10px;background-color: #bcefb9;">
                         <div class="card-header" style="display:flex; justify-content: space-around;">
                             <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
                             <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
@@ -73,6 +80,7 @@
                             </svg>
                             <span style="font-size: 15px;">&emsp;{{this.end_clock}}</span>
                         </div>
+                        <div class="h5 pull-right" style="justify-content: center;">More Details >>&emsp;</div>
                     </div>
                 </a>
 

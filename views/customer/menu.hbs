@@ -108,6 +108,21 @@
 
 <script>
 
+    navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let accuracy = position.coords.accuracy;
+
+        console.log("locating demo: user location：" + latitude + "," + longitude);
+        console.log("accuracy：" + accuracy);
+
+        // AJAX post to store user location to session
+        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
+
+    }, positionError => {
+        alert('locating failed. Make sure your Browser supports geolocation.')
+    });
+
     // nav label function
     let drinks_nav = $('#drinks_nav');
     let snacks_nav = $('#snacks_nav');

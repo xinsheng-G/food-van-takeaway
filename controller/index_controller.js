@@ -135,6 +135,7 @@ let show_van_detail_page = async (req, res) => {
         if(req.body.x_pos == null || req.body.y_pos == null) {
 
             // default value
+            console.log('can\'t find location in session')
             user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
         } else {
 

@@ -8,7 +8,7 @@
  *  2. When a vendor periodically refreshes his order management page.
  *
  *
- * For input parameter current_order, it is an order object from order_model.find(...), and this
+ * For input parameter current_order, it is an order object from order_model.findOne(...), and this
  * order object contains _id, start_time, is_given_discount, cost, fund, total_price fields
  *
  */
@@ -29,7 +29,8 @@ let update_discount_info = async function(current_order) {
      if a discount has been given, skip the query
     */
     if(delta_minute > global_variables.discount_period_minutes &&
-        current_order['is_given_discount'] === false ) {
+        current_order['is_given_discount'] === false &&
+        (current_order['status'] !=='ready' && current_order['status'] !=='complete') ) {
 
         let original_price = current_order['total_price']
         let refund = original_price * global_variables.discount_percent

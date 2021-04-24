@@ -52,7 +52,7 @@
 
             {{#each current_orders}}
 
-            <div class="current_item current_item my-round-border" style="max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: bisque;">
+            <div class="current_item current_item my-round-border" style="max-width: 90rem;height:21rem;margin-top:20px;padding-top:10px;background-color: bisque;">
                 <div class="card-header" style="display:flex; justify-content: space-around;">
                     <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
                     <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
@@ -72,13 +72,14 @@
                     </svg>
                     <span style="font-size: 15px;">Now</span>
                 </div>
+                <div class="h5 pull-right" style="justify-content: center;">More Details >>&emsp;</div>
             </div>
 
             {{/each}}
 
             {{#each previous_orders}}
 
-            <div class="previous_item my-round-border" style="display: none; max-width: 90rem;height:18rem;margin-top:20px;padding-top:10px;background-color: #bcefb9;">
+            <div class="previous_item my-round-border" style="display: none; max-width: 90rem;height:21rem;margin-top:20px;padding-top:10px;background-color: #bcefb9;">
                 <div class="card-header" style="display:flex; justify-content: space-around;">
                     <span style="font-size: 20px;"><b>{{this.van_title}}</b></span>
                     <span style="font-size: 20px;"><b>$ {{this.total_price}}</b></span>
@@ -98,6 +99,7 @@
                     </svg>
                     <span style="font-size: 15px;">{{this.end_clock}}</span>
                 </div>
+                <div class="h5 pull-right" style="justify-content: center;">More Details >>&emsp;</div>
             </div>
 
             {{/each}}

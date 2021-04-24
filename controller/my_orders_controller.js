@@ -21,9 +21,16 @@ let show_my_orders_page = async (req, res) => {
 
         let current_orders
         try{
-            current_orders = await order_model.find(
 
-                {'order_customer_id': user_id, $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}]},
+            /*
+            * find order in confirming, preparing, ready,
+            * and order that complete but not has been marked
+            * */
+            current_orders = await order_model.find(
+                {'order_customer_id': user_id,
+                    $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}, {'status': 'complete'}],
+                    $and:[{'stars':{$lt: 0}}]
+                },
                 '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
         } catch (e) {
             console.log(e)
@@ -62,8 +69,14 @@ let show_my_orders_page = async (req, res) => {
         let previous_orders
 
         try{
+            /*
+            *
+            * orders that are completed and have been marked
+            * */
             previous_orders = await order_model.find(
-                {'order_customer_id': user_id, $or:[{'status': 'complete'}]},
+                {'order_customer_id': user_id,
+                    $or:[{'status': 'complete'}],
+                    $and:[{'stars':{$gte: 0}}]},
                 '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
         } catch (e) {
             console.log(e)
@@ -162,6 +175,32 @@ let show_previous_order_details_page = async (req, res) => {
 let show_order_monitor_page = async (req, res) => {
 
     try{
+
+        /** get user location from session to calc distance */
+        let user_location
+        // if session doesn't get position
+        if(req.body.x_pos == null || req.body.y_pos == null) {
+
+            // default value
+            console.log('can\'t find location in session')
+            user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+        } else {
+
+            // get location from session
+            user_location = {x_pos: req.session.user_x_pos, y_pos: req.session.user_y_pos}
+        }
+
+        /** query snack price into a list */
+            // do price calculation in back-end is a security way
+        let snack_model = require('../model/snack')
+        let query_res = await snack_model.find({}, 'snack_name price').lean();
+
+        let snacks_price_list = {}
+        query_res.forEach(res_obj => {
+            snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
+        })
+
+        /** query for the order */
         let order_model = require('../model/order')
         let order_id = req.params.order_id
         let order = await order_model.findOne(
@@ -173,6 +212,16 @@ let show_order_monitor_page = async (req, res) => {
         if(!order['order_customer_id'] === req.session.user) {
             res.redirect('/customer/my_orders')
         }
+
+        /** query for van object */
+        let van_model = require('../model/van')
+        let van_obj = await van_model.findOne(
+            {'van_name': order['order_van_name']},
+            'text_address location stars').lean();
+
+        /** update discount information before show them on the screen */
+        /** this function is from /utils/dataBase_discount_handler */
+        await dataBase_discount_handler.update_discount_info(order)
 
         /** if the order belongs to logged-in user, show order monitor page */
         switch(order['status'].toString()) {
@@ -197,7 +246,7 @@ let show_order_monitor_page = async (req, res) => {
             case 'complete':
 
                 // if the order has already been given a feedback
-                if(order['stars'] === 0) {
+                if(order['stars'] !== -1) {
                     res.redirect('/customer/my_orders')
                 } else {
                     // calc average stars of all order belongs to the van, and update van stars
@@ -231,7 +280,6 @@ let place_new_order = async (req, res) => {
         delete form_elements.van_name
         // need to query price again in back end for security
         delete form_elements.price_all
-        delete form_elements.p
 
         let lineItems = []
         Object.keys(form_elements).forEach(key => {
@@ -284,6 +332,7 @@ let place_new_order = async (req, res) => {
             "end_time": time_now,
             "lineItems": lineItems,
             "is_given_discount": false,
+            "stars": -1,
             "cost": cost,
             "refund": refund,
             "total_price": total_price,
