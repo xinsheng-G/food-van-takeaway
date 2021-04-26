@@ -7,7 +7,7 @@
                 <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
             </div>
             <div class="nav_logo">
-                <a href="">
+                <a href="#">
                     <div class="nav_check nav_check_sure" id="current_nav">
                         <img class="logo_size" src="./images/alarm_clock.png" alt="">
                         <span class="logo_title">CURRENT</span>
@@ -16,7 +16,7 @@
 
                 <div class="line"></div>
 
-                <a href="">
+                <a href="#">
                     <div class="nav_check" id="previous_nav">
                         <img class="logo_size" src="./images/clock.png" alt="">
                         <span class="logo_title">PREVIOUS</span>
@@ -97,7 +97,7 @@
 </div>
 
 <script>
-    //Specifies a refresh every 30 seconds
+    // set auto refresh
     setTimeout(function(){location.reload()},30000);
     // nav label function
     let current_nav = $('#current_nav');

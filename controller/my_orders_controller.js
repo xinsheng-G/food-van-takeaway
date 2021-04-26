@@ -360,6 +360,11 @@ let cancel_order = async (req, res) => {
     }
 }
 
+/**
+ *
+ * show order edit page
+ *
+ * */
 let show_edit_page = async (req, res) => {
     try{
         /** query for the order */
@@ -419,7 +424,7 @@ let show_edit_page = async (req, res) => {
 
                 // add new attribute: snack_title
                 // replace snack_name's dash line into spaces.
-                snack['snack_title'] = string_util.change_dash_into_space(snack.snack_name);
+                snack['snack_title'] = string_utils.change_dash_into_space(snack.snack_name);
 
                 if(original_items_number_map[snack.snack_name] == null) {
 
@@ -443,16 +448,122 @@ let show_edit_page = async (req, res) => {
                 }
             })
 
-            res.render('./customer/menu',{
+            res.render('./customer/edit_order',{
                 title: 'Edit Order',
                 foods: foods,
                 drinks: drinks,
                 original_total_number: original_total_number,
-                original_total_price: original_total_price
+                original_total_price: original_total_price,
+                order_id: order_id
             })
         }
     }
     catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+
+/**
+ *
+ * receive order_edit from from order_edit page, then update db
+ *
+ * */
+let edit_order_info = async (req, res) => {
+    try{
+        let form_elements = req.body;
+        let order_id = form_elements.order_id
+        let time_now = moment().utc()
+        let time_now_local = time_now.local()
+        let total_price = 0;
+        let cost = 0;
+        let refund = 0;
+
+        /** check whether the order belongs to the logged-in customer or not
+         *  check whether the order has already finished
+         *  check whether the order exceed time limit of changing*/
+        /** if not, return my orders page */
+        let order_model = require('../model/order')
+        let order = await order_model.findOne(
+            {'_id': order_id},
+            '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** calc the time that customer can change */
+        let time_can_change = moment(order['start_time']).add(global_variables.change_cancel_time_minutes,"minutes")
+        let time_can_change_local = time_can_change.local()
+        let is_over_changeable_time = time_now_local.isAfter(time_can_change_local)
+
+        if(!order['order_customer_id'] === req.session.user ||
+            order['status'] === 'cancelled' ||
+            order['status'] === 'complete' ||
+            is_over_changeable_time
+        )
+        {
+            res.redirect('/customer/my_orders')
+            return
+        }
+
+        // remove order_id from form_elements
+        delete form_elements.order_id
+        delete form_elements.price_all
+
+        let lineItems = []
+        Object.keys(form_elements).forEach(key => {
+
+            // if purchased a item
+            if(parseInt(form_elements[key]) !== 0) {
+                let new_item = {snack_name: key, number: parseInt(form_elements[key])}
+                lineItems.push(new_item)
+            }
+        })
+
+        // query price into a list
+        // do price calculation in back-end is a security way
+        let snack_model = require('../model/snack')
+        let query_res = await snack_model.find({}, 'snack_name price').lean();
+
+        let snacks_price_list = {}
+        query_res.forEach(res_obj => {
+            snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
+        })
+
+        // check whether lineItem is valid
+        for(let i = 0; i < lineItems.length; i++) {
+            let item_be_checked = lineItems[i]
+            let item_name = item_be_checked['snack_name']
+
+            if(snacks_price_list[item_name] == null) {
+                // remove the lineItem whose price is not in price_list
+                lineItems.splice(i, 1);
+            }
+        }
+
+        // calc total price
+        lineItems.forEach(item_obj => {
+            let snack_name = item_obj['snack_name']
+            let snack_number = parseInt(item_obj['number'])
+
+            total_price +=  snack_number * snacks_price_list[snack_name]
+        })
+
+        cost = total_price
+        refund = 0
+
+        // update the order
+        await order_model.findByIdAndUpdate(
+            order_id.toString(),
+            {'lineItems': lineItems,
+                "end_time": time_now,
+                "start_time": time_now,
+                "is_given_discount": false,
+                'cost': math_util.my_round(cost, 2),
+                'refund': math_util.my_round(refund, 2),
+                'total_price': math_util.my_round(total_price, 2)}
+        );
+        res.redirect('/customer/my_orders/current_order/' + order_id.toString())
+
+    }catch (e) {
         console.log(e)
         res.redirect('/500')
     }
@@ -550,5 +661,5 @@ let show_order_payment_success_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, cancel_order, show_order_payment_success_page
+    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, cancel_order, show_edit_page, edit_order_info, show_order_payment_success_page
 }

@@ -1,5 +1,5 @@
 <div class="main">
-    <form method="post" action="/customer/my_orders/order_cancel/{{order_id}}" class="shopCar">
+    <form method="post" action="/customer/my_orders/order_edit" class="shopCar">
         <div class="header">
             <div class="nav_shop">
                 <div class="nav_title_conter">Edit Order</div>
@@ -9,24 +9,27 @@
 
             <!-- navigation buttons  -->
             <div class="nav_logo">
+                <a href="#">
                 <div id="drinks_nav" class="nav_check nav_check_sure">
                     <img class="logo_size" src="./images/drink.png" alt="">
                     <span class="logo_title">DRINKS</span>
                 </div>
+                </a>
                 <div class="line"></div>
+                <a href="#">
                 <div id="snacks_nav" class="nav_check ">
                     <img class="logo_size" src="./images/snack.png" alt="">
                     <span class="logo_title">SNACKS</span>
                 </div>
+                </a>
             </div>
 
         </div>
         <div class="h_k_b"></div>
         <!-- Menu Items -->
         <div class="conter">
-
+            <input type="hidden" name="order_id" value="{{order_id}}">
             {{#each foods}}
-
             <div class="shop_conter snack_item" style="display: none">
                 <div class="shop_left">
                     <div>
@@ -44,7 +47,6 @@
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-                    <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
 
@@ -69,7 +71,6 @@
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-                    <img class="del_shop" src="./images/note.png" alt="">
                 </div>
             </div>
 
@@ -84,7 +85,7 @@
                     <div class="shop_car_num" id="total_snacks">{{original_total_number}}</div>
                 </div>
                 <div class="price_all">
-                    $&nbsp;<input readonly="readonly" class="price_all_input" id="price_all" type="number" name="price_all" value="{{original_total_price}}">
+                    $&nbsp;<input readonly="readonly" class="price_all_input" id="price_all" type="number" name="price_all" value="{{{original_total_price}}}">
                 </div>
 
             </div>
@@ -100,22 +101,6 @@
 </div>
 
 <script>
-
-    navigator.geolocation.getCurrentPosition(position => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let accuracy = position.coords.accuracy;
-
-        console.log("locating demo: user location：" + latitude + "," + longitude);
-        console.log("accuracy：" + accuracy);
-
-        // AJAX post to store user location to session
-        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
-
-    }, positionError => {
-        alert('locating failed. Make sure your Browser supports geolocation.')
-    });
-
     // nav label function
     let drinks_nav = $('#drinks_nav');
     let snacks_nav = $('#snacks_nav');

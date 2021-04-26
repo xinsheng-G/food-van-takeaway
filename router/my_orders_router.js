@@ -11,6 +11,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.use(express.static('static'));
 router.use('/previous_order', express.static('static'));
 router.use('/current_order', express.static('static'));
+router.use('/order_edit', express.static('static'));
 
 /** my_orders_router based on customer_router */
 
@@ -36,14 +37,10 @@ router.get('/order_feedback/:order_id', ((req, res) => {
 }));
 
 // show order edit page, select by order id
-router.get('/order_edit/:order_id', ((req, res) => {
-    res.end("<h1> Order Edit Page, edit order id: req.params.order_id </h1>")
-}));
+router.get('/order_edit/:order_id', myOrdersController.show_edit_page);
 
 // get edited info and store them in orders collection
-router.post('/order_edit', ((req, res) => {
-    res.end("<h1> posted a edited form, store them in db </h1>")
-}));
+router.post('/order_edit', myOrdersController.edit_order_info);
 
 // cancel order by order id
 router.get('/order_cancel/:order_id', myOrdersController.cancel_order);
