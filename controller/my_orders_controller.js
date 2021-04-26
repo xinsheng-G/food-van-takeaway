@@ -179,7 +179,7 @@ let show_order_monitor_page = async (req, res) => {
         /** get user location from session to calc distance */
         let user_location
         // if session doesn't get position
-        if(req.body.x_pos == null || req.body.y_pos == null) {
+        if(req.session.user_x_pos == null || req.session.user_y_pos == null) {
 
             // default value
             console.log('can\'t find location in session')
@@ -217,16 +217,75 @@ let show_order_monitor_page = async (req, res) => {
         let van_model = require('../model/van')
         let van_obj = await van_model.findOne(
             {'van_name': order['order_van_name']},
-            'text_address location stars').lean();
+            'van_name text_address location stars').lean();
 
         /** update discount information before show them on the screen */
         /** this function is from /utils/dataBase_discount_handler */
         await dataBase_discount_handler.update_discount_info(order)
 
+        /** calc showing info */
+        let showing_items = []
+
+        let lineItems = order['lineItems']
+
+        for(let i in lineItems) {
+            let item_obj = lineItems[i]
+            let snack_name = string_utils.change_dash_into_space(item_obj['snack_name'])
+            let snack_number = parseInt(item_obj['number'])
+            let snack_unit_price = snacks_price_list[item_obj['snack_name']]
+            let snack_total_price = snack_number * snack_unit_price
+
+            let new_showing_item = {snack_name: snack_name, snack_number: snack_number, snack_total_price: snack_total_price}
+            showing_items.push(new_showing_item)
+        }
+
+        /** utc 0 time now */
+        let time_now = moment().utc()
+        let time_now_local = moment().local()
+
+        /** calc the time that customer can change */
+        let time_can_change = moment(order['start_time']).add(global_variables.change_cancel_time_minutes,"minutes")
+        let time_can_change_local = time_can_change.local()
+
+        /** van details to show */
+        let van_title = string_utils.change_dash_into_space(van_obj['van_name'])
+        let van_location = van_obj['location']
+        let distance = math_util.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+        let text_address = van_obj['text_address'].toString()
+
         /** if the order belongs to logged-in user, show order monitor page */
         switch(order['status'].toString()) {
             case 'confirming':
-                res.end('render confirming status moniter page')
+
+                if (time_now_local.isBefore(time_can_change_local)) {
+                    // if customer can change
+                    res.render('./customer/confirming_changeable', {
+                        title: 'Order Monitor',
+                        order_id: order_id,
+                        van_title: van_title,
+                        distance: distance,
+                        text_address: text_address,
+                        order_partial_id: string_utils.get_partial_id(order_id),
+                        start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                        showing_items: showing_items,
+                        change_clock: string_utils.get_hour_minute_from_Date(time_can_change_local)
+                    })
+
+                } else {
+                    // if customer cannot change
+                    res.render('./customer/confirming_not_changeable.hbs', {
+                        title: 'Order Monitor',
+                        order_id: order_id,
+                        van_title: van_title,
+                        distance: distance,
+                        text_address: text_address,
+                        order_partial_id: string_utils.get_partial_id(order_id),
+                        start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                        showing_items: showing_items,
+                    })
+                }
                 break
             case 'preparing':
                 // judge time and show different page
@@ -234,9 +293,11 @@ let show_order_monitor_page = async (req, res) => {
                 let delta_minute = (time_now - order['start_time']) / 1000 / 60
                 if(delta_minute < global_variables.change_cancel_time_minutes) {
                     // show page with change button
+                    res.end('show prepaing page with change button')
                 }
                 else {
                     // show page without change button
+                    res.end('show prepaing page without change button')
                 }
 
                 break
@@ -250,11 +311,8 @@ let show_order_monitor_page = async (req, res) => {
                     res.redirect('/customer/my_orders')
                 } else {
                     // calc average stars of all order belongs to the van, and update van stars
-
+                    res.end('show feed back complete page')
                 }
-
-                // rend the page
-                res.end('render ready status moniter page')
                 break
         }
     } catch (e) {
@@ -355,5 +413,5 @@ let show_order_payment_success_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_my_orders_page, show_previous_order_details_page, place_new_order, show_order_payment_success_page
+    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, show_order_payment_success_page
 }

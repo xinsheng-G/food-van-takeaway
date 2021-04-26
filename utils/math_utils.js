@@ -32,6 +32,7 @@ function findDistance(x_pos1, y_pos1, x_pos2, y_pos2){
     s = s * EARTH_RADIUS;
     // s km
     s = Math.round(s * 10000) / 10000;
+    s = my_round(s, 1)
     console.log('get distance: ' + s + ' km')
     return s;
 }

@@ -21,10 +21,7 @@ router.get('/', myOrdersController.show_my_orders_page);
 router.get('/previous_order/:order_id', myOrdersController.show_previous_order_details_page);
 
 // show different order monitor pages for current orders
-router.get('/current_order/:order_id', ((req, res) => {
-    res.write("<h1> check an order's status with order_id, controller will check status record and renders responding page </h1>")
-    res.end("<p> eg: if this order's status is ready, then res.render('ready', {...})</p>")
-}));
+router.get('/current_order/:order_id', myOrdersController.show_order_monitor_page);
 
 // get checkout page's form info and generate new order in `orders` collection of mongoDB
 // check out page is rendered by menu_controller

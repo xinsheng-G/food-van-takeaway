@@ -48,6 +48,22 @@ input[type="number"] {
     z-index: 99;
 }
 
+@media screen and (min-width:768px){
+    .search-on-search-page {
+        position: fixed !important;
+        background-color: white !important;
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width:768px){
+    .search-on-search-page {
+        position: fixed !important;
+        background-color: #ecf0f5 !important;
+    }
+}
+
+
 .header_van_info {
     padding-top: 10px;
     text-align: center;
