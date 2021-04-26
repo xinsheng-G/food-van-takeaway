@@ -45,10 +45,8 @@ router.post('/order_edit', ((req, res) => {
     res.end("<h1> posted a edited form, store them in db </h1>")
 }));
 
-// delete order by order id
-router.get('/order_remove/:order_id', ((req, res) => {
-    res.end("<h1> handle remove by id req.params.order_id </h1>")
-}));
+// cancel order by order id
+router.get('/order_cancel/:order_id', myOrdersController.cancel_order);
 
 // handle 404
 router.all('*', exceptionHandler.handle404)

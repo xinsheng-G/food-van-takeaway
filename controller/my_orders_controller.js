@@ -321,6 +321,39 @@ let show_order_monitor_page = async (req, res) => {
     }
 }
 
+/** cancel an new order and store it in db
+ *
+ * The order should not be removed from db, according to project specification
+ * just mark it cancelled in status attribute
+ *
+ * */
+let cancel_order = async (req, res) => {
+    /** query for the order */
+    let order_model = require('../model/order')
+    let order_id = req.params.order_id
+    let order = await order_model.findOne(
+        {'_id': order_id},
+        '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+    /** check whether the order belongs to the logged-in customer or not
+     *  check whether the order has already finished */
+    /** if not, return my orders page */
+    if(!order['order_customer_id'] === req.session.user ||
+        order['status'] === 'cancelled' ||
+        order['status'] === 'complete') {
+        res.redirect('/customer/my_orders')
+    } else {
+        // update status to cancelled
+        await order_model.findByIdAndUpdate(
+            order_id.toString(),
+            {'status': 'cancelled',
+                'end_time': moment().utc
+            }
+        );
+        res.redirect('/customer/my_orders')
+    }
+}
+
 /** place an new order and store it in db  */
 let place_new_order = async (req, res) => {
 
@@ -413,5 +446,5 @@ let show_order_payment_success_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, show_order_payment_success_page
+    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, cancel_order, show_order_payment_success_page
 }
