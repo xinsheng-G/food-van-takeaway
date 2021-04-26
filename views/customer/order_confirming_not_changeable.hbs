@@ -20,7 +20,7 @@
         <div class="conter">
             <b><p style="font-size:55px; color:black; text-align: center;margin-top: 5px;">{{order_partial_id}}<p></b>
             <div class="progress" style="width:75%; margin-left: auto;margin-right: auto;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 33.3%" aria-valuenow="33.3" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: 33.3%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div style="text-align: center;">
                 <span><img src="./images/icon_drink_snack.png" alt=""></span>
@@ -59,6 +59,7 @@
 
             <div class="foot_order_monitor_reminder" style="margin-bottom:15px;">
                 <p style="color:red;"> Change time has expired</p>
+                <p style="color:rgb(203, 33, 245)">{{discount_text}}</p>
             </div>
         </div>
     </div>
@@ -98,4 +99,20 @@
 <script>
     //Specifies a refresh every 30 seconds
     setTimeout(function(){location.reload()},30000);
+
+    // update user location when they are looking at order monitor page
+    navigator.geolocation.getCurrentPosition(position => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let accuracy = position.coords.accuracy;
+
+        console.log("locating demo: user location：" + latitude + "," + longitude);
+        console.log("accuracy：" + accuracy);
+
+        // AJAX post to store user location to session
+        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
+
+    }, positionError => {
+        alert('locating failed. Make sure your Browser supports geolocation.')
+    });
 </script>

@@ -204,7 +204,7 @@ let show_order_monitor_page = async (req, res) => {
         let order_id = req.params.order_id
         let order = await order_model.findOne(
             {'_id': order_id},
-            '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+            '_id order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
 
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
@@ -253,13 +253,19 @@ let show_order_monitor_page = async (req, res) => {
         let distance = math_util.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
         let text_address = van_obj['text_address'].toString()
 
+        /** text to show when a discount is given */
+        let discount_text;
+        if(order['is_given_discount']) {
+            discount_text = "A "+ (global_variables.discount_percent * 100) + "% late discount has been granted."
+        }
+
         /** if the order belongs to logged-in user, show order monitor page */
         switch(order['status'].toString()) {
             case 'confirming':
 
                 if (time_now_local.isBefore(time_can_change_local)) {
                     // if customer can change
-                    res.render('./customer/confirming_changeable', {
+                    res.render('./customer/order_confirming_changeable', {
                         title: 'Order Monitor',
                         order_id: order_id,
                         van_title: van_title,
@@ -274,7 +280,7 @@ let show_order_monitor_page = async (req, res) => {
 
                 } else {
                     // if customer cannot change
-                    res.render('./customer/confirming_not_changeable.hbs', {
+                    res.render('./customer/order_confirming_not_changeable', {
                         title: 'Order Monitor',
                         order_id: order_id,
                         van_title: van_title,
@@ -284,25 +290,33 @@ let show_order_monitor_page = async (req, res) => {
                         start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
                         now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
                         showing_items: showing_items,
+                        discount_text: discount_text
                     })
                 }
                 break
             case 'preparing':
                 // judge time and show different page
-                let time_now = moment().utc()
-                let delta_minute = (time_now - order['start_time']) / 1000 / 60
-                if(delta_minute < global_variables.change_cancel_time_minutes) {
-                    // show page with change button
-                    res.end('show prepaing page with change button')
-                }
-                else {
-                    // show page without change button
-                    res.end('show prepaing page without change button')
+                if (time_now_local.isBefore(time_can_change_local)) {
+                    // if the order can change
+
+                } else {
+                    // if the order can not change
+
                 }
 
                 break
             case 'ready':
-                res.end('render ready status moniter page')
+                res.render('./customer/order_ready', {
+                    title: 'Order Monitor',
+                    order_id: order_id,
+                    van_title: van_title,
+                    distance: distance,
+                    text_address: text_address,
+                    order_partial_id: string_utils.get_partial_id(order_id),
+                    start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                    now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                    showing_items: showing_items,
+                })
                 break
             case 'complete':
 
@@ -487,7 +501,7 @@ let edit_order_info = async (req, res) => {
         let order_model = require('../model/order')
         let order = await order_model.findOne(
             {'_id': order_id},
-            '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+            '_id order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
 
         /** calc the time that customer can change */
         let time_can_change = moment(order['start_time']).add(global_variables.change_cancel_time_minutes,"minutes")
@@ -547,8 +561,14 @@ let edit_order_info = async (req, res) => {
             total_price +=  snack_number * snacks_price_list[snack_name]
         })
 
+        // if original order has been given a discount
         cost = total_price
-        refund = 0
+        if (order['is_given_discount']) {
+            refund = cost * global_variables.discount_percent
+            total_price -= refund
+        } else {
+            refund = 0
+        }
 
         // update the order
         await order_model.findByIdAndUpdate(
@@ -556,7 +576,6 @@ let edit_order_info = async (req, res) => {
             {'lineItems': lineItems,
                 "end_time": time_now,
                 "start_time": time_now,
-                "is_given_discount": false,
                 'cost': math_util.my_round(cost, 2),
                 'refund': math_util.my_round(refund, 2),
                 'total_price': math_util.my_round(total_price, 2)}
