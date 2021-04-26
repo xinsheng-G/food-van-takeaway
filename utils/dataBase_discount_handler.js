@@ -32,7 +32,7 @@ let update_discount_info = async function(current_order) {
         current_order['is_given_discount'] === false &&
         (current_order['status'] !=='ready' && current_order['status'] !=='complete') ) {
 
-        let original_price = current_order['total_price']
+        let original_price = current_order['cost']
         let refund = original_price * global_variables.discount_percent
         let new_price = original_price - refund
 

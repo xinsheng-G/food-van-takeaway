@@ -65,9 +65,7 @@ let show_my_orders_page = async (req, res) => {
          * according to project specification，So previous order only shows
          * completed orders
          * */
-
         let previous_orders
-
         try{
             /*
             *
@@ -141,6 +139,7 @@ let show_previous_order_details_page = async (req, res) => {
         /** if not, return my orders page */
         if(!order['order_customer_id'] === req.session.user) {
             res.redirect('/customer/my_orders')
+            return
         }
 
         /** if the order belongs to logged-in user, show order details page */
@@ -211,6 +210,7 @@ let show_order_monitor_page = async (req, res) => {
         /** if not, return my orders page */
         if(!order['order_customer_id'] === req.session.user) {
             res.redirect('/customer/my_orders')
+            return
         }
 
         /** query for van object */
@@ -328,29 +328,133 @@ let show_order_monitor_page = async (req, res) => {
  *
  * */
 let cancel_order = async (req, res) => {
-    /** query for the order */
-    let order_model = require('../model/order')
-    let order_id = req.params.order_id
-    let order = await order_model.findOne(
-        {'_id': order_id},
-        '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+    try{
+        /** query for the order */
+        let order_model = require('../model/order')
+        let order_id = req.params.order_id
+        let order = await order_model.findOne(
+            {'_id': order_id},
+            '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
 
-    /** check whether the order belongs to the logged-in customer or not
-     *  check whether the order has already finished */
-    /** if not, return my orders page */
-    if(!order['order_customer_id'] === req.session.user ||
-        order['status'] === 'cancelled' ||
-        order['status'] === 'complete') {
-        res.redirect('/customer/my_orders')
-    } else {
-        // update status to cancelled
-        await order_model.findByIdAndUpdate(
-            order_id.toString(),
-            {'status': 'cancelled',
-                'end_time': moment().utc
-            }
-        );
-        res.redirect('/customer/my_orders')
+        /** check whether the order belongs to the logged-in customer or not
+         *  check whether the order has already finished */
+        /** if not, return my orders page */
+        if(!order['order_customer_id'] === req.session.user ||
+            order['status'] === 'cancelled' ||
+            order['status'] === 'complete') {
+            res.redirect('/customer/my_orders')
+        } else {
+            // update status to cancelled
+            await order_model.findByIdAndUpdate(
+                order_id.toString(),
+                {'status': 'cancelled',
+                    'end_time': moment().utc().toDate()
+                }
+            );
+            res.redirect('/customer/my_orders')
+        }
+    }
+    catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+let show_edit_page = async (req, res) => {
+    try{
+        /** query for the order */
+        let order_model = require('../model/order')
+        let order_id = req.params.order_id
+        let order = await order_model.findOne(
+            {'_id': order_id},
+            '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+
+        /** utc 0 time now */
+        let time_now = moment().utc()
+        let time_now_local = moment().local()
+
+        /** calc the time that customer can change */
+        let time_can_change = moment(order['start_time']).add(global_variables.change_cancel_time_minutes,"minutes")
+        let time_can_change_local = time_can_change.local()
+
+        let is_over_changeable_time = time_now_local.isAfter(time_can_change_local)
+
+        /** check whether the order belongs to the logged-in customer or not
+         *  check whether the order has already finished
+         *  check whterh the order exceed time limit of changing*/
+        /** if not, return my orders page */
+        if(!order['order_customer_id'] === req.session.user ||
+            order['status'] === 'cancelled' ||
+            order['status'] === 'complete' ||
+            is_over_changeable_time
+        ) {
+            res.redirect('/customer/my_orders')
+        } else {
+
+            // get original order information
+            let original_line_items = order['lineItems']
+            let original_total_price = order['cost']
+            let original_total_number = 0
+
+            // a map contains key:value <=> snack_name:number
+            let original_items_number_map = {}
+            original_line_items.forEach((item)=> {
+                let snack_name = item['snack_name'].toString()
+                let snack_number = parseInt(item['number'])
+
+                // add record to map
+                original_items_number_map[snack_name] = snack_number
+                original_total_number += snack_number
+            })
+
+            // get all snackes from db for edit page
+            let snack_model = require('../model/snack')
+            let snacks = await snack_model.find({}, '_id snack_name is_drink is_available price picture_path').lean();
+            let drinks = []
+            let foods = []
+
+            // divide snacks into drinks and foods
+            snacks.forEach((snack) => {
+
+                // add new attribute: snack_title
+                // replace snack_name's dash line into spaces.
+                snack['snack_title'] = string_util.change_dash_into_space(snack.snack_name);
+
+                if(original_items_number_map[snack.snack_name] == null) {
+
+                    // if the original order doesn't order this snack
+                    snack['snack_number'] = 0;
+                } else {
+
+                    // if the original order orders this snack
+                    snack['snack_number'] = original_items_number_map[snack.snack_name]
+                }
+
+                // if is drink
+                if (snack.is_available && snack.is_drink) {
+                    drinks.push(snack);
+                }
+                // if is food, not drink
+                else if (snack.is_available && !snack.is_drink) {
+                    foods.push(snack)
+                } else {
+                    // if not available, not show on the page
+                }
+            })
+
+            res.render('./customer/menu',{
+                title: 'Edit Order',
+                foods: foods,
+                drinks: drinks,
+                original_total_number: original_total_number,
+                original_total_price: original_total_price
+            })
+        }
+    }
+    catch (e) {
+        console.log(e)
+        res.redirect('/500')
     }
 }
 
