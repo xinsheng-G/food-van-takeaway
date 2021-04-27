@@ -31,10 +31,11 @@ router.post('/checkout', myOrdersController.place_new_order);
 // show checkout page
 router.get('/checkout_success', myOrdersController.show_order_payment_success_page);
 
-// get order feedback page
-router.post('/order_feedback/:order_id', ((req, res) => {
-    res.end("<h1> show feed back page of an order, then store the feedback to db </h1>")
-}));
+// get rate for an order
+router.post('/order_feedback', myOrdersController.rate_the_order);
+
+// show order complete (after feedback) page
+router.get('/order_complete', myOrdersController.show_order_complete_page);
 
 // show order edit page, select by order id
 router.get('/order_edit/:order_id', myOrdersController.show_edit_page);

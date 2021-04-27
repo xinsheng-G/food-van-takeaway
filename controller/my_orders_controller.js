@@ -357,7 +357,7 @@ let show_order_monitor_page = async (req, res) => {
                         text_address: text_address,
                         order_partial_id: string_utils.get_partial_id(order_id),
                         start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
-                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                        end_clock: string_utils.get_hour_minute_from_Date(order['end_time']),
                     })
                 }
                 break
@@ -744,13 +744,13 @@ let show_order_payment_success_page = (req, res) => {
     })
 }
 
-let star_the_order = async (req, res) => {
+let rate_the_order = async (req, res) => {
 
     try {
         let form_elements = req.body;
 
         let order_id = form_elements.order_id;
-        let stars = parseFloat(form_elements.stars);
+        let stars = parseFloat(form_elements.rate);
 
         let user_id = req.session.user;
 
@@ -761,7 +761,6 @@ let star_the_order = async (req, res) => {
             res.redirect('/customer/my_orders')
             return
         }
-
         /** get the order that is marking */
         let order_model = require('../model/order')
         let order = await order_model.findOne(
@@ -775,6 +774,13 @@ let star_the_order = async (req, res) => {
             res.redirect('/customer/my_orders')
             return
         }
+
+        /**
+         * Using AJAX for redirect in the page file， so this statement is not used
+         * Save customer's time */
+        /** redirect to show successful page right now */
+        /** the rest of the code, let them do their jobs */
+        // res.redirect('/customer/my_orders/order_complete')
 
         /** update the order's stars */
         // update the order's stars
@@ -819,7 +825,20 @@ let star_the_order = async (req, res) => {
             {'stars': new_average}
         );
 
+        // using AJAX in page file to redirect
+
     } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+let show_order_complete_page = (req, res) => {
+    try{
+        res.render('./customer/order_complete', {
+            title: 'Order Complete'
+        })
+    }catch (e) {
         console.log(e)
         res.redirect('/500')
     }
@@ -828,5 +847,5 @@ let star_the_order = async (req, res) => {
 
 // export functions above
 module.exports = {
-    show_my_orders_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, cancel_order, show_edit_page, edit_order_info, show_order_payment_success_page
+    show_my_orders_page, show_order_complete_page, show_previous_order_details_page, show_order_monitor_page, place_new_order, cancel_order, rate_the_order, show_edit_page, edit_order_info, show_order_payment_success_page
 }
