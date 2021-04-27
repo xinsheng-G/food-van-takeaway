@@ -70,6 +70,7 @@ let show_my_orders_page = async (req, res) => {
             /*
             *
             * orders that are completed and have been marked
+            * cancelled orders should not be shown
             * */
             previous_orders = await order_model.find(
                 {'order_customer_id': user_id,
@@ -204,7 +205,7 @@ let show_order_monitor_page = async (req, res) => {
         let order_id = req.params.order_id
         let order = await order_model.findOne(
             {'_id': order_id},
-            '_id order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
+            '_id stars order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
 
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
@@ -297,10 +298,35 @@ let show_order_monitor_page = async (req, res) => {
             case 'preparing':
                 // judge time and show different page
                 if (time_now_local.isBefore(time_can_change_local)) {
+
                     // if the order can change
+                    res.render('./customer/order_preparing_changeable', {
+                        title: 'Order Monitor',
+                        order_id: order_id,
+                        van_title: van_title,
+                        distance: distance,
+                        text_address: text_address,
+                        order_partial_id: string_utils.get_partial_id(order_id),
+                        start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                        showing_items: showing_items,
+                        change_clock: string_utils.get_hour_minute_from_Date(time_can_change_local)
+                    })
 
                 } else {
                     // if the order can not change
+                    res.render('./customer/order_preparing_not_changeable', {
+                        title: 'Order Monitor',
+                        order_id: order_id,
+                        van_title: van_title,
+                        distance: distance,
+                        text_address: text_address,
+                        order_partial_id: string_utils.get_partial_id(order_id),
+                        start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                        showing_items: showing_items,
+                        discount_text: discount_text
+                    })
 
                 }
 
@@ -316,18 +342,26 @@ let show_order_monitor_page = async (req, res) => {
                     start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
                     now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
                     showing_items: showing_items,
+                    discount_text: discount_text
                 })
                 break
             case 'complete':
 
                 // if the order has already been given a feedback
                 if(order['stars'] !== -1) {
-                    res.redirect('/customer/my_orders')
+                    console.log('redirect to previous order status page')
+                    res.redirect('/customer/my_orders/previous_order/' + order_id)
                 } else {
                     // calc average stars of all order belongs to the van, and update van stars
-                    res.end('show feed back complete page')
+                    res.end('show complete page that needs customer to input a rank for the order')
                 }
                 break
+
+            default:
+                // if the status string has some problems
+                console.log('status string error in showing order monitor page')
+                console.log('status string: ' + order['status'].toString())
+                res.redirect('/500')
         }
     } catch (e) {
         console.log(e)
@@ -401,11 +435,13 @@ let show_edit_page = async (req, res) => {
 
         /** check whether the order belongs to the logged-in customer or not
          *  check whether the order has already finished
-         *  check whterh the order exceed time limit of changing*/
+         *  check whether the order exceed time limit of changing*/
         /** if not, return my orders page */
         if(!order['order_customer_id'] === req.session.user ||
             order['status'] === 'cancelled' ||
             order['status'] === 'complete' ||
+            order['status'] == null ||
+            order['status'] === '' ||
             is_over_changeable_time
         ) {
             res.redirect('/customer/my_orders')
@@ -511,6 +547,8 @@ let edit_order_info = async (req, res) => {
         if(!order['order_customer_id'] === req.session.user ||
             order['status'] === 'cancelled' ||
             order['status'] === 'complete' ||
+            order['status'] == null ||
+            order['status'] === '' ||
             is_over_changeable_time
         )
         {
