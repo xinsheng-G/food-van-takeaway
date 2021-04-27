@@ -31,8 +31,8 @@ router.post('/checkout', myOrdersController.place_new_order);
 // show checkout page
 router.get('/checkout_success', myOrdersController.show_order_payment_success_page);
 
-// show order feedback page
-router.get('/order_feedback/:order_id', ((req, res) => {
+// get order feedback page
+router.post('/order_feedback/:order_id', ((req, res) => {
     res.end("<h1> show feed back page of an order, then store the feedback to db </h1>")
 }));
 

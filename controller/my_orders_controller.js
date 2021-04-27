@@ -14,11 +14,6 @@ let show_my_orders_page = async (req, res) => {
         // query orders that belong to the user
         let order_model = require('../model/order')
 
-        /** If we place user_id in Order schema, just call find function for 1 time*/
-            // one query returns an array of current orders
-            // sorted by start_time
-
-
         let current_orders
         try{
 
@@ -350,10 +345,20 @@ let show_order_monitor_page = async (req, res) => {
                 // if the order has already been given a feedback
                 if(order['stars'] !== -1) {
                     console.log('redirect to previous order status page')
+                    // show it as previous order
                     res.redirect('/customer/my_orders/previous_order/' + order_id)
                 } else {
                     // calc average stars of all order belongs to the van, and update van stars
-                    res.end('show complete page that needs customer to input a rank for the order')
+                    res.render('./customer/order_complete_feedback', {
+                        title: 'Order Monitor',
+                        order_id: order_id,
+                        van_title: van_title,
+                        distance: distance,
+                        text_address: text_address,
+                        order_partial_id: string_utils.get_partial_id(order_id),
+                        start_clock: string_utils.get_hour_minute_from_Date(order['start_time']),
+                        now_clock: string_utils.get_hour_minute_from_Date(time_now_local),
+                    })
                 }
                 break
 
@@ -383,6 +388,14 @@ let cancel_order = async (req, res) => {
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** Security */
+        /** check whether the order belongs to the logged-in customer or not */
+        /** if not, return my orders page */
+        if(!order['order_customer_id'] === req.session.user) {
+            res.redirect('/customer/my_orders')
+            return
+        }
 
         /** check whether the order belongs to the logged-in customer or not
          *  check whether the order has already finished */
@@ -422,6 +435,13 @@ let show_edit_page = async (req, res) => {
             {'_id': order_id},
             '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
 
+        /** Security */
+        /** check whether the order belongs to the logged-in customer or not */
+        /** if not, return my orders page */
+        if(!order['order_customer_id'] === req.session.user) {
+            res.redirect('/customer/my_orders')
+            return
+        }
 
         /** utc 0 time now */
         let time_now = moment().utc()
@@ -530,20 +550,29 @@ let edit_order_info = async (req, res) => {
         let cost = 0;
         let refund = 0;
 
-        /** check whether the order belongs to the logged-in customer or not
-         *  check whether the order has already finished
-         *  check whether the order exceed time limit of changing*/
-        /** if not, return my orders page */
+
         let order_model = require('../model/order')
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** Security */
+        /** check whether the order belongs to the logged-in customer or not */
+        /** if not, return my orders page */
+        if(!order['order_customer_id'] === req.session.user) {
+            res.redirect('/customer/my_orders')
+            return
+        }
 
         /** calc the time that customer can change */
         let time_can_change = moment(order['start_time']).add(global_variables.change_cancel_time_minutes,"minutes")
         let time_can_change_local = time_can_change.local()
         let is_over_changeable_time = time_now_local.isAfter(time_can_change_local)
 
+        /** check whether the order belongs to the logged-in customer or not
+         *  check whether the order has already finished
+         *  check whether the order exceed time limit of changing*/
+        /** if not, return my orders page */
         if(!order['order_customer_id'] === req.session.user ||
             order['status'] === 'cancelled' ||
             order['status'] === 'complete' ||
@@ -713,6 +742,87 @@ let show_order_payment_success_page = (req, res) => {
     res.render('./customer/payment_success', {
         title: 'Payment success'
     })
+}
+
+let star_the_order = async (req, res) => {
+
+    try {
+        let form_elements = req.body;
+
+        let order_id = form_elements.order_id;
+        let stars = parseFloat(form_elements.stars);
+
+        let user_id = req.session.user;
+
+        /** Security */
+        /** check whether the order belongs to the logged-in customer or not */
+        /** if not, return my orders page */
+        if(!order_id === user_id) {
+            res.redirect('/customer/my_orders')
+            return
+        }
+
+        /** get the order that is marking */
+        let order_model = require('../model/order')
+        let order = await order_model.findOne(
+            {'_id': order_id},
+            '_id stars order_van_name status').lean();
+
+
+        /** if the order has been marked */
+        if(order['stars'] !== -1) {
+            console.log('the order: ' + order_id + ' has been marked')
+            res.redirect('/customer/my_orders')
+            return
+        }
+
+        /** update the order's stars */
+        // update the order's stars
+        await order_model.findByIdAndUpdate(
+            order_id.toString(),
+            {'stars': stars}
+        );
+
+        let van_name = order['order_van_name'].toString();
+
+        /** get all orders' stars that from a van, to calc average stars*/
+        let orders_stars_list = await order_model.find(
+            {'order_van_name': van_name,
+                    'status': 'complete',
+                    'stars':{$gte: 0}
+            },
+            '_id stars').lean();
+
+        console.log('order_stars_list: ')
+        console.log(orders_stars_list)
+
+        let counter = 0;
+        let total_stars = 0;
+
+        for(let i in orders_stars_list) {
+            let star = parseFloat(orders_stars_list[i]['stars'])
+            total_stars += star
+            counter++
+        }
+
+        let new_average = 0.0
+        if(counter !== 0 ) {
+            new_average = total_stars / counter
+        }
+
+        console.log('new average stars:' + new_average)
+
+        // update the van's average stars
+        let van_model = require('../model/van')
+        await van_model.findOneAndUpdate(
+            {'van_name': van_name},
+            {'stars': new_average}
+        );
+
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
 }
 
 
