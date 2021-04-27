@@ -169,6 +169,8 @@ let show_previous_order_details_page = async (req, res) => {
 /** This page can automatically refresh itself from front-end script */
 let show_order_monitor_page = async (req, res) => {
 
+    const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+    const default_distance = 99
     try{
 
         /** get user location from session to calc distance */
@@ -178,7 +180,7 @@ let show_order_monitor_page = async (req, res) => {
 
             // default value
             console.log('can\'t find location in session')
-            user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+            user_location = default_user_location
         } else {
 
             // get location from session
@@ -246,7 +248,14 @@ let show_order_monitor_page = async (req, res) => {
         /** van details to show */
         let van_title = string_utils.change_dash_into_space(van_obj['van_name'])
         let van_location = van_obj['location']
-        let distance = math_util.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+        let distance = default_distance
+
+        if(van_location == null) {
+            console.log('van: '+ van_obj['van_name'] + ' missing location information')
+        } else {
+            distance = math_util.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+        }
+
         let text_address = van_obj['text_address'].toString()
 
         /** text to show when a discount is given */

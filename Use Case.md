@@ -7,7 +7,7 @@
 - [x] A customer can find nearby vans ( van list OR map )
 - [x] Customer App can get customer's location.
 - [x] Customer App can access van locations from database.
-- [ ] Customer App can calculate five nearest vans. ( show van locations in list )
+- [x] Customer App can calculate five nearest vans. ( show van locations in list )
 - [x] A customer can choose a van to purchase from.
 - [x] A menu should appear, which list snacks after a customer choosing a van
 - [x] Customer App needs to handle login registrations.
@@ -20,11 +20,11 @@
 - [x] A logged-in Customer can place an order.
 - [x] An order consists of 1..* snacks, with quantities for each, needs to be timestamped.
 - [x] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
-- [ ] A customer can monitor order status (fulfilled or ready for pick up).
+- [x] A customer can monitor order status (fulfilled or ready for pick up).
 - [x] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
 - [x] A cancelled order shouldn't be seen to Customers and Vendors
 - [x] Changing order can reset change timestamp
-- [ ] A Customer can rate the order, rating should be 1-5
+- [x] A Customer can rate the order, rating should be 1-5
 - [x] Customer app will be used on phones and also desktops.
 
 ## 2 Vendor
