@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <title>{{{title}}}</title>
+
+</head>
+<body>
+<div class="main">
+    <div class="shopCar">
+        <div class="header">
+            <div class="nav_shop">
+                <div class="nav_title fa fa-map-marker"></div>
+                <div class="nav_title_conter">{{{van_title}}}</div>
+                <!-- back button -->
+                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
+            </div>
+            <div class="header_van_info">
+                <p>4.6 KM AWAY</p>
+                <p>TEXT ADDRESS</p>
+
+            </div>
+
+        </div>
+        <div class="h_k_b"></div>
+
+        <!-- detail body -->
+        <div class="conter">
+            <b><p style="font-size:55px; color:black; text-align: center;margin-top: 5px;">2032<p></b>
+            <div class="progress" style="width:75%; margin-left: auto;margin-right: auto;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div style="text-align: center;">
+                <span><img src="./images/icon_drink_snack.png" alt=""></span>
+                <span style="font-size: 25px;color:black;">COMPLETED</span>
+            </div>
+            <div>
+                <div class="card-text" style="display:flex; justify-content: space-evenly; margin-top: 10px;">
+                    <b><span style="font-size: 15px; color:black">7:22PM</span></b>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                    <b><span style="font-size: 15px; color:green">7:50PM</span></b>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content: center;margin-top: 25px;">
+                <div class="rate">
+                    <input type="radio" id="star5" name="rate" value="5" />
+                    <label for="star5" title="text">5 stars</label>
+                    <input type="radio" id="star4" name="rate" value="4" />
+                    <label for="star4" title="text">4 stars</label>
+                    <input type="radio" id="star3" name="rate" value="3" />
+                    <label for="star3" title="text">3 stars</label>
+                    <input type="radio" id="star2" name="rate" value="2" />
+                    <label for="star2" title="text">2 stars</label>
+                    <input type="radio" id="star1" name="rate" value="1" />
+                    <label for="star1" title="text">1 star</label>
+                  </div>
+            </div>
+        </div>
+
+        <div class="k_b"></div>
+
+        <div class="foot" style="flex-direction: column; height: 95px">
+            <div class="row foot_button_group">
+                <div class="col-xs-6">
+                    <a class="btn btn-primary my-round-border" style="padding: 6px 35px">CONFIRM</a>
+                </div>
+            </div>
+
+            <div class="foot_order_monitor_reminder" style="margin-bottom:15px;">
+            </div>
+        </div>
+    </div>
+    <div class="left_nav">
+        <img src="./images/drink.png" alt="">
+        <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+</body>
+</html>
