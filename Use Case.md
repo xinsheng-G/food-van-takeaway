@@ -21,9 +21,9 @@
 - [x] An order consists of 1..* snacks, with quantities for each, needs to be timestamped.
 - [x] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
 - [ ] A customer can monitor order status (fulfilled or ready for pick up).
-- [ ] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
+- [x] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
 - [x] A cancelled order shouldn't be seen to Customers and Vendors
-- [ ] Changing order can reset change timestamp
+- [x] Changing order can reset change timestamp
 - [ ] A Customer can rate the order, rating should be 1-5
 - [x] Customer app will be used on phones and also desktops.
 
@@ -52,12 +52,12 @@
 
 ### 3.2 locations
 
-- [ ] calculate distance with Euclidean formula
+- [x] calculate distance with Euclidean formula
 - [x] display locations on the map
 
 ### 3.3 live pages
 
-- [ ] Order monitoring pages will be updated live (refresh and read data from database)
+- [x] Order monitoring pages will be updated live (refresh and read data from database)
 
 
 
