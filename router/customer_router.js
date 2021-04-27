@@ -59,6 +59,12 @@ router.post('/edit_profile', login_interceptor.customer_login_interceptor, ((req
     res.end('<h1>receive posted edit data, store them </h1>')
 }));
 
+// show nearest vans list page
+router.get('/nearest_vans', login_interceptor.customer_login_interceptor, ((req, res) => {
+    res.end('<h1>calc 5 nearest vans</h1>')
+}));
+
+// deprecated
 router.get('/cart', login_interceptor.customer_login_interceptor, ((req, res) => {
     res.end('<h1>cart</h1>')
 }));
