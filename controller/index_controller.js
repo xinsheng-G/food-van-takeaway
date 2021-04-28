@@ -146,7 +146,7 @@ let show_van_detail_page = async (req, res) => {
         let van_location = van_obj['location']
         let user_location
         // if session doesn't get position
-        if(req.body.x_pos == null || req.body.y_pos == null) {
+        if(req.session.user_x_pos == null || req.session.user_y_pos == null) {
 
             // default value
             console.log('can\'t find location in session')
