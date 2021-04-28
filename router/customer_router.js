@@ -8,6 +8,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const loginController = require('../controller/login_controller');
 const registerController = require('../controller/register_controller');
+const profileController = require('../controller/profile_controller');
 const exceptionHandler = require('../controller/handle_exceptions');
 
 const login_interceptor = require('../controller/login_interceptor')
@@ -45,24 +46,19 @@ router.get('/register_success', registerController.show_success_page);
 router.get('/logout', login_interceptor.customer_login_interceptor, loginController.handle_logout);
 
 // show profile
-router.get('/profile', login_interceptor.customer_login_interceptor, ((req, res) => {
-    res.end('<h1>user profile</h1>')
-}));
+router.get('/profile', login_interceptor.customer_login_interceptor, profileController.show_profile_page);
 
 // show edit profile page
-router.get('/edit_profile', login_interceptor.customer_login_interceptor, ((req, res) => {
-    res.end('<h1>edit user profile</h1>')
-}));
+router.get('/edit_profile', login_interceptor.customer_login_interceptor, profileController.show_edit_profile_page);
 
 // receive edit form data, store it
-router.post('/edit_profile', login_interceptor.customer_login_interceptor, ((req, res) => {
-    res.end('<h1>receive posted edit data, store them </h1>')
-}));
+router.post('/edit_profile', login_interceptor.customer_login_interceptor, profileController.edit_profile);
 
-// deprecated
-router.get('/cart', login_interceptor.customer_login_interceptor, ((req, res) => {
-    res.end('<h1>cart</h1>')
-}));
+// show change password page
+router.get('/edit_password', login_interceptor.customer_login_interceptor, profileController.show_edit_password_page);
+
+// receive changed password
+router.post('/edit_password', login_interceptor.customer_login_interceptor, profileController.edit_password);
 
 // handle 404
 router.all('*', exceptionHandler.handle404)
