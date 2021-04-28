@@ -27,7 +27,7 @@ router.get('/index', ((req, res) => {
 }));
 
 // show van_details page
-router.get('/dan_details/:van_name', indexController.show_van_detail_page);
+router.get('/van_details/:van_name', indexController.show_van_detail_page);
 
 // get user's location from index with AJAX
 router.post('/get_location', indexController.store_user_location_from_post_to_session)

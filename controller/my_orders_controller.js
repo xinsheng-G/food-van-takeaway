@@ -120,14 +120,31 @@ let show_previous_order_details_page = async (req, res) => {
         let order_model = require('../model/order')
         let order_id = req.params.order_id
 
-        let order
+        /** validate param */
+        if(order_id.length !== 24) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'order id error'
+            })
+            return;
+        }
 
+        let order
         try{
             order = await order_model.findOne(
                 {'_id': order_id},
                 '_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
         } catch (e) {
             console.log(e)
+        }
+
+        /** check order existance*/
+        if(order == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'No records, maybe try again?'
+            })
+            return
         }
 
         /** Security for GET method */
@@ -200,9 +217,28 @@ let show_order_monitor_page = async (req, res) => {
         /** query for the order */
         let order_model = require('../model/order')
         let order_id = req.params.order_id
+
+        /** validate param */
+        if(order_id.length !== 24) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'order id error'
+            })
+            return;
+        }
+
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id stars order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** check order existance*/
+        if(order == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'No records, maybe try again?'
+            })
+            return
+        }
 
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
@@ -394,9 +430,28 @@ let cancel_order = async (req, res) => {
         /** query for the order */
         let order_model = require('../model/order')
         let order_id = req.params.order_id
+
+        /** validate param */
+        if(order_id.length !== 24) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'order id error'
+            })
+            return;
+        }
+
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** check order existance*/
+        if(order == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'No records, maybe try again?'
+            })
+            return
+        }
 
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */
@@ -440,9 +495,29 @@ let show_edit_page = async (req, res) => {
         /** query for the order */
         let order_model = require('../model/order')
         let order_id = req.params.order_id
+
+        /** validate param */
+        if(order_id.length !== 24) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'order id error'
+            })
+            return;
+        }
+
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** check order existance*/
+
+        if(order == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'No records, maybe try again?'
+            })
+            return
+        }
 
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */
@@ -559,11 +634,19 @@ let edit_order_info = async (req, res) => {
         let cost = 0;
         let refund = 0;
 
-
         let order_model = require('../model/order')
         let order = await order_model.findOne(
             {'_id': order_id},
             '_id order_customer_id is_given_discount order_van_name status start_time end_time lineItems cost refund total_price').lean();
+
+        /** check order existance*/
+        if(order == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'No records, maybe try again?'
+            })
+            return
+        }
 
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */

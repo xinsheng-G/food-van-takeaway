@@ -326,12 +326,14 @@
         var infoWindow = new BMapGL.InfoWindow(sContent);
         // click event
         marker.addEventListener('click', function () {
-            this.openInfoWindow(infoWindow);
 
+            window.location.href="/van_details/" + van.van_name;
+
+            // this.openInfoWindow(infoWindow);
             // infoWindow
-            document.getElementById('imgDemo').onload = function () {
-                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
-            };
+            // document.getElementById('imgDemo').onload = function () {
+            //     infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            // };
         });
 
         // if (!infoWindow.isOpen()) {

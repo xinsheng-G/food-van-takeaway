@@ -36,13 +36,20 @@ let update_discount_info = async function(current_order) {
         let refund = original_price * global_variables.discount_percent
         let new_price = original_price - refund
 
-        await order_model.findByIdAndUpdate(
-            current_order['_id'].toString(),
-            {'is_given_discount': true,
-                'cost': math_util.my_round(original_price, 2),
-                'refund': math_util.my_round(refund, 2),
-                'total_price': math_util.my_round(new_price, 2)}
-        );
+
+        try {
+            await order_model.findByIdAndUpdate(
+                current_order['_id'].toString(),
+                {'is_given_discount': true,
+                    'cost': math_util.my_round(original_price, 2),
+                    'refund': math_util.my_round(refund, 2),
+                    'total_price': math_util.my_round(new_price, 2)}
+            );
+        } catch (e) {
+            console.log('account update failed')
+            throw e
+        }
+
     }
 }
 

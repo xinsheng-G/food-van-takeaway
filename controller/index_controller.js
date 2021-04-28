@@ -127,7 +127,16 @@ let show_van_detail_page = async (req, res) => {
         let van_name = req.params.van_name
         let van_model = require('../model/van')
         let van_obj = await van_model.findOne({'van_name': van_name},
-            'picture_path text_address stars location').lean();
+            'picture_path text_address stars location is_open').lean();
+
+        // shouldn't show non-exist van's details
+        if(van_obj == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'This van is not existing/opening'
+            })
+            return
+        }
 
         let van_title = string_utils.change_dash_into_space(van_name)
         let text_address = van_obj['text_address']
@@ -164,10 +173,12 @@ let show_van_detail_page = async (req, res) => {
         // reverse 2 digits after the dot
         let distance = math_utils.my_round(distance_full, 2)
 
+        let stars_percentage = (parseFloat(stars) / 5) * 100;
+
         res.render('customer/van_details', {
             van_name: van_name,
             van_title: van_title,
-            stars: stars,
+            stars_percentage: stars_percentage,
             distance: distance,
             text_address: text_address,
             picture_path: picture_path
