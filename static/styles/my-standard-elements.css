@@ -71,11 +71,11 @@ input[type="number"] {
 }
 
 .h_k_b {
-    height: 14rem;
+    height: 15rem;
 }
 
 .h_k_b_small {
-    height: 7rem;
+    height: 8rem;
 }
 
 .nav_shop {
@@ -319,7 +319,8 @@ input[type="number"] {
     text-align: center;
     background: #8ca1f0;
     color: #ffffff;
-    border-radius: 1.5rem 0 0 1.5rem;
+    margin-right: 6px;
+    /*border-radius: 1.5rem 0 0 1.5rem;*/
 }
 
 .foot_right_price {

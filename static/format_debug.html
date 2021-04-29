@@ -1,3 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- auto refresh -->
+    <meta http-equiv="refresh" content="60">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <title>{{{title}}}</title>
+
+</head>
+<body>
 <div class="main">
     <form method="post" action="/menu/checkout" class="shopCar">
         <div class="header">
@@ -11,17 +40,17 @@
             <!-- navigation buttons  -->
             <div class="nav_logo">
                 <a href="#">
-                <div id="drinks_nav" class="nav_check nav_check_sure">
-                    <img class="logo_size" src="./images/drink.png" alt="">
-                    <span class="logo_title">DRINKS</span>
-                </div>
+                    <div id="drinks_nav" class="nav_check nav_check_sure">
+                        <img class="logo_size" src="./images/drink.png" alt="">
+                        <span class="logo_title">DRINKS</span>
+                    </div>
                 </a>
                 <div class="line"></div>
                 <a href="#">
-                <div id="snacks_nav" class="nav_check ">
-                    <img class="logo_size" src="./images/snack.png" alt="">
-                    <span class="logo_title">SNACKS</span>
-                </div>
+                    <div id="snacks_nav" class="nav_check ">
+                        <img class="logo_size" src="./images/snack.png" alt="">
+                        <span class="logo_title">SNACKS</span>
+                    </div>
                 </a>
             </div>
 
@@ -34,7 +63,7 @@
             <!-- confirm the van -->
             <input type="hidden" name="van_name" value="{{{van_name}}}">
             <!-- confirm the customer -->
-<!--        <input type="hidden" name="customer_id" value="">-->
+            <!--        <input type="hidden" name="customer_id" value="">-->
 
             {{#each foods}}
 
@@ -55,7 +84,7 @@
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-<!--                    <img class="del_shop" src="./images/note.png" alt="">-->
+                    <!--                    <img class="del_shop" src="./images/note.png" alt="">-->
                 </div>
             </div>
 
@@ -80,7 +109,7 @@
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-<!--                    <img class="del_shop" src="./images/note.png" alt="">-->
+                    <!--                    <img class="del_shop" src="./images/note.png" alt="">-->
                 </div>
             </div>
 
@@ -259,3 +288,5 @@
 
 
 </script>
+</body>
+</html>

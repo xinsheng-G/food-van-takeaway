@@ -76,8 +76,8 @@
 
 <script>
     $("#submit_btn").click(function () {
-        $.post('/customer/my_orders/order_feedback', $("#rate_form").serialize(), function () {
-            window.location.href ="/customer/my_orders/order_complete"
-        });
+        $.post('/customer/my_orders/order_feedback', $("#rate_form").serialize());
+        window.location.href ="/customer/my_orders/order_complete";
     });
+
 </script>

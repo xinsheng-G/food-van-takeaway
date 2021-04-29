@@ -46,7 +46,7 @@ let update_discount_info = async function(current_order) {
                     'total_price': math_util.my_round(new_price, 2)}
             );
         } catch (e) {
-            console.log('account update failed')
+            console.log('discount update failed')
             throw e
         }
 
