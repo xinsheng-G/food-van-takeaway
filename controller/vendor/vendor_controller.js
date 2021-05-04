@@ -93,6 +93,10 @@ let update_order_status = (req, res) => {
                     order_status = 'complete';
                     break;
 
+                case 'complete':
+                    order_status = 'complete';
+                    break;
+
                 default:
                     res.end('400: invalid order status');
             }
@@ -119,8 +123,65 @@ let update_order_status = (req, res) => {
         })
         .catch(err => console.log(err));
 }
+
+let show_order_details = (req, res) => {
+    order_id = req.params.id;
+
+    let order_model = require('../../model/order');
+    let customer_model = require('../../model/customer');
+    let snack_model = require('../../model/snack');
+
+    let query = { '_id': order_id };
+    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1 };
+
+    order_model.findOne(query, projection).lean().then(async order => {
+
+        let customer_query = { 'login_id': order.order_customer_id };
+        let customer_projection = { 'firstname': 1, 'lastname': 1 };
+
+        customer_model.findOne(customer_query, customer_projection).lean()
+            .then(customer_name => {
+
+                order.order_customer_id = order.customer_name;
+                delete order.order_customer_id
+                order.customer_name = `${customer_name.firstname} ${customer_name.lastname}`;
+
+            }).catch(err => console.log(err));
+
+        let snacks_projection = { 'snack_name': 1, 'price': 1 };
+        snack_model.find({}, snacks_projection).lean()
+            .then(snacks => {
+                let lineItems_info = [];
+                order.lineItems.forEach(item => {
+                    snack = snacks.filter(snack => {
+                        let lineItem_total = 0;
+                        if (snack.snack_name === item.snack_name) {
+
+                            lineItem_total = snack.price * item.number;
+
+                            lineItems_info.push({
+                                'snack_name': snack.snack_name,
+                                'number': item.number,
+                                'total': lineItem_total
+                            });
+                            return true;
+
+                        } else {
+                            return false;
+                        };
+                    });
+                });
+                order.lineItems = lineItems_info;
+                res.send(order)
+            }).catch(err => console.log(err));
+
+    }).catch(err => console.log(err));
+
+}
 module.exports = {
     set_location,
     filtered_orders,
-    update_order_status
+    update_order_status,
+    show_order_details
+
 }
