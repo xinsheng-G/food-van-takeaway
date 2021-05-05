@@ -11,11 +11,11 @@ function encrypt(password) {
 /**
  * Updated: add more Salt to make md5 better:
  * */
-function salty_encrypt(password, username) {
+function salty_encrypt(password, user_id) {
     // encrypt for 3 times
-    let salty_1 = encrypt(password + username);
-    let salty_2 = encrypt(salty_1);
-    return encrypt(salty_2);
+    let salty_1 = encrypt(password + user_id);
+    let salty_2 = encrypt(user_id + salty_1);
+    return encrypt(salty_2 + password);
 }
 
 module.exports = {encrypt, salty_encrypt}
