@@ -134,7 +134,7 @@ let show_order_details = (req, res) => {
     let query = { '_id': order_id };
     let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1 };
 
-    order_model.findOne(query, projection).lean().then(async order => {
+    order_model.findOne(query, projection).lean().then(order => {
 
         let customer_query = { 'login_id': order.order_customer_id };
         let customer_projection = { 'firstname': 1, 'lastname': 1 };
@@ -177,11 +177,21 @@ let show_order_details = (req, res) => {
 
     }).catch(err => console.log(err));
 
+
 }
+
+let show_dashboard = (req, res) => {
+    van_name = req.query.van_name;
+    res.render('./vendor/dashboard', {
+        van: van_name
+    })
+}
+
 module.exports = {
     set_location,
     filtered_orders,
     update_order_status,
-    show_order_details
+    show_order_details,
+    show_dashboard
 
 }
