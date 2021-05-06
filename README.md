@@ -171,7 +171,7 @@ password: 123456
 - *If you would like, you could register a new customer account by clicking `join us today` button on the login page*
 
 
-- *To make debug easy, customer's marker position on the map is hard-coded*
+- *To make debug easy, customer's marker position on the map is hard-coded for now*
 
 ### Features
 1. Login: For the desktop size, you could login in by clicking `Please Login` on the top-left, For the mobile size, you can click the icon on the bottom.
