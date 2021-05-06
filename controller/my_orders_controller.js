@@ -282,17 +282,29 @@ let show_order_monitor_page = async (req, res) => {
         let time_can_change_local = time_can_change.local()
 
         /** van details to show */
-        let van_title = string_utils.change_dash_into_space(van_obj['van_name'])
-        let van_location = van_obj['location']
-        let distance = default_distance
+        let van_title
+        let van_location
+        let distance
+        let text_address
+
+        if(van_obj == null) {
+            van_title = string_utils.change_dash_into_space(order['order_van_name']);
+            van_location = null;
+            distance = default_distance;
+            text_address = "";
+        } else {
+            van_title = string_utils.change_dash_into_space(van_obj['van_name'])
+            van_location = van_obj['location']
+            distance = default_distance
+            text_address = van_obj['text_address'].toString()
+        }
+
 
         if(van_location == null) {
-            console.log('van: '+ van_obj['van_name'] + ' missing location information')
+            console.log('van: '+ order['order_van_name'] + ' missing location information')
         } else {
             distance = math_util.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
         }
-
-        let text_address = van_obj['text_address'].toString()
 
         /** text to show when a discount is given */
         let discount_text;

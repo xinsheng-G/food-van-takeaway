@@ -84,12 +84,25 @@ let show_check_out_page = async (req, res) => {
         // need to query price again in back end for security
         delete form_elements.price_all
 
+        /** query snack price into a list */
+            // do price calculation in back-end is a security way
+        let snack_model = require('../model/snack')
+        let query_res = await snack_model.find({}, 'snack_name price').lean();
+
+        let snacks_price_list = {}
+        query_res.forEach(res_obj => {
+            snacks_price_list[res_obj['snack_name'].toString()] = parseFloat(res_obj['price'])
+        })
+
         let lineItems = []
         Object.keys(form_elements).forEach(key => {
 
+            let item_number = parseInt(form_elements[key]);
+            let item_total_price = item_number * snacks_price_list[key];
+
             // if purchased a item
             if(parseInt(form_elements[key]) !== 0) {
-                let new_item = {snack_name: key, number: parseInt(form_elements[key])}
+                let new_item = {snack_name: key, number: item_number, price: item_total_price}
                 lineItems.push(new_item)
             }
         })

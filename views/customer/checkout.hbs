@@ -4,7 +4,9 @@
             <div class="nav_shop">
                 <div class="nav_title_conter">CHECKOUT</div>
                 <!-- back button -->
-                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
+                <a href="#"  onClick="history.go(-1); return false;">
+                    <i class="x fa fa-close"></i>
+                </a>
             </div>
 
         </div>
@@ -25,8 +27,8 @@
                 <table class="table table-borderless" style="margin-left:auto;margin-right:auto;margin-top: 60px;">
                     {{#each lineItems}}
                     <tr style="color:black;font-size: 16px;">
-                        <td style="text-align: left;">{{this.snack_name}}</td>
-                        <td style="text-align: right;">x{{this.number}}</td>
+                        <td style="text-align: left;">{{this.number}}x {{this.snack_name}}</td>
+                        <td style="text-align: right;">${{this.price}}</td>
                     </tr>
                     {{/each}}
 
