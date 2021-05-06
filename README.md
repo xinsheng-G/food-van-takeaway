@@ -5,15 +5,18 @@
 
 Welcome!
 
-Our heroku app address: https://project-t05-x3ra.herokuapp.com/
+**Our heroku app address**: https://project-t05-x3ra.herokuapp.com/
 
-Our database entry: 
+**Our database entry**: 
 mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=admin&replicaSet=atlas-gq4o85-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
 
-For Mockup APP Server infromation, see [Mockup APP Server](#mockup-app-server).
+* For *Deliverable 2：Mockup APP Server*, see [Mockup APP Server](#mockup-app-server).
+
+* For *Deliverable 3：Backend with Frontend*, see [Customer Features](#customer-features).
 
 ## Table of contents
 * [Mockup APP Server](#mockup-app-server)
+* [Customer Features](#customer-features)
 * [General Info](#general-info)
 * [Technologies](#technologies)
 * [Code Implementation](#code-implementation)
@@ -156,6 +159,39 @@ We have implemented more functionalities than requirements of the deliverable 2:
   * Exception Handling:  Handles invalid order status and van name not found  | Catches Bad Requests (400), Internal Server Errors (50-x) and Database
 
   * API ENDPOINT: /vendor/update_order_status/:id  (:id is a order id)
+
+## Customer Features
+
+### Dummy customer
+
+Login ID: dummy@example.org
+
+password: 123456
+
+- *If you would like, you could register a new customer account by clicking `join us today` button on the login page*
+
+
+- *To make debug easy, customer's marker position on the map is hard-coded*
+
+### Features
+1. Login: For the desktop size, you could login in by clicking `Please Login` on the top-left, For the mobile size, you can click the icon on the bottom.
+You could also trigger login page when you make an order without login-in.
+   
+
+2. View menu of snacks: On the `index` there is a map. You can click on the blue marker that refers to the van(If there are no blue markers or you can not trigger redirect, refresh the page), then you will be redirected to the `van details` page. Then click `Menu` button, you can
+get to the menu page.
+   
+
+3. Order snacks: You could select multiple snacks and quantities on the `Menu` page, then click `Place an order` button.
+
+
+4. View Order Details: There are 2 ways to visit order details page: Firstly, after you made an order, you can choose `See My Orders` button that can redirect browser to
+`My orders` page, where you can see current orders and previous orders. Secondly, you can click `My Orders` button on the top-left page in desktop size, or click middle icon on the page bottom in mobile size.
+
+    To see more order details, click order blocks that shown in the `My Orders` page to gain a view of more order details. Where you can also change/Cancel a current order.
+   
+
+
 
 
 ## General info
