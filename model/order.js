@@ -36,11 +36,13 @@ let orderSchema = new Schema({
      * */
     //customer_last_name: String,
 
-    start_time: {
-        type: Date,
-        default: Date.now
-    },
+    /** remove timestamp to make start_time can be changed */
+    // start_time: {
+    //     type: Date,
+    //     default: Date.now
+    // },
 
+    start_time: Date,
     end_time: Date,
 
     /** Line items for an order
@@ -58,9 +60,8 @@ let orderSchema = new Schema({
     refund: Number,
     total_price: Number
 
-}, {
-    timestamps: {createdAt: 'start_time'}
-});
+}
+);
 
 
 /* The first parameter is the singular form of the

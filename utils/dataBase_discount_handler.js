@@ -8,7 +8,7 @@
  *  2. When a vendor periodically refreshes his order management page.
  *
  *
- * For input parameter current_order, it is an order object from order_model.find(...), and this
+ * For input parameter current_order, it is an order object from order_model.findOne(...), and this
  * order object contains _id, start_time, is_given_discount, cost, fund, total_price fields
  *
  */
@@ -29,19 +29,32 @@ let update_discount_info = async function(current_order) {
      if a discount has been given, skip the query
     */
     if(delta_minute > global_variables.discount_period_minutes &&
-        current_order['is_given_discount'] === false ) {
+        current_order['is_given_discount'] === false &&
+        (current_order['status'] !=='ready' && current_order['status'] !=='complete') ) {
 
-        let original_price = current_order['total_price']
+        let original_price = current_order['cost']
         let refund = original_price * global_variables.discount_percent
         let new_price = original_price - refund
 
-        await order_model.findByIdAndUpdate(
-            current_order['_id'].toString(),
-            {'is_given_discount': true,
-                'cost': math_util.my_round(original_price, 2),
-                'refund': math_util.my_round(refund, 2),
-                'total_price': math_util.my_round(new_price, 2)}
-        );
+        if (original_price == null) {
+            console.log('update discount failed');
+            return;
+        }
+
+
+        try {
+            await order_model.findByIdAndUpdate(
+                current_order['_id'].toString(),
+                {'is_given_discount': true,
+                    'cost': math_util.my_round(original_price, 2),
+                    'refund': math_util.my_round(refund, 2),
+                    'total_price': math_util.my_round(new_price, 2)}
+            );
+        } catch (e) {
+            console.log('discount update failed')
+            throw e
+        }
+
     }
 }
 

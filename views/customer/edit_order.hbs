@@ -1,14 +1,12 @@
 <div class="main">
-    <form method="post" action="/menu/checkout" class="shopCar">
+    <form method="post" action="/customer/my_orders/order_edit" class="shopCar">
         <div class="header">
             <div class="nav_shop">
-                <div class="nav_title fa fa-map-marker"></div>
-                <div class="nav_title_conter">{{{van_title}}}</div>
+                <div class="nav_title_conter">Edit Order</div>
                 <!-- back button -->
                 <a href="#"  onClick="history.go(-1); return false;">
                     <i class="x fa fa-close"></i>
                 </a>
-
             </div>
 
             <!-- navigation buttons  -->
@@ -32,15 +30,8 @@
         <div class="h_k_b"></div>
         <!-- Menu Items -->
         <div class="conter">
-
-
-            <!-- confirm the van -->
-            <input type="hidden" name="van_name" value="{{{van_name}}}">
-            <!-- confirm the customer -->
-<!--        <input type="hidden" name="customer_id" value="">-->
-
+            <input type="hidden" name="order_id" value="{{order_id}}">
             {{#each foods}}
-
             <div class="shop_conter snack_item" style="display: none">
                 <div class="shop_left">
                     <div>
@@ -51,14 +42,13 @@
                         <div class="price">
                             <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
                             <!-- number of snacks, not negative integer-->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="{{this.snack_number}}">
                             <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-<!--                    <img class="del_shop" src="./images/note.png" alt="">-->
                 </div>
             </div>
 
@@ -76,14 +66,13 @@
                         <div class="price">
                             <div id="{{this.snack_name}}_add" class="add"><i class="fa fa-plus"></i></div>&nbsp;
                             <!-- number of drinks，not negative integer -->
-                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="0">
+                            <input readonly="readonly" oninput="value=value.replace(/[^\d]/g,'')" class="price_input" id="{{this.snack_name}}_num" type="number" name="{{this.snack_name}}" value="{{this.snack_number}}">
                             <div id="{{this.snack_name}}_del" class="del"><i class="fa fa-minus"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="shop_right">
                     <div class="h4">$&nbsp;<span id="{{this.snack_name}}_price">{{this.price}}</span></div>
-<!--                    <img class="del_shop" src="./images/note.png" alt="">-->
                 </div>
             </div>
 
@@ -95,15 +84,15 @@
             <div class="foot_left">
                 <div class="shop_car_img">
                     <img class="shop_car_icon" src="./images/cart.png" alt="">
-                    <div class="shop_car_num" id="total_snacks">0</div>
+                    <div class="shop_car_num" id="total_snacks">{{original_total_number}}</div>
                 </div>
                 <div class="price_all">
-                    $&nbsp;<input readonly="readonly" class="price_all_input" id="price_all" type="number" name="price_all" value="0">
+                    $&nbsp;<input readonly="readonly" class="price_all_input" id="price_all" type="number" name="price_all" value="{{{original_total_price}}}">
                 </div>
 
             </div>
-            <button id="submit-btn" class="btn foot_right_button my-round-border" disabled="disabled" type="submit">
-                PLACE AN ORDER
+            <button class="btn foot_right_button my-round-border" type="submit">
+                Confirm Change
             </button>
         </div>
     </form>
@@ -114,22 +103,6 @@
 </div>
 
 <script>
-
-    navigator.geolocation.getCurrentPosition(position => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let accuracy = position.coords.accuracy;
-
-        console.log("locating demo: user location：" + latitude + "," + longitude);
-        console.log("accuracy：" + accuracy);
-
-        // AJAX post to store user location to session
-        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
-
-    }, positionError => {
-        alert('locating failed. Make sure your Browser supports geolocation.')
-    });
-
     // nav label function
     let drinks_nav = $('#drinks_nav');
     let snacks_nav = $('#snacks_nav');
@@ -177,11 +150,6 @@
 
             price_all.val(new_price)
             total_snacks.text(parseInt(total_snacks.text()) + 1);
-            if(parseFloat(price_all.val()) > 0) {
-                $("#submit-btn").attr("disabled",false)
-            } else {
-                $("#submit-btn").attr("disabled",true)
-            }
         })
 
         $('#{{this.snack_name}}_del').click(function () {
@@ -195,11 +163,6 @@
 
                 price_all.val(new_price)
                 total_snacks.text(parseInt(total_snacks.text()) - 1);
-                if(parseFloat(price_all.val()) > 0) {
-                    $("#submit-btn").attr("disabled",false)
-                } else {
-                    $("#submit-btn").attr("disabled",true)
-                }
             } else {
                 input.val(0);
             }
@@ -225,12 +188,6 @@
 
                 price_all.val(new_price)
                 total_snacks.text(parseInt(total_snacks.text()) + 1);
-
-                if(parseFloat(price_all.val()) > 0) {
-                    $("#submit-btn").attr("disabled",false)
-                } else {
-                    $("#submit-btn").attr("disabled",true)
-                }
             })
 
             $('#{{this.snack_name}}_del').click(function () {
@@ -244,12 +201,6 @@
 
                     price_all.val(new_price)
                     total_snacks.text(parseInt(total_snacks.text()) - 1);
-
-                    if(parseFloat(price_all.val()) > 0) {
-                        $("#submit-btn").attr("disabled",false)
-                    } else {
-                        $("#submit-btn").attr("disabled",true)
-                    }
                 } else {
                     input.val(0);
                 }

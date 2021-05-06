@@ -19,6 +19,7 @@ let check_login = (req, res) => {
         }
 
         console.log('input password to MD5: ' +user.password)
+        console.log('input password to salty MD5: ' + md5_util.salty_encrypt(req.body.password, req.body.login_id))
 
         // select user model
         let customer_model = require('../model/customer')

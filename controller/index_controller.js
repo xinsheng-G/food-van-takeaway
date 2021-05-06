@@ -1,3 +1,7 @@
+const math_utils = require('../utils/math_utils')
+const string_utils = require('../utils/string_utils')
+const array_sorter = require('../utils/arraySorter')
+
 let show_page = async (req, res) => {
 
     try{
@@ -115,7 +119,237 @@ let get_van_objects = async (req, res) => {
     }
 }
 
+let show_van_detail_page = async (req, res) => {
+
+    const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+    const default_distance = 99
+    try{
+        let van_name = req.params.van_name
+        let van_model = require('../model/van')
+        let van_obj = await van_model.findOne({'van_name': van_name},
+            'picture_path text_address stars location is_open').lean();
+
+        // shouldn't show non-exist van's details
+        if(van_obj == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'This van is not existing/opening'
+            })
+            return
+        }
+
+        let van_title = string_utils.change_dash_into_space(van_name)
+        let text_address = van_obj['text_address']
+        let picture_path = van_obj['picture_path']
+        let stars = van_obj['stars']
+
+        let van_location = van_obj['location']
+        let user_location
+        // if session doesn't get position
+        if(req.session.user_x_pos == null || req.session.user_y_pos == null) {
+
+            // default value
+            console.log('can\'t find location in session')
+            user_location = default_user_location
+        } else {
+
+            // get location from session
+            user_location = {x_pos: req.session.user_x_pos, y_pos: req.session.user_y_pos}
+        }
+
+        let distance_full = default_distance
+
+        if(van_location == null) {
+            console.log('van: '+ van_obj['van_name'] + ' missing location information.')
+        } else {
+            distance_full = math_utils.findDistance(
+                user_location.x_pos,
+                user_location.y_pos,
+                van_location['x_pos'],
+                van_location['y_pos']
+            )
+        }
+
+        // reverse 2 digits after the dot
+        let distance = math_utils.my_round(distance_full, 2)
+
+        let stars_percentage = (parseFloat(stars) / 5) * 100;
+
+        res.render('customer/van_details', {
+            van_name: van_name,
+            van_title: van_title,
+            stars_percentage: stars_percentage,
+            distance: distance,
+            text_address: text_address,
+            picture_path: picture_path
+        })
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+let store_user_location_from_post_to_session = (req, res) => {
+    try{
+        let x_pos = req.body.x_pos
+        let y_pos = req.body.y_pos
+
+        req.session.user_x_pos = parseFloat(x_pos)
+        req.session.user_y_pos = parseFloat(y_pos)
+
+        res.json({ ok: true });
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
+let show_search_page = (req, res) => {
+    try{
+        res.end('search page');
+
+    } catch (e) {
+    console.log(e)
+    res.redirect('/500')
+    }
+}
+
+
+/**
+ *
+ * fuzzy search a opening van by its name
+ *
+ * */
+let search_by_van_name = async (req, res) => {
+
+    const default_distance = 99;
+    const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+    try{
+        let query_text = req.params.search_text
+        let reg = new RegExp(query_text, 'i')
+
+        let van_model = require('../model/van')
+        let result = await van_model.find(
+            {'van_name' : {$regex : reg}, 'is_open': true},
+            '_id van_name stars text_address location').sort({stars: -1}).lean()
+
+        /**
+         * we need to calc distance
+         * get user location from session to calc distance */
+        let user_location
+        // if session doesn't get position
+        if(req.session.user_x_pos == null || req.session.user_y_pos == null) {
+
+            // default value
+            console.log('can\'t find location in session')
+            user_location = default_user_location
+        } else {
+
+            // get location from session
+            user_location = {x_pos: req.session.user_x_pos, y_pos: req.session.user_y_pos}
+        }
+
+        let vans_to_show = []
+
+        result.forEach((res_obj) => {
+            let van_location = res_obj['location'];
+            let distance = default_distance
+
+            if (van_location == null) {
+                console.log('van: '+ res_obj['van_name'] + ' missing location information.')
+            } else {
+                distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+            }
+
+            let van = {
+                van_name: res_obj['van_name'],
+                stars: parseFloat(res_obj['stars']),
+                text_address: res_obj['text_address'],
+                distance: distance,
+            }
+                vans_to_show.push(van)
+        })
+
+        res.json(vans_to_show)
+    } catch (e) {
+    console.log(e)
+    res.redirect('/500')
+    }
+}
+
+
+/**
+ *
+ * show nearest 5 opening vans on the page
+ *
+ * */
+let show_nearest_van_list_page = async (req, res) => {
+
+    // define the number of nearest vans to show
+    const show_number = 5;
+    const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
+    try{
+        /**
+         * we need to calc distance
+         * get user location from session to calc distance */
+        let user_location
+        // if session doesn't get position
+        if(req.session.user_x_pos == null || req.session.user_y_pos == null) {
+
+            // default value
+            console.log('can\'t find location in session')
+            user_location = default_user_location
+        } else {
+
+            // get location from session
+            user_location = {x_pos: req.session.user_x_pos, y_pos: req.session.user_y_pos}
+        }
+
+        // get all vans
+        let van_model = require('../model/van')
+        let query_results = await van_model.find(
+            {'is_open': true},
+            '_id van_name stars text_address location').lean()
+
+        let vans = []
+
+        for(let i in query_results) {
+            let res_obj = query_results[i]
+
+            let van_location = res_obj['location'];
+            if (van_location == null) {
+                // if a van doesn't have a location stored in the db
+                // don't show it
+                continue
+            }
+            let distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+            let van = {
+                van_name: res_obj['van_name'],
+                stars: parseFloat(res_obj['stars']),
+                text_address: res_obj['text_address'],
+                distance: distance,
+            }
+            vans.push(van)
+        }
+
+        let sorted_vans = vans.sort(array_sorter.sortBy('distance'))
+        let showing_list = []
+        for(let i = 0; i < show_number; i++) {
+            if(i < sorted_vans.length) {
+                showing_list.push(sorted_vans[i])
+            } else {
+                break
+            }
+        }
+
+        res.json(showing_list)
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
+    }
+}
+
 // export functions above
 module.exports = {
-    show_page, get_van_objects
+    show_page, get_van_objects, store_user_location_from_post_to_session, show_search_page, search_by_van_name, show_nearest_van_list_page,show_van_detail_page
 }

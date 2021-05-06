@@ -98,7 +98,7 @@
                                 <a href="/customer/my_orders" class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></a>
                             </div>
                             <div class="col-xs-4 col-md-4">
-                                <a href="/customer/cart" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-shopping-cart" title="Cart"></i></a>
+                                <a href="/nearest_vans" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-location-arrow" title="Nearest vans"></i></a>
                             </div>
                         </div>
 
@@ -196,10 +196,10 @@
                                 </li>
 
                                 <li>
-                                    <a href="/customer/cart" data-original-title="" title="">
-                                        <i class="fa fa-shopping-cart"></i>
+                                    <a href="/nearest_vans" data-original-title="" title="">
+                                        <i class="fa fa-location-arrow"></i>
                                         <span class="menu-title">
-												Cart
+												Nearest Vans
                                         </span>
                                     </a>
                                 </li>
@@ -253,9 +253,13 @@
         console.log("locating demo: user location：" + latitude + "," + longitude);
         console.log("accuracy：" + accuracy);
 
+        // AJAX post to store user location to session
+        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
+
     }, positionError => {
         alert('locating failed. Make sure your Browser supports geolocation.')
     });
+
 
     var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST' });
 
@@ -274,22 +278,6 @@
 
     // load fixed user coordinate for debugging
     let user_to_show =  {x_pos: 144.95782936759818, y_pos: -37.79872198514221 };
-
-    /**
-     * An api for OSM search: get coordinate from address
-     *
-     * eg:
-     * https://nominatim.openstreetmap.org/search?q=Grattan+st+Melbourne+Australia&format=geojson
-     *
-     * will be useful in finding coordinate based on address
-     *
-     * website: https://nominatim.org/release-docs/develop/api/Search/
-     *
-     * this api will be used in Vendor App
-     *
-     * */
-
-
 
     let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
 
@@ -338,12 +326,14 @@
         var infoWindow = new BMapGL.InfoWindow(sContent);
         // click event
         marker.addEventListener('click', function () {
-            this.openInfoWindow(infoWindow);
 
+            window.location.href="/van_details/" + van.van_name;
+
+            // this.openInfoWindow(infoWindow);
             // infoWindow
-            document.getElementById('imgDemo').onload = function () {
-                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
-            };
+            // document.getElementById('imgDemo').onload = function () {
+            //     infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            // };
         });
 
         // if (!infoWindow.isOpen()) {

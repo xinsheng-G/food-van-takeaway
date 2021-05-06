@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="./styles/nifty.min.css">
     <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
     <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
     <link rel="stylesheet" href="./styles/themify-icons.min.css">
     <link rel="stylesheet" href="./styles/font-awesome.min.css">
-    <link rel="stylesheet" href="./styles/map.css">
 
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
@@ -20,15 +20,10 @@
     <script src="./scripts/icons.js"></script>
     <script src="./scripts/bootstrap-datepicker.min.js"></script>
     <script src="./scripts/bootstrapValidator.min.js"></script>
-    <script type="text/javascript"
-            src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
-    <title>Index</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{{title}}}</title>
+
 </head>
-
 <body>
-
 <div class="main">
     <div class="shopCar">
         <div class="header">
@@ -102,16 +97,16 @@
             </div>
 
 
-<!--            <form method="post" action="/customer/my_orders/checkout">-->
-<!--                <input type="hidden" name="van_name" value="{{van_name}}">-->
-<!--                {{#each lineItems}}-->
-<!--                <input type="hidden" name="{{this.snack_name}}" value="{{this.number}}"></p>-->
-<!--                {{/each}}-->
+            <form method="post" action="/customer/my_orders/checkout">
+                <input type="hidden" name="van_name" value="{{van_name}}">
+                {{#each lineItems}}
+                <input type="hidden" name="{{this.snack_name}}" value="{{this.number}}"></p>
+                {{/each}}
 
-<!--                <div class="row foot_button_group">-->
-<!--                    <button type="submit" class="btn btn-primary my-round-border" style="padding: 6px 35px">Order Snacks</button>-->
-<!--                </div>-->
-<!--            </form>-->
+                <div class="row foot_button_group">
+                    <button type="submit" class="btn btn-primary my-round-border" style="padding: 6px 35px">Order Snacks</button>
+                </div>
+            </form>
             <div class="row foot_button_group">
                 <button type="submit" class="btn btn-primary my-round-border" style="padding: 6px 35px">Order Snacks</button>
             </div>
@@ -131,6 +126,10 @@
 </div>
 </div>
 
-</body>
 
+<script>
+
+</script>
+
+</body>
 </html>

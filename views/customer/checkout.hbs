@@ -1,0 +1,98 @@
+<div class="main">
+    <div class="shopCar">
+        <div class="header">
+            <div class="nav_shop">
+                <div class="nav_title_conter">CHECKOUT</div>
+                <!-- back button -->
+                <a href="#"  onClick="history.go(-1); return false;">
+                    <i class="x fa fa-close"></i>
+                </a>
+            </div>
+
+        </div>
+        <div class="h_k_b"></div>
+
+        <!-- detail body -->
+        <div class="conter">
+            <div class="nav_shop" style="margin-top: -40px; width:70%">
+                <span class="nav_title fa fa-map-marker"></span>
+                <span class="nav_title_conter" style="font-size: 25px;">{{van_title}}</span>
+            </div>
+            <div style="text-align: center;margin-top: 6px;">
+                <p>{{distance}} KM AWAY</p>
+                <p style="margin-top: -12px;">{{text_address}}</p>
+            </div>
+
+            <div>
+                <table class="table table-borderless" style="margin-left:auto;margin-right:auto;margin-top: 60px;">
+                    {{#each lineItems}}
+                    <tr style="color:black;font-size: 16px;">
+                        <td style="text-align: left;">{{this.number}}x {{this.snack_name}}</td>
+                        <td style="text-align: right;">${{this.price}}</td>
+                    </tr>
+                    {{/each}}
+
+                </table>
+
+                <div style="padding-top: 0px;padding-bottom: 0px;">
+                    <hr style="max-width:100%;height:1px;border-width:0;background-color:gray;">
+                </div>
+
+                <div>
+                    <div style="display:flex;margin-top:30px; justify-content: center;">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                        </svg>
+                    </span>
+                        <span>
+                        <b><p style="font-size: 12px;color:rgb(136, 133, 133);margin-top: 0px;">&nbsp;Order can be changed within {{change_minutes}} minutes</p></b>
+                    </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="k_b"></div>
+
+    <div class="foot" style="height: 95px">
+        <div class="foot" style="flex-direction: column; height: 135px">
+            <div class="row foot_button_group">
+                <div class="col-xs-6 foot_left_price">
+                    <p>COST $ {{price_all}}</p> <br>
+                    <p>REFUND -$ 0</p>
+                </div>
+                <div class="col-xs-6 price_all foot_right">
+                    <p>TOTAL $ {{price_all}}</p>
+                </div>
+            </div>
+
+
+            <form method="post" action="/customer/my_orders/checkout">
+                <input type="hidden" name="van_name" value="{{van_name}}">
+                {{#each lineItems}}
+                    <input type="hidden" name="{{this.snack_name}}" value="{{this.number}}"></p>
+                {{/each}}
+
+                <div class="row foot_button_group">
+                    <button type="submit" class="btn btn-primary my-round-border" style="padding: 6px 35px">Order Snacks</button>
+                </div>
+            </form>
+
+            <div class="foot_order_monitor_reminder">
+                <p> You will be redirected to payment</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="left_nav">
+    <img src="./images/drink.png" alt="">
+    <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+</div>
+</div>

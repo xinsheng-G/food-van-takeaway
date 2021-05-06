@@ -1,37 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
-    <link rel="stylesheet" href="./styles/bootstrap.min.css">
-    <link rel="stylesheet" href="./styles/nifty.min.css">
-    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
-    <link rel="stylesheet" href="./styles/my.css">
-    <link rel="stylesheet" href="./styles/my-standard-elements.css">
-    <link rel="stylesheet" href="./styles/themify-icons.min.css">
-    <link rel="stylesheet" href="./styles/font-awesome.min.css">
-    <link rel="stylesheet" href="./styles/star-rating.css">
-
-    <script src="./scripts/jquery.min.js"></script>
-    <script src="./scripts/bootstrap.min.js"></script>
-    <script src="./scripts/nifty.min.js"></script>
-    <script src="./scripts/icons.js"></script>
-    <script src="./scripts/bootstrap-datepicker.min.js"></script>
-    <script src="./scripts/bootstrapValidator.min.js"></script>
-    <title>{{{title}}}</title>
-
-</head>
-<body>
 <div class="main">
     <div class="shopCar">
         <div class="header">
             <div class="nav_shop">
                 <div class="nav_title_conter">Van Details</div>
                 <!-- back button -->
-                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
+                <a href="#"  onClick="history.go(-1); return false;">
+                    <i class="x fa fa-close"></i>
+                </a>
             </div>
 
         </div>
@@ -39,12 +14,12 @@
 
         <!-- detail body -->
         <div style="text-align: center;color:black">
-            <div class="h2" style="margin-top: 1px;font-weight: bold;">Snack name</div>
+            <div class="h2" style="margin-top: 1px;font-weight: bold;">{{van_title}}</div>
         </div>
         <div style="text-align: center;color:black">
             <span class="nav_title fa fa-map-marker"></span>
-            <span class="h4">4.5km Away</span>
-            <div class="h5" style="margin-top: 1px;font-weight: bold;">Sancking at Grattan Street, outside Melbourne Uni</div>
+            <span class="h4">{{distance}}km Away</span>
+            <div class="h5" style="margin-top: 1px;font-weight: bold;">{{text_address}}</div>
         </div>
         <div class="rating-container rating-xs" style="justify-content: center !important;display: flex; ">
             <div class="rating-stars"><span class="empty-stars"><span class="star"><i
@@ -53,7 +28,7 @@
                     class="fa fa-star-o"></i></span><span class="star"><i
                     class="fa fa-star-o"></i></span><span class="star"><i
                     class="fa fa-star-o"></i></span></span><span class="filled-stars"
-                                                                 style="width: 40%;"><span
+                                                                 style="width: {{stars_percentage}}%;"><span
                     class="star"><i class="fa fa-star"></i></span><span class="star"><i
                     class="fa fa-star"></i></span><span class="star"><i
                     class="fa fa-star"></i></span><span class="star"><i
@@ -66,7 +41,7 @@
         </div>
         <div class="conter">
             <div>
-                <img class="img-rounded" src="./images/van_photo.png" style="width:100%; height:auto; text-align: center; margin-top: 25px;"
+                <img class="img-rounded" src="{{picture_path}}" style="width:100%; height:auto; text-align: center; margin-top: 25px;"
                      alt="van picture">
             </div>
         </div>
@@ -75,7 +50,7 @@
         <div class="foot" style="height: 95px">
             <div class="row foot_button_group">
                 <div class="col-xs-6">
-                    <a class="btn btn-primary my-round-border" style="padding: 8px 58px; font-size: 18px">Menu</a>
+                    <a href="/menu/{{{van_name}}}" class="btn btn-primary my-round-border" style="padding: 8px 58px; font-size: 18px">Menu</a>
                 </div>
             </div>
         </div>
@@ -87,10 +62,3 @@
         <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
     </div>
 </div>
-
-<script>
-
-</script>
-
-</body>
-</html>

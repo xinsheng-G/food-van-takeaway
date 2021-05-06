@@ -8,4 +8,14 @@ function encrypt(password) {
     return md5.update(password).digest('hex');
 }
 
-module.exports = {encrypt}
+/**
+ * Updated: add more Salt to make md5 better:
+ * */
+function salty_encrypt(password, user_id) {
+    // encrypt for 3 times
+    let salty_1 = encrypt(password + user_id);
+    let salty_2 = encrypt(user_id + salty_1);
+    return encrypt(salty_2 + password);
+}
+
+module.exports = {encrypt, salty_encrypt}
