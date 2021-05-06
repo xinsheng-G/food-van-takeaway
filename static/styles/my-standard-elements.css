@@ -92,7 +92,7 @@ input[type="number"] {
 .x{
     position: absolute;
     top:.5rem;
-    left: -6.5rem;
+    left: 2rem;
 }
 .nav_title {
     color: #000099;
