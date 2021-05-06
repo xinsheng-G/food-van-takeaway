@@ -177,18 +177,26 @@ password: 123456
 1. Login: For the desktop size, you could login in by clicking `Please Login` on the top-left, For the mobile size, you can click the icon on the bottom.
 You could also trigger login page when you make an order without login-in.
    
+   Quick visit: https://project-t05-x3ra.herokuapp.com/customer/login
+   
 
 2. View menu of snacks: On the `index` there is a map. You can click on the blue marker that refers to the van(If there are no blue markers or you can not trigger redirect, refresh the page), then you will be redirected to the `van details` page. Then click `Menu` button, you can
 get to the menu page.
+
+   Quick visit: https://project-t05-x3ra.herokuapp.com/menu/demo_van
    
 
 3. Order snacks: You could select multiple snacks and quantities on the `Menu` page, then click `Place an order` button.
+
+   Quick visit: https://project-t05-x3ra.herokuapp.com/menu/demo_van
 
 
 4. View Order Details: There are 2 ways to visit order details page: Firstly, after you made an order, you can choose `See My Orders` button that can redirect browser to
 `My orders` page, where you can see current orders and previous orders. Secondly, you can click `My Orders` button on the top-left page in desktop size, or click middle icon on the page bottom in mobile size.
 
     To see more order details, click order blocks that shown in the `My Orders` page to gain a view of more order details. Where you can also change/Cancel a current order.
+
+   Quick visit: https://project-t05-x3ra.herokuapp.com/customer/my_orders/
    
 
 
