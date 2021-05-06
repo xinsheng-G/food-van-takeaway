@@ -26,7 +26,7 @@ let show_my_orders_page = async (req, res) => {
                     $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}, {'status': 'complete'}],
                     $and:[{'stars':{$lt: 0}}]
                 },
-                '_id order_van_name status start_time total_price is_given_discount').sort({start_time: -1}).lean();
+                '_id order_van_name status start_time total_price cost is_given_discount').sort({start_time: -1}).lean();
         } catch (e) {
             console.log(e)
         }

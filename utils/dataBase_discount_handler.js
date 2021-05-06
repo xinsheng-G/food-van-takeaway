@@ -36,6 +36,11 @@ let update_discount_info = async function(current_order) {
         let refund = original_price * global_variables.discount_percent
         let new_price = original_price - refund
 
+        if (original_price == null) {
+            console.log('update discount failed');
+            return;
+        }
+
 
         try {
             await order_model.findByIdAndUpdate(
