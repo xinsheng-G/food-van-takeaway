@@ -35,7 +35,6 @@ let set_location = (req, res) => {
 let filtered_orders = async(req, res) => {
 
     // Reading Request
-    let status_filter = req.params.status;
     let van_name = req.params.van_name;
 
     // Loading Order Collection
@@ -44,12 +43,20 @@ let filtered_orders = async(req, res) => {
     //Async function to wait for response from database
     try {
         //Setting up Query: filter orders based on provided status(Confirming, Preparing (outstanding), Ready, Complete)
-        let query = { 'order_van_name': van_name, 'status': status_filter };
+        let status_orders = []
+        let status = ["confirming", "preparing", "ready", "complete"]
+        let query = { 'order_van_name': van_name };
+        let orders = await order_model.find(query).lean();
 
-        let filter_orders = await order_model.find(query).lean();
-
+        //grouping
+        status.forEach(state => {
+            let filtered_orders = orders.filter(order => {
+                return order.status === state
+            });
+            status_orders.push({ "state": state, "orders": filtered_orders, "count": Object.keys(filtered_orders).length });
+        });
         // Displaying list of  filtered orders in response body on Success
-        res.send(filter_orders);
+        res.send(status_orders);
 
     } catch (err) {
         console.log(err);

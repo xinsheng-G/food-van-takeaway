@@ -1,6 +1,121 @@
+<script>
+    let order_time = moment().subtract(3, "minutes");
+    let build_order = (order) => {
+
+            let element = document.getElementById('inject-orders');
+            let row = document.createElement('tr');
+
+            let order_id = document.createElement('td');
+            let order_id_data = document.createTextNode(`12345`);
+            order_id.appendChild(order_id_data);
+            row.appendChild(order_id)
+
+
+            let create_lineitem_data = (lineItems) => {
+                let lineitems = document.createElement('td');
+                lineItems.forEach(item => {
+                   let lineitem = document.createElement('p');
+                   lineitem.style.textTransform = "capitalize";
+                   let line = document.createTextNode(`${item.snack_name.replace(/[_-]/g, " ")} x ${item.number}`);
+                   lineitem.appendChild(line);
+                   lineitems.appendChild(lineitem);
+                })
+                return lineitems;
+            }
+            row.appendChild(create_lineitem_data(order.lineItems));
+
+            let timer = document.createElement('td');
+            let current_time = moment();
+            let time = current_time.diff(order_time)/1000;
+            let timer_data= document.createTextNode(`${Math.floor(time/60)}:${Math.floor(time%60) < 10 ? `0${Math.floor(time%60)}`: Math.floor(time%60)}`);
+            timer.appendChild(timer_data);
+            row.appendChild(timer);
+
+            let discount = document.createElement('td');
+            let label = document.createElement('span');
+            label.className = "label label-table ";
+            if (order.is_given_discount) {
+                label.className += "label-danger";
+                label.appendChild(document.createTextNode("YES"));
+            } else {
+                label.className += "label-success";
+                label.appendChild(document.createTextNode("NO"));
+            }
+            discount.appendChild(label);
+            row.appendChild(discount);
+            
+            if (order.status !== 'complete'){
+                let update_status = document.createElement('td');
+                let button = document.createElement('button');
+                button.className = "btn btn-primary";
+                let button_text = document.createTextNode('UPDATE');
+                switch (order.status) {
+                    case 'confirming':
+                        button_text = document.createTextNode('CONFIRM');
+                        break;
+
+                    case 'preparing':
+                        button_text = document.createTextNode('READY');
+                        break;
+
+                    case 'ready':
+                        button_text = document.createTextNode('COMPLETE');
+                        break;
+
+                    default:
+                        console.log('400: invalid order status');
+                }
+                
+                button.appendChild(button_text);
+                update_status.appendChild(button);
+                row.appendChild(update_status);
+            }
+
+            element.appendChild(row);
+    }
+    let remove_orders = () => {
+            let element = document.getElementById('inject-orders');
+            element.innerHTML = "";
+    }
+
+
+    let timeout = (ms) => { return new Promise(res => setTimeout(res, ms)); }
+
+    let get_orders = async () => {
+        let orders;
+        let err = null;
+        let url = `http://localhost:8080/vendor/orders/ubisoft`;
+
+        while( err === null ) {
+            
+            let status = 'preparing';
+            await axios.get(url)
+            .then(async res => {
+                orders = res.data;
+                
+                let filtered_orders = await orders.filter(order_group => {
+                    return order_group.state === status;
+                });
+                remove_orders();
+                filtered_orders[0].orders.forEach(order => {
+                    build_order(order);
+                    })
+
+            }).catch(error => {
+                err = error;
+                console.log(err);
+            });
+        }
+    }
+
+    get_orders();
+</script>
+
 <div class="main">
     <div class = "panel">
         <div class = "panel-heading">
+            <div id = "inject-loading" style="float: left; position: absolute; margin: 1%"></div>
+
             <h1 class = "panel-title text-primary" style = "text-align: center; font-size: 1.75em; text-transform: uppercase"> {{van}} DASHBOARD</h1>
         </div>
         <div class ="panel-body">
@@ -31,22 +146,28 @@
                     <div class="fixed-table-header" style="display: none;">
                         <table></table>
                     </div>
-                    <div class="fixed-table-loading" style="top: 42px;">Loading, please wait...</div>
                     <table class = "table table-hover" data-sort-name ="_id">
                         <thead>
                             <tr>
                                 <th>
-
+                                    Order Id
+                                </th>
+                                <th>
+                                    Order
+                                </th>
+                                <th>
+                                    Timer
+                                </th>
+                                <th>
+                                    Discount
+                                </th>
+                                <th>
+                                    Update Order
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-
-                                </td>
-                            </tr>
-                        </tbody> 
+                        <tbody id = "inject-orders">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -55,21 +176,3 @@
 
 </div>
 
-<script> 
-    let van_name = 'ubisoft';
-    
-    const nav_btn = document.getElementsByClassName("nav-btn");
-
-    axios.get(`http://localhost:8080/vendor/orders/ubisoft/preparing`)
-        .then(res => {
-            console.log(res.data);
-        }).catch(err => console.log(err));
-
-    document.getElementsByClassName("nav-btn").addEventListener("onclick", show_orders('ready'));
-
-    function show_orders(status) {
-        console.log(status);
-    }
-
-
-</script>

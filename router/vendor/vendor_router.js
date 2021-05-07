@@ -29,7 +29,7 @@ router.use(express.static('./static'));
 router.post('/van_open/:id', vendor_Controller.set_location);
 
 //Filter Orders based on order Status
-router.get('/orders/:van_name/:status', vendor_Controller.filtered_orders);
+router.get('/orders/:van_name', vendor_Controller.filtered_orders);
 
 //Update order status to next status
 router.post('/update_order_status/:id', vendor_Controller.update_order_status);
