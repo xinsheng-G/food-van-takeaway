@@ -10,19 +10,12 @@ let show_page = async (req, res) => {
 
         // For test let map user's location to be: 144.95782936759818,-37.79872198514221
         // In final release, user's location is got via geolocation, and shouldn't be stored in db
-
-        // dynamic component: Vans location
-        let vans = []
-
         let van_model = require('../model/van')
 
-        await van_model.find({}, '-_id van_name is_open picture_path description location stars picture_path', function (err, resp) {
-            if (err) {
-                console.log('error: ' + err);
-            } else {
-                vans = resp;
-            }
-        });
+        /** find opening vans */
+        let opening_vans = await van_model.find(
+            {'is_open': true},
+            '-_id van_name is_open picture_path description location stars picture_path');
 
         // define default user showing info
         let user_info = {login_id: ' ', username: 'Please Login', avatar_path: './images/icon_default_avatar.png'};
@@ -42,30 +35,34 @@ let show_page = async (req, res) => {
             user_info = {login_id: resp.login_id, username: resp.username, avatar_path: resp.avatar_path};
         }
 
-        if (vans.length === 0) {
+        if (opening_vans.length === 0) {
+            console.log("no van in array")
+
+            let default_van_info = ("{" +
+                "  location: { x_pos: 0, y_pos: 0 }," +
+                "  van_name: 'none'," +
+                "  is_open: false," +
+                "  picture_path: 'https://source.unsplash.com/Fkwj-xk6yck'," +
+                "  description: 'default'," +
+                "  stars: 0" +
+                "}");
 
             res.render('index', {
                 layout: false,
-                vans_to_show: [],
+                vans_to_show: [default_van_info],
                 customer_login_id: user_info.login_id,
                 customer_username: user_info.username,
                 customer_avatar_path: user_info.avatar_path
             });
 
         } else {
-            // vans that need to be showed
-            let vans_to_show = [];
-            // pick open van to show
-            vans.forEach((van) => {
-                if (van.is_open) {
-                    vans_to_show.push(van);
-                }
-            })
-
-            vans = []
+            console.log("has van in array")
+            // for(let i in opening_vans) {
+            //     vans.push(opening_vans[i]);
+            // }
             res.render('index', {
                 layout: false,
-                vans_to_show: vans_to_show,
+                vans_to_show: opening_vans,
                 customer_login_id: user_info.login_id,
                 customer_username: user_info.username,
                 customer_avatar_path: user_info.avatar_path
@@ -171,7 +168,7 @@ let show_van_detail_page = async (req, res) => {
         }
 
         // reverse 2 digits after the dot
-        let distance = math_utils.my_round(distance_full, 2)
+        let distance = math_utils.my_round(distance_full, 1)
 
         let stars_percentage = (parseFloat(stars) / 5) * 100;
 
