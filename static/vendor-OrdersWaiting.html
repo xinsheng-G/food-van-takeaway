@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Waiting Lists</title>
-    <link href="../static/styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
-    <link href="../static/styles/pro11OrderLists.css" rel="stylesheet" media="screen and (min-width:1194px)">
+    <link href="styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
 
 </head>
 <style>
@@ -30,40 +29,53 @@
     <!-- Content part of orders list START-->
     <!-- including navigation bar -->
     <div class="tableContent">
-        <div>
-            <ul class="navigations">
-                <li class="navs">
+        <div style="height: 10px"></div>
+
+        <div class="navigations">
+            <div style="height: 45%; width: 100%">
+                <input class="orderListSearchBar" placeholder="🔍  Search by 4-digital order number">
+            </div>
+            <div style="height: 55%; width: 100%">
+                <div class="navs">
                     <a href="#Uncomfirmed">
-                        Unconfirmed Order
+                        UNCONFIRMED
                     </a>
-                </li>
-                <li class="navs">
+                    <div class="notice"
+                         style="left: 16%">
+                        12
+                    </div>
+                </div>
+                <div class="navs">
                     <a href="#Comfirmed">
-                        Confirmed Orders
+                        CONFIRMED
                     </a>
-                </li>
-                <li class="navs">
+                    <div class="notice"
+                         style="left: 29%">
+                        12
+                    </div>
+                </div>
+                <div class="navs">
                     <a href="#Waiting"
                        style="background-color: #ffda77;
-                              color: #af8baf;
-                              border-radius: 30px">
-                        Waiting for Picking up
+                              color: #af8baf">
+                        WAITING
                     </a>
-                </li>
-                <li class="navs">
+                    <div class="notice"
+                         style="left: 42%">
+                        12
+                    </div>
+                </div>
+                <div class="navs">
                     <a href="#Finished">
-                        Finished Orders
+                        FINISHED
                     </a>
-                </li>
-            </ul>
+                    <div class="notice"
+                         style="left: 57%">
+                        12
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Search bar START -->
-        <div>
-            <input type="text"
-                   placeholder="🔍  Searching by 4-digital order number">
-        </div>
-        <!-- Search bar END -->
 
         <!-- Table part (including table titles) START-->
         <div class="tablePart">
@@ -89,7 +101,7 @@
                     <td>
                         Cappuccino x 3<br>
                         Latte x 2<br>
-                        Hanburger x 3
+                        Hamburger x 3
                     </td>
                     <td>00:13:23</td>
                     <td>

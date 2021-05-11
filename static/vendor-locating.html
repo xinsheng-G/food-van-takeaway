@@ -3,54 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Locating information</title>
+    <link href="styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width: 1366px)">
 </head>
 <style>
-    html{
-        width: 1366px;
-        height: 1024px;
-    }
-
-    /* Fonts Families */
-    @font-face {
-        font-family: FuturaBold;
-        src: url("../static/fonts/FuturaStd-Bold.otf") format("truetype");
-    }
-    @font-face {
-        font-family: FuturaLight;
-        src: url("../static/fonts/FuturaStd-Light.otf") format("truetype");
-    }
-    @font-face {
-        font-family: FuturaMedium;
-        src: url("../static/fonts/FuturaStd-Medium.otf") format("truetype");
-    }
-    @font-face {
-        font-family: FuturaMediumOblique;
-        src: url("../static/fonts/FuturaStd-MediumOblique.otf") format("truetype");
-    }
-
-    /* Area of locating information page's title*/
-    .pageTitlePart{
-        width: 100%;
-        height: 8%;
-        margin: 0 auto
-    }
-
-    /* Style of locating information page's title*/
-    .pageTitle{
-        font-family: FuturaBold;
-        color: #ffda77;
-        font-size: 45px;
-        letter-spacing: 15px
-    }
-
-    /* Area of left part of locating infotrmation page*/
-    .leftPart{
-        width:63%;
-        height:100%;
-        float: left;
-        background-color: #c8cce2
-    }
-
     /*
        (1) location captured by app
        (2) description of location
@@ -65,30 +20,6 @@
         margin-bottom: 20px;
     }
 
-    /* Area of button */
-    .btnPart{
-        width:95%;
-        height: 10%;
-        margin: 40px auto;
-    }
-
-    /* Style of Button
-    (1) SIGN OUT
-    (2) CONDFIRM
-    */
-    .btn{
-        width: 300px;
-        height: 80px;
-        border: none;
-        border-radius: 30px;
-        background-color: #af8baf;
-        color: #f7f7f7;
-        font-family: FuturaBold;
-        font-size: 30px;
-        letter-spacing: 5px;
-        box-shadow: 0 3px 6px #02140D
-    }
-
 </style>
 <body style="width: 100%; height: 100%">
 <div class="leftPart">
@@ -99,8 +30,7 @@
     </div>
     <div class="pageTitlePart"
          align="center">
-        <p class="pageTitle"
-           style="letter-spacing: 7px">
+        <p class="pageTitle">
             Locating Information
         </p>
     </div>
@@ -113,22 +43,13 @@
          align="center">
         <div>
             <input class="formInput" style="margin-bottom: 10px">
-            <p style="color: #e48257;
-                      font-family: FuturaBold;
-                      font-size: 20px;
-                      letter-spacing: 2px;
-                      margin-top: 0px"
-               align="left">
+            <p class="locatingTips">
                 * Your location will be sent to database
             </p>
         </div>
 
         <div style="margin-top: 70px">
-            <p style="color: #707070;
-                      font-family: FuturaBold;
-                      font-size: 25px;
-                      letter-spacing: 2px"
-               align="left">
+            <p class="locatingTips">
                 Enter the description of your location:<br>e.g. at the north gate of Uni of Melbourne
             </p>
             <input class="formInput">
@@ -140,10 +61,10 @@
                    value="#rem"
                    id="rem"
                    style="border-radius:30px;
-                          width: 20px;
-                          height: 20px;
+                          width: 25px;
+                          height: 25px;
                           border: none">
-            <label for="rem" style="font-family: FuturaBold; color: #707070; font-size: 20px; letter-spacing: 2px;">
+            <label class="remember" for="rem">
                 Open
                 for Business
             </label>
@@ -151,9 +72,7 @@
         <!-- Open for business START -->
 
         <!-- SIGN OUT & CONFIRM button START -->
-        <div class="btnPart" align="center"
-             style="width:100%;
-                    margin-top: 8%">
+        <div class="btnPart" style="width: 100%">
             <button class="btn"
                     style="float:left;">
                 SIGN OUT</button>
@@ -168,8 +87,8 @@
     <!-- Locating information form END -->
 
 </div>
-<div class="right" style="width:37%; height:100%;float: right">
-    <img src="images/coffee.jpeg" style="width: 100%; height: 100%">
+<div class="rightPart">
+    <img src="images/coffee25.jpeg">
 </div>
 </body>
 </html>

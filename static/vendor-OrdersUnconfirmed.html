@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Unconfirmed List</title>
-    <link href="../static/styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
-    <link href="../static/styles/pro11OrderLists.css" rel="stylesheet" media="screen and (min-width:1194px)">
+    <link href="styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
 
 </head>
 <style>
@@ -29,40 +28,62 @@
     <!-- Content part of orders list START-->
     <!-- including navigation bar -->
     <div class="tableContent">
-        <div>
-            <ul class="navigations">
-                <li class="navs">
+        <div style="height: 10px"></div>
+
+        <!-- Panels including search bar and navigation -->
+        <div class="navigations">
+            <!-- Search bar: used to search orders with any status START -->
+            <div style="height: 45%; width: 98%">
+                <input class="orderListSearchBar" placeholder="🔍  Search by 4-digital order number">
+            </div>
+            <!-- Search bar END-->
+
+            <!-- Navigation bar with bubble number START -->
+            <div style="height: 55%; width: 100%">
+                <div class="navs">
                     <a href="#Uncomfirmed"
                        style="background-color: #ffda77;
-                              color: #af8baf;
-                              border-radius: 30px">
-                        Unconfirmed Order
+                              color: #af8baf">
+                        UNCONFIRMED
                     </a>
-                </li>
-                <li class="navs">
-                    <a href="#Comfirmed">
-                        Confirmed Orders
-                    </a>
-                </li>
-                <li class="navs">
-                    <a href="#Waiting">
-                        Waiting for Picking up
-                    </a>
-                </li>
-                <li class="navs">
-                    <a href="#Finished">
-                        Finished Orders
-                    </a>
-                </li>
-            </ul>
-        </div>
+                    <div class="notice"
+                         style="left: 16%">
+                        12
+                    </div>
+                </div>
 
-        <!-- Search bar START -->
-        <div>
-            <input type="text"
-                   placeholder="🔍  Searching by 4-digital order number">
+                <div class="navs">
+                    <a href="#Comfirmed">
+                        CONFIRMED
+                    </a>
+                    <div class="notice"
+                         style="left: 29%">
+                        12
+                    </div>
+                </div>
+
+                <div class="navs">
+                    <a href="#Waiting">
+                        WAITING
+                    </a>
+                    <div class="notice"
+                         style="left: 42%">
+                        12
+                    </div>
+                </div>
+                <div class="navs">
+                    <a href="#Finished">
+                        FINISHED
+                    </a>
+                    <div class="notice"
+                         style="left: 57%">
+                        12
+                    </div>
+                </div>
+            </div>
+            <!-- Navigation bar END -->
         </div>
-        <!-- Search bar END-->
+        <!-- Panels including search bar and navigation END-->
 
         <!-- Table part (including table titles) START-->
         <div class="tablePart">
@@ -122,11 +143,12 @@
     <!-- LEAVE Button START -->
     <div class="btnPart"
          align="left">
-        <button class="btn">LEAVE</button>
+        <button class="btn">
+            LEAVE
+        </button>
     </div>
     <!-- LEAVE Button END -->
 
 </div>
-
 </body>
 </html>

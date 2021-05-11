@@ -12,19 +12,19 @@
         /* Fonts Families */
         @font-face {
             font-family: FuturaBold;
-            src: url("../static/fonts/FuturaStd-Bold.otf") format("truetype");
+            src: url("fonts/FuturaStd-Bold.otf") format("truetype");
         }
         @font-face {
             font-family: FuturaLight;
-            src: url("../static/fonts/FuturaStd-Light.otf") format("truetype");
+            src: url("fonts/FuturaStd-Light.otf") format("truetype");
         }
         @font-face {
             font-family: FuturaMedium;
-            src: url("../static/fonts/FuturaStd-Medium.otf") format("truetype");
+            src: url("fonts/FuturaStd-Medium.otf") format("truetype");
         }
         @font-face {
             font-family: FuturaMediumOblique;
-            src: url("../static/fonts/FuturaStd-MediumOblique.otf") format("truetype");
+            src: url("fonts/FuturaStd-MediumOblique.otf") format("truetype");
         }
 
         .content{
@@ -46,7 +46,8 @@
             font-family: FuturaBold;
             color: #ffda77;
             font-size: 45px;
-            letter-spacing: 15px
+            letter-spacing: 15px;
+            text-shadow: 3px 3px #534E52;
         }
 
         /* Style of table content
@@ -101,7 +102,7 @@
         /* Title's style of table's basic information*/
         th{
             font-family: FuturaBold;
-            width: 50%;
+            width: 30%;
         }
 
         /* detail content on even rows has different bkg-color */
@@ -138,6 +139,10 @@
             font-size: 30px;
             letter-spacing: 5px;
             box-shadow: 0 3px 6px #02140D
+        }
+        .btn:hover, .btn:active{
+            background-color: #f7f7f7;
+            color: #af8baf;
         }
 
     </style>
@@ -237,7 +242,7 @@
     <!-- GO BACK button START -->
     <div class="btnPart" align="center">
         <button class="btn">GO BACK
-    </button>
+        </button>
     </div>
     <!-- GO BACK button END -->
 
