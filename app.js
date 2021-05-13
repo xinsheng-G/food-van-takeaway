@@ -15,6 +15,16 @@ const exceptionHandler = require('./controller/handle_exceptions');
 /* filter to prevent db injection */
 const filter = require('content-filter');
 
+/* rate limit */
+const rateLimit = require("express-rate-limit");
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+app.set('trust proxy', 1);
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 200 // limit each IP to 200 requests per windowMs
+});
+app.use(limiter);
+
 /* configure content-filter */
 let blackList = ['$','{','&&','||']
 let options = {
