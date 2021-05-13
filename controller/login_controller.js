@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const md5_util = require('../utils/MD5_utils')
+const encrypt_util = require('../utils/encrypt_util')
 const path = require('path');
 
 // render login page
@@ -14,12 +15,11 @@ let check_login = (req, res) => {
         // encrypt to MD5, so that to compare with the MD5 record from db
         let user = {
             "login_id": req.body.login_id,
-            "password": md5_util.encrypt(req.body.password),
+            "password": encrypt_util.encrypt(req.body.password),
             "user_type": 'CUSTOMER'
         }
 
         console.log('input password to MD5: ' +user.password)
-        console.log('input password to salty MD5: ' + md5_util.salty_encrypt(req.body.password, req.body.login_id))
 
         // select user model
         let customer_model = require('../model/customer')
@@ -42,8 +42,7 @@ let check_login = (req, res) => {
                     console.log('got result, password: ' + resp.password)
 
                     // if password equals the record
-                    if(resp.password === user.password) {
-
+                    if(encrypt_util.compare(user.password, resp.password)){
                         // sent user_id information to session
                         req.session.user = user.login_id;
                         req.session.user_type = user.user_type;

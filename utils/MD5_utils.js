@@ -1,5 +1,14 @@
 const crypto = require("crypto");
 
+/**
+ *
+ * !!! Deprecated !!!
+ *
+ * See encrypt_util.js
+ * We are using bcrypt now.
+ *
+ */
+
 // encrypt the password
 // MD5 encryption can be breached by Rainbow Tables，we can
 // change it to a more secure encryption algorithm later
