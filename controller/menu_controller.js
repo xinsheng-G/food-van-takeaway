@@ -1,6 +1,7 @@
 const string_util = require('../utils/string_utils')
 const math_util = require('../utils/math_utils')
 const global_variables = require('../utils/global_variables')
+const sanitize = require('mongo-sanitize');
 
 /** show menu page */
 let show_page = async (req, res) => {
@@ -11,7 +12,7 @@ let show_page = async (req, res) => {
         let drinks = []
         let foods = []
 
-        let van_name = req.params.van_name;
+        let van_name = sanitize(req.params.van_name);
 
         // check whether the van is open
         /** query for van object */
@@ -76,8 +77,8 @@ let show_check_out_page = async (req, res) => {
     const default_distance = 99
     try {
         let form_elements = req.body;
-        let van_name = form_elements.van_name;
-        let price_all = form_elements.price_all;
+        let van_name = sanitize(form_elements.van_name);
+        let price_all = sanitize(form_elements.price_all);
 
         // remove van_name from form_elements
         delete form_elements.van_name

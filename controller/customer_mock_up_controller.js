@@ -3,6 +3,12 @@ const global_variables = require('../utils/global_variables')
 const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_util = require('../utils/string_utils')
 
+/**
+ *
+ * !!! Deprecated !!!
+ *
+ * */
+
 /** show menu of a van*/
 let show_snack_for_a_van = async (req, res) => {
     let snacks = []

@@ -12,6 +12,19 @@ const vendor_router = require('./router/vendor/vendor_router')
 
 const exceptionHandler = require('./controller/handle_exceptions');
 
+/* filter to prevent db injection */
+const filter = require('content-filter');
+
+/* configure content-filter */
+let blackList = ['$','{','&&','||']
+let options = {
+    urlBlackList: blackList,
+    bodyBlackList: blackList,
+    bodyMessage: 'Please no hacking, sir'
+}
+
+app.use(filter(options))
+
 // all page use the main.hbs as the layout.
 app.engine('hbs', exphbs({
     defaultlayout: 'main',

@@ -1,6 +1,7 @@
 const math_utils = require('../utils/math_utils')
 const string_utils = require('../utils/string_utils')
 const array_sorter = require('../utils/arraySorter')
+const sanitize = require('mongo-sanitize');
 
 let show_page = async (req, res) => {
 
@@ -121,7 +122,7 @@ let show_van_detail_page = async (req, res) => {
     const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
     const default_distance = 99
     try{
-        let van_name = req.params.van_name
+        let van_name = sanitize(req.params.van_name)
         let van_model = require('../model/van')
         let van_obj = await van_model.findOne({'van_name': van_name},
             'picture_path text_address stars location is_open').lean();
@@ -188,8 +189,8 @@ let show_van_detail_page = async (req, res) => {
 
 let store_user_location_from_post_to_session = (req, res) => {
     try{
-        let x_pos = req.body.x_pos
-        let y_pos = req.body.y_pos
+        let x_pos = sanitize(req.body.x_pos)
+        let y_pos = sanitize(req.body.y_pos)
 
         req.session.user_x_pos = parseFloat(x_pos)
         req.session.user_y_pos = parseFloat(y_pos)
@@ -222,7 +223,7 @@ let search_by_van_name = async (req, res) => {
     const default_distance = 99;
     const default_user_location = {x_pos: 144.95782936759818, y_pos: -37.79872198514221 }
     try{
-        let query_text = req.params.search_text
+        let query_text = sanitize(req.params.search_text)
         let reg = new RegExp(query_text, 'i')
 
         let van_model = require('../model/van')

@@ -42,6 +42,9 @@ router.post('/register', registerController.add_customer);
 // show register success
 router.get('/register_success', registerController.show_success_page);
 
+// show register failed
+router.get('/register_failed', registerController.show_failed_page);
+
 // handle log out
 router.get('/logout', login_interceptor.customer_login_interceptor, loginController.handle_logout);
 

@@ -14,6 +14,8 @@ router.use('/place_an_order', express.static('static'))
 
 /**
  *
+ * !!! Deprecated !!!
+ *
  * Mock up router don't need customer to login in.
  *
  * */

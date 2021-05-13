@@ -16,7 +16,7 @@ router.use(express.static('static'));
 router.use('/van_details', express.static('static'));
 
 router.use('/menu', menuRouter);
-router.use('/customer_mockup', customerMockUpRouter)
+// router.use('/customer_mockup', customerMockUpRouter)
 
 // '/' means route path, 'indexController.show_page' means show_page
 // function from  indexController

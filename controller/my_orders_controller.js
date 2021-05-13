@@ -3,13 +3,14 @@ const global_variables = require('../utils/global_variables')
 const dataBase_discount_handler = require('../utils/dataBase_discount_handler')
 const string_utils = require('../utils/string_utils')
 const math_util = require('../utils/math_utils')
+const sanitize = require('mongo-sanitize');
 
 let show_my_orders_page = async (req, res) => {
 
     try{
 
         // get user id from session
-        let user_id = req.session.user;
+        let user_id = sanitize(req.session.user);
 
         // query orders that belong to the user
         let order_model = require('../model/order')
@@ -118,7 +119,7 @@ let show_previous_order_details_page = async (req, res) => {
 
     try{
         let order_model = require('../model/order')
-        let order_id = req.params.order_id
+        let order_id = sanitize(req.params.order_id)
 
         /** validate param */
         if(order_id.length !== 24) {
@@ -441,7 +442,7 @@ let cancel_order = async (req, res) => {
     try{
         /** query for the order */
         let order_model = require('../model/order')
-        let order_id = req.params.order_id
+        let order_id = sanitize(req.params.order_id)
 
         /** validate param */
         if(order_id.length !== 24) {
@@ -506,7 +507,7 @@ let show_edit_page = async (req, res) => {
     try{
         /** query for the order */
         let order_model = require('../model/order')
-        let order_id = req.params.order_id
+        let order_id = sanitize(req.params.order_id)
 
         /** validate param */
         if(order_id.length !== 24) {
@@ -639,7 +640,7 @@ let show_edit_page = async (req, res) => {
 let edit_order_info = async (req, res) => {
     try{
         let form_elements = req.body;
-        let order_id = form_elements.order_id
+        let order_id = sanitize(form_elements.order_id)
         let time_now = moment().utc()
         let time_now_local = time_now.local()
         let total_price = 0;
@@ -764,8 +765,8 @@ let place_new_order = async (req, res) => {
 
     try{
         let form_elements = req.body;
-        let user_id = req.session.user;
-        let van_name = form_elements.van_name;
+        let user_id = sanitize(req.session.user);
+        let van_name = sanitize(form_elements.van_name);
         // time zone to utc 0
         let time_now = moment().utc()
         let total_price = 0;
@@ -853,10 +854,10 @@ let rate_the_order = async (req, res) => {
     try {
         let form_elements = req.body;
 
-        let order_id = form_elements.order_id;
+        let order_id = sanitize(form_elements.order_id);
         let stars = parseFloat(form_elements.rate);
 
-        let user_id = req.session.user;
+        let user_id = sanitize(req.session.user);
 
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */

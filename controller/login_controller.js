@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser')
 const md5_util = require('../utils/MD5_utils')
 const encrypt_util = require('../utils/encrypt_util')
-const path = require('path');
+const sanitize = require('mongo-sanitize');
 
 // render login page
 let show_page = (req, res) => {
@@ -13,14 +13,14 @@ let check_login = (req, res) => {
 
     try{
         // encrypt to MD5, so that to compare with the MD5 record from db
-        let user_plain_password = req.body.password;
+        let user_plain_password = sanitize(req.body.password);
         let user = {
-            "login_id": req.body.login_id,
+            "login_id": sanitize(req.body.login_id),
             "password": encrypt_util.encrypt(user_plain_password),
             "user_type": 'CUSTOMER'
         }
 
-        // console.log('input password encrypted: ' +user.password)
+        console.log('input password encrypted: ' +user.password)
 
         // select user model
         let customer_model = require('../model/customer')

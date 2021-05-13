@@ -1,9 +1,10 @@
 const md5_util = require('../utils/MD5_utils')
+const sanitize = require('mongo-sanitize');
 
 let show_profile_page = async (req, res) => {
     try {
 
-        let user_id = req.session.user;
+        let user_id = sanitize(req.session.user);
         // select user model
         let customer_model = require('../model/customer')
         let customer = await customer_model.findOne(
@@ -28,7 +29,7 @@ let show_profile_page = async (req, res) => {
 let show_edit_profile_page = async (req, res) => {
     try {
 
-        let user_id = req.session.user;
+        let user_id = sanitize(req.session.user);
         // select user model
         let customer_model = require('../model/customer')
         let customer = await customer_model.findOne(
@@ -71,9 +72,9 @@ let edit_profile = async (req, res) => {
 
         // get form information:
         let form_elements = req.body;
-        let new_firstname = form_elements.firstname;
-        let new_lastname = form_elements.lastname;
-        let new_username = form_elements.username;
+        let new_firstname = sanitize(form_elements.firstname);
+        let new_lastname = sanitize(form_elements.lastname);
+        let new_username = sanitize(form_elements.username);
 
         await customer_model.findOneAndUpdate(
             {'login_id': user_id},
@@ -101,8 +102,8 @@ let edit_password = async (req, res) => {
 
         // get form information:
         let form_elements = req.body;
-        let new_password = md5_util.encrypt(form_elements.new_password)
-        let old_password = md5_util.encrypt(form_elements.old_password)
+        let new_password = md5_util.encrypt(sanitize(form_elements.new_password))
+        let old_password = md5_util.encrypt(sanitize(form_elements.old_password))
 
         let customer = await customer_model.findOne(
             {'login_id': user_id},
