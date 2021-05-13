@@ -2,11 +2,13 @@ const bcrypt = require("bcrypt");
 
 
 function encrypt(input) {
-    return bcrypt.hash(input, 15);
+
+    let salt = bcrypt.genSaltSync(15)
+    return bcrypt.hashSync(input, salt)
 }
 
-function compare(input, record) {
-    return bcrypt.compare(input, record);
+function compare(input_plain, record_hash) {
+    return bcrypt.compareSync(input_plain, record_hash)
 }
 
 module.exports = {encrypt, compare}

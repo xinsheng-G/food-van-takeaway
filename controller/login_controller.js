@@ -13,13 +13,14 @@ let check_login = (req, res) => {
 
     try{
         // encrypt to MD5, so that to compare with the MD5 record from db
+        let user_plain_password = req.body.password;
         let user = {
             "login_id": req.body.login_id,
-            "password": encrypt_util.encrypt(req.body.password),
+            "password": encrypt_util.encrypt(user_plain_password),
             "user_type": 'CUSTOMER'
         }
 
-        console.log('input password to MD5: ' +user.password)
+        // console.log('input password encrypted: ' +user.password)
 
         // select user model
         let customer_model = require('../model/customer')
@@ -39,10 +40,10 @@ let check_login = (req, res) => {
                     res.redirect('/customer/login_failed')
                 } else {
                     // if login id record match
-                    console.log('got result, password: ' + resp.password)
 
                     // if password equals the record
-                    if(encrypt_util.compare(user.password, resp.password)){
+                    /* Compare plain input password with encrypted database record */
+                    if(encrypt_util.compare(user_plain_password, resp.password)){
                         // sent user_id information to session
                         req.session.user = user.login_id;
                         req.session.user_type = user.user_type;

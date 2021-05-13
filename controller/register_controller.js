@@ -1,4 +1,5 @@
 const md5_util = require('../utils/MD5_utils')
+const encrypt_util = require('../utils/encrypt_util')
 const path = require('path');
 
 let show_page = (req, res) => {
@@ -17,7 +18,7 @@ let add_customer = (req, res) => {
             "login_id": req.body.login_id,
             "username": req.body.username,
             // all passwords should be encrypted before store it in db
-            "password": md5_util.encrypt(req.body.password),
+            "password": encrypt_util.encrypt(req.body.password),
             "firstname": req.body.firstname,
             "lastname": req.body.lastname,
             "birthday": req.body.birthday,
@@ -34,14 +35,12 @@ let add_customer = (req, res) => {
 
                 // if no account record match, can add one
                 if(resp === null) {
-                    console.log('add customer account')
-
                     user.save(function (err, res) {
                         if (err) {
                             console.log("Error:" + err);
                         }
                         else {
-                            console.log("Customer Account saved, res:" + res);
+                            console.log("Customer Account saved");
                         }
                     });
 
