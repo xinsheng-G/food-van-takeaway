@@ -63,10 +63,11 @@ ul li {
 
 .map-top-full-search {
     left: 25%;
+    width: 50%;
 }
 
 .map-top-mini-search {
-    left: 55%;
+    left: 58%;
 }
 
 .map-top-refresh {
