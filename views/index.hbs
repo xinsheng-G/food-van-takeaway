@@ -20,10 +20,11 @@
     <script src="./scripts/icons.js"></script>
     <script src="./scripts/bootstrap-datepicker.min.js"></script>
     <script src="./scripts/bootstrapValidator.min.js"></script>
-    <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
+    <script type="text/javascript"
+            src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
     <title>Index</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
 
 <body>
@@ -54,15 +55,16 @@
 
                     <!-- Top search -->
                     <!-- for mobile size -->
-                    <div class="row map-top map-top-mini-search top-mini-search-behavior" >
+                    <div class="row map-top map-top-mini-search top-mini-search-behavior">
                         <a href="/search" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-search"></i></a>
                     </div>
 
                     <!-- for desktop size -->
-                    <div class="row map-top map-top-full-search top-full-search-behavior" >
+                    <div class="row map-top map-top-full-search top-full-search-behavior">
                         <form action="/search" method="post" class="col-xs-4 col-sm-6 col-sm-offset-1 pad-hor">
                             <div class="input-group mar-btm">
-                                <input type="text" name="search_text"  placeholder="Search van name..." class="form-control input-lg">
+                                <input type="text" name="search_text" placeholder="Search van name..."
+                                       class="form-control input-lg">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary btn-lg" type="submit">Search</button>
                                 </span>
@@ -71,7 +73,7 @@
                     </div>
 
                     <!-- for desktop size refresh -->
-                    <div class="row map-top map-top-refresh top-full-search-behavior" >
+                    <div class="row map-top map-top-refresh top-full-search-behavior">
                         <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
                     </div>
 
@@ -82,7 +84,8 @@
 
                             </div>
                             <div class="col-xs-8 col-md-8">
-                                <a href="/" class="btn btn-primary my-round-border btn-block"><i class="fa fa-refresh"></i>&nbsp;Refresh</a>
+                                <a href="/" class="btn btn-primary my-round-border btn-block"><i
+                                        class="fa fa-refresh"></i>&nbsp;Refresh</a>
                                 <br>
                             </div>
                             <div class="col-xs-2 col-md-2">
@@ -92,13 +95,18 @@
 
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
-                                <a href="/customer/profile" class="btn btn-icon my-circle-button"><img src="{{{customer_avatar_path}}}" class = "img-circle" alt="My Account" title="My Account" style="width: 27px; height: 26px"></a>
+                                <a href="/customer/profile" class="btn btn-icon my-circle-button"><img
+                                        src="{{{customer_avatar_path}}}" class="img-circle" alt="My Account"
+                                        title="My Account" style="width: 27px; height: 26px"></a>
                             </div>
                             <div class="col-xs-4 col-md-4">
-                                <a href="/customer/my_orders" class="btn btn-icon my-circle-button"><img src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders" style="width: 27px; height: 26px"></a>
+                                <a href="/customer/my_orders" class="btn btn-icon my-circle-button"><img
+                                        src="./images/icon_drink_snack.png" alt="My Orders" title="My Orders"
+                                        style="width: 27px; height: 26px"></a>
                             </div>
                             <div class="col-xs-4 col-md-4">
-                                <a href="/nearest_vans" class="btn btn-icon my-circle-button"><i class="fa fa-2x fa-location-arrow" title="Nearest vans"></i></a>
+                                <a href="/nearest_vans" class="btn btn-icon my-circle-button"><i
+                                        class="fa fa-2x fa-location-arrow" title="Nearest vans"></i></a>
                             </div>
                         </div>
 
@@ -132,7 +140,8 @@
                                         <img class="img-circle img-md" src="{{{customer_avatar_path}}}"
                                              alt="Profile Picture">
                                     </div>
-                                    <a href="" onclick="location='/customer/profile'" class="box-block" data-toggle="collapse"
+                                    <a href="" onclick="location='/customer/profile'" class="box-block"
+                                       data-toggle="collapse"
                                        aria-expanded="false">
                                         <p class="mnp-name text-white">{{{customer_username}}}</p>
                                         <span class="mnp-desc text-white">{{{customer_login_id}}}</span>
@@ -215,7 +224,6 @@
                             </ul>
 
 
-
                         </div>
                         <div class="nano-pane" style="display: none;">
                             <div class="nano-slider" style="height: 2815px; transform: translate(0px);"></div>
@@ -235,6 +243,88 @@
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
 
+    /**
+     * Baidu coordinate BD-09 secondary encryption measures. The coordinate system of the external interface of
+     * Baidu is not the real longitude and latitude collected by GPS, which needs to be converted through
+     * the coordinate conversion interface.
+     *
+     * */
+    function transferBaiDuMapLocations(longitude, latitude) {
+        let convertor = new BMapGL.Convertor();
+        let gpsPoint = new BMapGL.Point(longitude, latitude);
+        return convertor.translate(gpsPoint, 0, (point) => {
+            if (point.lat && point.lng) {
+                return Promise.resolve({longitude: point.lat, latitude: point.lng});
+            } else {
+                return Promise.reject('Failed to convert Baidu coordinates！');
+            }
+        });
+    }
+
+    function transferBaiDuMapLocationObject(pos_obj) {
+        let convertor = new BMapGL.Convertor();
+        let gpsPoint = new BMapGL.Point(pos_obj.x_pos, pos_obj.y_pos);
+        return convertor.translate(gpsPoint, 0, (point) => {
+            if (point.lat && point.lng) {
+                let new_pos_obj = {x_pos: point.lat, y_pos: point.lng}
+                return new_pos_obj;
+            } else {
+
+                return Promise.reject('Failed to convert Baidu coordinates！');
+            }
+        });
+    }
+
+    async function getPositionObject() {
+        let pos_obj = {x_pos: 144.95782936759818, y_pos: -37.79872198514221};
+
+        await navigator.geolocation.getCurrentPosition(position => {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            accuracy = position.coords.accuracy;
+
+            console.log("locating demo: user location：" + latitude + "," + longitude);
+            console.log("accuracy：" + accuracy);
+
+            // AJAX post to store user location to session
+            $.post('/get_location', {x_pos: longitude, y_pos: latitude});
+
+            pos_obj.x_pos = longitude;
+            pos_obj.y_pos = latitude;
+
+        }, positionError => {
+            alert('locating failed. Make sure your Browser supports geolocation.')
+        });
+
+        return pos_obj
+    }
+
+    function drawUserPoint(map, user_point, user_icon) {
+        // focus the map
+        map.centerAndZoom(user_point, 18);
+
+        let userMarker = new BMapGL.Marker(user_point, {icon: user_icon});
+        map.addOverlay(userMarker);
+        // User info window
+        // user's image path is hard coded, waiting for making dynamic
+        var sContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
+    <a href="" id="btn-van" style="z-index: 999"></a>
+    </div>`;
+        var infoWindow = new BMapGL.InfoWindow(sContent);
+        // click event
+        userMarker.addEventListener('click', function () {
+            this.openInfoWindow(infoWindow);
+            // infoWindow
+            document.getElementById('imgAvator').onload = function () {
+                infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
+            };
+        });
+    }
+
+    function drawVanPoint(map, van_point, icon) {
+
+    }
+
     // Get user's location demo
     // at the final release, user's location is defined here
     /** IMPORTANT:
@@ -245,46 +335,45 @@
      * Heroku is in https, don't worry.
      *
      * */
-    navigator.geolocation.getCurrentPosition(position => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let accuracy = position.coords.accuracy;
+            // let latitude = -37.79872198514221;
+            // let longitude = 144.95782936759818;
+            // let accuracy = 0;
+            // await navigator.geolocation.getCurrentPosition(position => {
+            //     latitude = position.coords.latitude;
+            //     longitude = position.coords.longitude;
+            //     accuracy = position.coords.accuracy;
+            //
+            //     console.log("locating demo: user location：" + latitude + "," + longitude);
+            //     console.log("accuracy：" + accuracy);
+            //
+            //     // AJAX post to store user location to session
+            //     $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
+            //
+            // }, positionError => {
+            //     alert('locating failed. Make sure your Browser supports geolocation.')
+            // });
 
-        console.log("locating demo: user location：" + latitude + "," + longitude);
-        console.log("accuracy：" + accuracy);
-
-        // AJAX post to store user location to session
-        $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
-
-    }, positionError => {
-        alert('locating failed. Make sure your Browser supports geolocation.')
-    });
-
-
-    var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST' });
+    var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST'});
+    let convertor = new BMapGL.Convertor();
 
     let redIcon = new BMapGL.Icon("./images/redmark.png", new BMapGL.Size(25, 25));
     let blueIcon = new BMapGL.Icon("./images/van.png", new BMapGL.Size(25, 25));
-    console.log("asdasd");
-
-    // init map points (static)
-    // var user_point = new BMapGL.Point(144.95782936759818,-37.79872198514221);
-    // var van1_point = new BMapGL.Point(144.9597098711528,-37.79830229214481);
-    // var van2_point = new BMapGL.Point(144.9608068315597,-37.798468097073105);
-    // var van3_point = new BMapGL.Point(144.95961192825933,-37.799525094668184);
-    // var van4_point = new BMapGL.Point(144.96213232538466,-37.797654613047214);
-
-    // var vanPoints = [van1_point, van2_point, van3_point, van4_point];
 
     // load fixed user coordinate for debugging
-    let user_to_show =  {x_pos: 144.95782936759818, y_pos: -37.79872198514221 };
+    let user_to_show = {x_pos: 144.95782936759818, y_pos: -37.79872198514221};
+
+    console.log(user_to_show)
 
     let user_point = new BMapGL.Point(user_to_show.x_pos, user_to_show.y_pos);
 
-    // focus the map
-    map.centerAndZoom(user_point, 18);
+    /* translate coordinate */
 
-    let userMarker = new BMapGL.Marker(user_point, {icon:redIcon});
+    //convertor.translate(user_point, 0, UserTranslateCallback);
+
+    // focus the map
+    // map.centerAndZoom(user_point, 18);
+
+    let userMarker = new BMapGL.Marker(user_point, {icon: redIcon});
     map.addOverlay(userMarker);
     // User info window
     // user's image path is hard coded, waiting for making dynamic
@@ -307,44 +396,24 @@
 
     vans_to_show.forEach((van) => {
         let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
-        console.log('create map point: ' + van.location.x_pos +', ' + van.location.y_pos);
-        let marker = new BMapGL.Marker(van_point, {icon:blueIcon});
+        console.log('create map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
+        let marker = new BMapGL.Marker(van_point, {icon: blueIcon});
 
         // van info
         // van's image path is hard coded, waiting for making dynamic
-        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van `+ van.van_name +`</h4>
-    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='`+ van.picture_path +`' width='139' height='104'/>
+        var sContent = `<div><h4 style='margin:0 0 5px 0;'>Van ` + van.van_name + `</h4>
+    <img style='float:right;margin:0 4px 22px' id='imgDemo' src='` + van.picture_path + `' width='139' height='104'/>
     <p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>`
-              + van.description + `, stars:`+ van.stars +
-    `</p>
-    <button class="btn btn-primary" id="btn-van" onclick="window.location.href = '/menu/`+ van.van_name +`'">Menu</>
+                + van.description + `, stars:` + van.stars +
+                `</p>
+    <button class="btn btn-primary" id="btn-van" onclick="window.location.href = '/menu/` + van.van_name + `'">Menu</>
     </div>`;
         var infoWindow = new BMapGL.InfoWindow(sContent);
         // click event
         marker.addEventListener('click', function () {
 
-            window.location.href="/van_details/" + van.van_name;
-
-            // this.openInfoWindow(infoWindow);
-            // infoWindow
-            // document.getElementById('imgDemo').onload = function () {
-            //     infoWindow.redraw(); // if net speed is slow, redraw to prevent cropped images
-            // };
+            window.location.href = "/van_details/" + van.van_name;
         });
-
-        // if (!infoWindow.isOpen()) {
-        //     infoWindow.addEventListener("open", function (e) {
-        //         console.log('opened!')
-        //         document.getElementById("btn-van").onclick = function () {
-        //             console.log('clicked!')
-        //         }
-        //     })
-        // } else {
-        //     let btn =  document.getElementById("btn-van");
-        //     btn.onclick = function () {
-        //         console.log('clicked!');
-        //     };
-        // }
         map.addOverlay(marker);
     });
 
@@ -357,7 +426,9 @@
     });
 
     map.enableScrollWheelZoom(true);
-    
+
+
+
 </script>
 
 </body>
