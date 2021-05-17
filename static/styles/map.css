@@ -39,7 +39,7 @@ ul li {
 .map-bottom {
     z-index: 99;
     position:absolute;
-    left: 45%;
+    left: 40%;
     bottom: 6%;
     margin-left: -50px;
 }
