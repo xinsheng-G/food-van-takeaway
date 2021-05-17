@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- resource path is based on `app.use(express.static('static'));` in app.js -->
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/nifty.min.css">
+    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
+    <link rel="stylesheet" href="./styles/my.css">
+    <link rel="stylesheet" href="./styles/my-standard-elements.css">
+    <link rel="stylesheet" href="./styles/themify-icons.min.css">
+    <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/star-rating.css">
+
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/nifty.min.js"></script>
+    <script src="./scripts/icons.js"></script>
+    <script src="./scripts/bootstrap-datepicker.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+    <title>{{{title}}}</title>
+
+</head>
+<body>
+<div id="container" class="cls-container  login-page">
+
+    <!-- BACKGROUND IMAGE -->
+    <!--===================================================-->
+    <div id="bg-overlay"></div>
+
+
+    <!-- LOGIN FORM -->
+    <!--===================================================-->
+    <h1 class="h1 text-white"><img src="./images/icon_drink_snack.png" alt="icon">Snacks in a Van</h1>
+    <div class="cls-content my-login-content-padding">
+        <div class="login-box pager-rounded cls-content-sm panel">
+
+
+            <div class="mar-ver pad-btm bord-btm">
+                <div class="row">
+                    <div class="col-xs-4 col-md-4">
+                        <div class="panel-control pull-left">
+                            <a href="#" onClick="history.go(-1); return false;" class="btn btn-default">
+                                <i class="fa fa-2x fa-chevron-left"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                        <div style="font-size: 36px; font-weight: 600;">Login</div>
+                    </div>
+                    <div class="col-xs-4 col-md-4"></div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <form id='login_form' action="/customer/login" method="post">
+
+                    <!-- username -->
+                    <div class="form-group">
+                        <input type="text" name="login_id" class="form-control my-round-border" placeholder="LoginID(E-mail)" autofocus="" data-bv-field="login_id">
+                        <!-- empty warning -->
+                    </div>
+
+                    <!-- password -->
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control my-round-border" placeholder="password" data-bv-field="password">
+                        <!-- empty warning -->
+                    </div>
+                    <!-- forget password -->
+                    <!--                    <a href="#" class="btn-link mar-rgt pull-left">Forgot password?</a>-->
+                    <!--                    <br>-->
+                    <!-- remember me -->
+                    <div class="checkbox pad-btm text-left pull-right">
+                        <input id="remember_me" name="remember_me" class="magic-checkbox" type="checkbox">
+                        <label for="remember_me">Remember me</label>
+                    </div>
+
+                    <button class="btn my-round-border btn-primary btn-block" type="submit">SIGN IN</button>
+                </form>
+                <br>
+                <!-- register -->
+                <a class="btn my-round-border btn-primary-negative btn-block" href="/customer/register">JOIN US TODAY</a>
+            </div>
+
+        </div>
+    </div>
+    <!--===================================================-->
+
+</div>
+
+<script>
+    // FORM VALIDATION
+    // =================================================================
+    $(function () {
+        $('#login_form').bootstrapValidator({
+            message: 'This value is not valid',
+            fields: {
+                login_id: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The login_id is required'
+                        },
+                        stringLength: {
+                            max: 64,
+                            message: 'login_id should not be too long'
+                        },
+                        emailAddress: {
+                            message: 'Need to be email address'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        stringLength: {
+                            min: 6,
+                            max: 20,
+                            message: 'password length should be 6~20'
+                        },
+                        notEmpty: {
+                            message: 'The password is required'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+</script>
+
+
+
+</body>
+</html>
