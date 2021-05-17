@@ -36,27 +36,19 @@ let filtered_orders = async(req, res) => {
 
     // Reading Request
     let van_name = req.params.van_name;
-
+    let status = req.params.state;
     // Loading Order Collection
     let order_model = require('../../model/order');
 
     //Async function to wait for response from database
     try {
+
         //Setting up Query: filter orders based on provided status(Confirming, Preparing (outstanding), Ready, Complete)
-        let status_orders = []
-        let status = ["confirming", "preparing", "ready", "complete"]
-        let query = { 'order_van_name': van_name };
+        let query = { 'order_van_name': van_name, 'status': status };
         let orders = await order_model.find(query).lean();
 
-        //grouping
-        status.forEach(state => {
-            let filtered_orders = orders.filter(order => {
-                return order.status === state
-            });
-            status_orders.push({ "state": state, "orders": filtered_orders, "count": Object.keys(filtered_orders).length });
-        });
         // Displaying list of  filtered orders in response body on Success
-        res.send(status_orders);
+        res.send(orders);
 
     } catch (err) {
         console.log(err);
