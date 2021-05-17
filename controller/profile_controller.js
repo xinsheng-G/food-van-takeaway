@@ -9,12 +9,18 @@ let show_profile_page = async (req, res) => {
         let customer_model = require('../model/customer')
         let customer = await customer_model.findOne(
             {'login_id': user_id},
-            '_id firstname lastname username avatar_path').lean();
+            '_id login_id firstname lastname username avatar_path').lean();
+
+        // if find not customer
+        if (user_id == null || customer == null) {
+            res.redirect('/');
+            return
+        }
 
         // show profile page
         res.render('./customer/customer_profile', {
             title: 'Profile',
-            username: customer['username'],
+            login_id: customer['login_id'],
             firstname: customer['firstname'],
             lastname: customer['lastname'],
             avatar_path: customer['avatar_path']
@@ -34,11 +40,19 @@ let show_edit_profile_page = async (req, res) => {
         let customer_model = require('../model/customer')
         let customer = await customer_model.findOne(
             {'login_id': user_id},
-            '_id firstname lastname username').lean();
+            '_id login_id firstname lastname username avatar_path').lean();
 
-        // show profile page
+        // if find not customer
+        if (user_id == null || customer == null) {
+            res.redirect('/');
+            return
+        }
+
+        // show edit profile page
         res.render('./customer/customer_edit_profile', {
-            title: 'Profile',
+            title: 'Edit Profile',
+            login_id: customer['login_id'],
+            avatar_path: customer['avatar_path'],
             username: customer['username'],
             firstname: customer['firstname'],
             lastname: customer['lastname'],
@@ -76,6 +90,18 @@ let edit_profile = async (req, res) => {
         let new_lastname = sanitize(form_elements.lastname);
         let new_username = sanitize(form_elements.username);
 
+        if (new_firstname == null || new_firstname.length <= 0 || new_firstname.length > 16) {
+            console.log("invalid new firstname")
+            res.redirect('/500');
+            return;
+        }
+
+        if (new_lastname == null || new_lastname.length <= 0 || new_lastname.length > 16) {
+            console.log("invalid new lastname")
+            res.redirect('/500');
+            return;
+        }
+
         await customer_model.findOneAndUpdate(
             {'login_id': user_id},
             {
@@ -84,6 +110,7 @@ let edit_profile = async (req, res) => {
                 'username': new_username
             }
         )
+
         // return back to profile page
         res.redirect('/customer/profile');
 

@@ -32,8 +32,8 @@ let show_page = async (req, res) => {
                 customer_id = req.cookies.user;
             }
 
-            let resp = await customer_model.findOne({'login_id': customer_id}, '-_id login_id username avatar_path');
-            user_info = {login_id: resp.login_id, username: resp.username, avatar_path: resp.avatar_path};
+            let resp = await customer_model.findOne({'login_id': customer_id}, '-_id login_id username firstname lastname avatar_path');
+            user_info = {login_id: resp.login_id, username: resp.firstname + " " + resp.lastname, avatar_path: resp.avatar_path};
         }
 
         if (opening_vans.length === 0) {

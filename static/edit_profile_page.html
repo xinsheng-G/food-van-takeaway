@@ -28,10 +28,9 @@
 <div class="main">
     <div class="shopCar">
         <div class="header">
+            <a href="#" onclick="history.go(-1); return false;" class="x fa fa-2x fa-close"></a>
             <div class="nav_shop">
                 <div class="nav_title_conter">Edit Profile</div>
-                <!-- back button -->
-                <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
             </div>
 
         </div>
@@ -39,35 +38,34 @@
 
         <!-- detail body -->
         <div style="text-align: center;">
-            <img src="./images/avator_demo.png" class="my-round-border" alt="">
+            <img src="https://source.unsplash.com/Tn8DLxwuDMA" class="img-circle img-very-lg" alt="avatar">
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
             <h5>USER ID: xxxx</h5>
         </div>
 
-        <form>
-            <div class="row mb-3" style="margin-top: 20px; color:grey">
-              <label for="inputEmail3" class="col-sm-2 col-form-label"><b>First Name</b></label>
-              <div class="col-sm-10">
-                <input type="firstname" class="form-control" >
-              </div>
-            </div>
-            <div class="row mb-3" style="margin-top: 10px; color:grey">
-              <label for="inputPassword3" class="col-sm-2 col-form-label"><b>Last Name</b></label>
-              <div class="col-sm-10">
-                <input type="lastname" class="form-control" >
-              </div>
-            </div>
-            <div class="row mb-3" style="margin-top: 10px;color:grey">
-                <label for="inputPassword3" class="col-sm-2 col-form-label"><b>Birth Date</b></label>
-                <div class="col-sm-10">
-                  <input type="birthdate" class="form-control" >
+        <form id='edit_form' class="conter">
+            <div class="row" style="margin-top: 20px; color:grey">
+                <label class="col-sm-2 col-form-label"><b>First Name</b></label>
+                <div class="col-sm-8">
+                    <input name="firstname" type="text" class="form-control">
                 </div>
-              </div>
+            </div>
+            <div class="row" style="margin-top: 10px; color:grey">
+                <label class="col-sm-2 col-form-label"><b>Last Name</b></label>
+                <div class="col-sm-8">
+                    <input name="lastname" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;color:grey">
+                <label class="col-sm-2 col-form-label"><b>Username</b></label>
+                <div class="col-sm-8">
+                    <input name="username" type="text" class="form-control">
+                </div>
+            </div>
         </form>
 
-       
 
         <div class="foot" style="height: 95px">
             <div class="row foot_button_group">
@@ -78,14 +76,72 @@
         </div>
 
 
-    </div>
-    <div class="left_nav">
-        <img src="./images/drink.png" alt="">
-        <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+        <div class="left_nav">
+            <img src="./images/drink.png" alt="">
+            <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+        </div>
     </div>
 </div>
 
 <script>
+
+    // FORM VALIDATION
+    // =================================================================
+    $(function () {
+        $('#edit_form').bootstrapValidator({
+            message: 'This value is not valid',
+            fields: {
+                username: {
+
+                    validators: {
+                        stringLength: {
+                            max: 8,
+                            message: 'username should not be too long'
+                        },
+
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: 'Only letters, numbers and dashes'
+                        },
+
+                        notEmpty: {
+                            message: 'Username is required'
+                        },
+                    }
+                },
+
+                firstname: {
+                    validators: {
+                        stringLength: {
+                            max: 16,
+                            message: 'firstname should not be too long'
+                        },
+
+                        regexp: {
+                            regexp: /^[a-zA-Z]+$/,
+                            message: 'Only uppercase and lowercase letters'
+                        }
+
+                    }
+                },
+
+                lastname: {
+                    validators: {
+                        stringLength: {
+                            max: 16,
+                            message: 'lastname should not be too long'
+                        },
+
+                        regexp: {
+                            regexp: /^[a-zA-Z]+$/,
+                            message: 'Only uppercase and lowercase letters'
+                        }
+
+                    }
+                }
+            }
+        });
+    });
 
 </script>
 

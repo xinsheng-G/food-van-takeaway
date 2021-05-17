@@ -1,1 +1,50 @@
-<h1>customer profile</h1>
+<div class="main">
+    <div class="shopCar">
+        <div class="header">
+            <a href="/" class="x fa fa-2x fa-close"></a>
+            <div class="nav_shop">
+                <div class="nav_title_conter">Profile</div>
+            </div>
+
+        </div>
+        <div style="height: 12rem;"></div>
+
+        <!-- detail body -->
+        <div style="text-align: center;">
+            <img src="{{avatar_path}}" class="img-circle img-very-lg" alt="avatar">
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <h5>LOGIN ID: {{login_id}}</h5>
+            <h5>USER NAME: {{firstname}} {{lastname}}</h5>
+        </div>
+
+        <div style="margin-top: 60px; text-align: center;">
+            <a href="/customer/edit_profile" class="btn btn-primary my-round-border" style="padding: 6px 84px; font-size: 18px">Edit Profile</a>
+        </div>
+
+        <div style="margin-top: 25px; text-align: center;">
+            <a class="btn btn-primary my-round-border" style="padding: 6px 56px; font-size: 18px">Update Password</a>
+        </div>
+
+
+
+        <div class="foot" style="height: 95px">
+            <div class="row foot_button_group">
+                <div class="col-xs-6">
+                    <a href="/customer/logout" class="btn btn-danger my-round-border" style="padding: 8px 58px; font-size: 18px">Logout</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="left_nav">
+        <img src="./images/drink.png" alt="">
+        <sapn>Snacks&nbsp;in&nbsp;a&nbsp;Van</sapn>
+    </div>
+</div>
+
+<script>
+
+</script>

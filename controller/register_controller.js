@@ -26,6 +26,24 @@ let add_customer = (req, res) => {
             "avatar_path": 'https://source.unsplash.com/Tn8DLxwuDMA'
         })
 
+        if (user.password == null || user.password.length <= 0) {
+            console.log("invalid password")
+            res.redirect('/500');
+            return;
+        }
+
+        if (user.firstname == null || user.firstname.length <= 0) {
+            console.log("invalid first name")
+            res.redirect('/500');
+            return;
+        }
+
+        if (user.lastname == null || user.lastname.length <= 0) {
+            console.log("invalid last name")
+            res.redirect('/500');
+            return;
+        }
+
         // find by login_id, return the 'password' field of the model
         let query = customer_model.findOne({'login_id': user.login_id})
         // the find will return the 'password' field of the model

@@ -154,7 +154,7 @@
 
                     validators: {
                         stringLength: {
-                            max: 32,
+                            max: 8,
                             message: 'username should not be too long'
                         },
 
@@ -172,13 +172,16 @@
                 firstname: {
                     validators: {
                         stringLength: {
-                            max: 32,
+                            max: 16,
                             message: 'firstname should not be too long'
                         },
 
                         regexp: {
                             regexp: /^[a-zA-Z]+$/,
                             message: 'Only uppercase and lowercase letters'
+                        },
+                        notEmpty: {
+                            message: 'First Name is required'
                         }
 
                     }
@@ -187,13 +190,16 @@
                 lastname: {
                     validators: {
                         stringLength: {
-                            max: 32,
+                            max: 16,
                             message: 'lastname should not be too long'
                         },
 
                         regexp: {
                             regexp: /^[a-zA-Z]+$/,
                             message: 'Only uppercase and lowercase letters'
+                        },
+                        notEmpty: {
+                            message: 'Last Name is required'
                         }
 
                     }
