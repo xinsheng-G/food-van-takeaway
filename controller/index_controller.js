@@ -292,6 +292,8 @@ let search_by_van_name = async (req, res) => {
                 vans_to_show.push(van)
         })
 
+        vans_to_show = vans_to_show.sort(array_sorter.sortBy('distance'))
+
         let not_found_message = "<div style=\"text-align: center; margin-top: 200px;\">\n" +
             "                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"50\" height=\"50\" fill=\"red\" class=\"bi bi-info-circle\" viewBox=\"0 0 16 16\">\n" +
             "                        <path d=\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\"/>\n" +

@@ -274,7 +274,7 @@
         let longitude = position.coords.longitude;
         let accuracy = position.coords.accuracy;
 
-        console.log("locate WGS84 standard coordinate:" + longitude + "," + latitude);
+        console.log("user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
         console.log("accuracy：" + accuracy);
 
         // AJAX post to store user location to session
@@ -288,13 +288,10 @@
         /* translate coordinate and draw */
         let pointArr = []
 
-        console.log(user_point)
         pointArr.push(user_point)
 
         convertor.translate(pointArr, 1, 5, data => {
             if(data.status === 0) {
-
-                console.log(data.points[0])
 
                 map.centerAndZoom(data.points[0], 18);
 
@@ -338,7 +335,7 @@
     let vans_to_show = [{{{vans_to_show}}}];
     vans_to_show.forEach((van) => {
         let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
-        console.log('create map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
+        console.log('create van map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
 
         let pointArr = []
         pointArr.push(van_point)
