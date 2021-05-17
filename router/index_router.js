@@ -14,6 +14,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.use(express.static('static'));
 router.use('/van_details', express.static('static'));
+router.use('/search', express.static('static'));
 
 router.use('/menu', menuRouter);
 // router.use('/customer_mockup', customerMockUpRouter)
@@ -37,6 +38,9 @@ router.get('/nearest_vans', indexController.show_nearest_van_list_page);
 
 // show search page
 router.get('/search', indexController.show_search_page);
+
+// receive search text
+router.post('/search', indexController.receive_search_text);
 
 // Fuzzy query based on van name
 router.get('/search/:search_text', indexController.search_by_van_name);

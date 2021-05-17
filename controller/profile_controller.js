@@ -1,5 +1,6 @@
 const md5_util = require('../utils/MD5_utils')
 const sanitize = require('mongo-sanitize');
+const encrypt_util = require('../utils/encrypt_util')
 
 let show_profile_page = async (req, res) => {
     try {
@@ -129,14 +130,31 @@ let edit_password = async (req, res) => {
 
         // get form information:
         let form_elements = req.body;
-        let new_password = md5_util.encrypt(sanitize(form_elements.new_password))
-        let old_password = md5_util.encrypt(sanitize(form_elements.old_password))
+
+        let new_password_plain = sanitize(form_elements.new_password);
+        let new_password = encrypt_util.encrypt(new_password_plain)
+
+        let old_password_plain = sanitize(form_elements.old_password);
+        let old_password = encrypt_util.encrypt(old_password_plain)
+
+
+        if (user_id == null || new_password_plain == null || new_password_plain.length === 0) {
+            console.log("invalid user_id or new password")
+            res.redirect('/500');
+            return;
+        }
 
         let customer = await customer_model.findOne(
             {'login_id': user_id},
             '_id password').lean();
 
-        if (customer['password'] === old_password) {
+        if (customer == null) {
+            console.log("invalid user_id query for password")
+            res.redirect('/');
+            return;
+        }
+
+        if (encrypt_util.compare(old_password_plain, customer['password'])) {
             // update password
             await customer_model.findOneAndUpdate(
                 {'login_id': user_id},

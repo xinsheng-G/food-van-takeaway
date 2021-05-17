@@ -204,11 +204,34 @@ let store_user_location_from_post_to_session = (req, res) => {
 
 let show_search_page = (req, res) => {
     try{
-        res.end('search page');
+        res.render('./customer/search_van', {
+            title: 'Search',
+            not_found_message: [],
+            vans_to_show: []
+        });
 
     } catch (e) {
     console.log(e)
     res.redirect('/500')
+    }
+}
+
+let receive_search_text = (req, res) => {
+    try{
+        let form_elements = req.body;
+        let search_text = sanitize(form_elements.search_text)
+
+        if (search_text == null) {
+            // go to search page
+            res.redirect('/search')
+        } else {
+            // search the text
+            res.redirect('/search/' + search_text);
+        }
+
+    } catch (e) {
+        console.log(e)
+        res.redirect('/500')
     }
 }
 
@@ -261,14 +284,43 @@ let search_by_van_name = async (req, res) => {
 
             let van = {
                 van_name: res_obj['van_name'],
-                stars: parseFloat(res_obj['stars']),
+                van_title: string_utils.change_dash_into_space(res_obj['van_name']),
+                stars_percentage: (parseFloat(res_obj['stars']) / 5 * 100),
                 text_address: res_obj['text_address'],
                 distance: distance,
             }
                 vans_to_show.push(van)
         })
 
-        res.json(vans_to_show)
+        let not_found_message = "<div style=\"text-align: center; margin-top: 200px;\">\n" +
+            "                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"50\" height=\"50\" fill=\"red\" class=\"bi bi-info-circle\" viewBox=\"0 0 16 16\">\n" +
+            "                        <path d=\"M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z\"/>\n" +
+            "                        <path d=\"m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z\"/>\n" +
+            "                    </svg>\n" +
+            "                </div>\n" +
+            "\n" +
+            "\n" +
+            "                <br>\n" +
+            "                <h5 style=\"color:red;text-align: center;font-size:20px\">whoops...no result found</h5>";
+
+
+        // if no result
+        if (vans_to_show.length === 0) {
+            res.render('./customer/search_van', {
+                title: 'Search',
+                not_found_message: not_found_message,
+                vans_to_show: []
+            });
+        }
+        else
+        {
+            res.render('./customer/search_van', {
+                title: 'Search',
+                not_found_message:"",
+                vans_to_show: vans_to_show
+            });
+        }
+
     } catch (e) {
     console.log(e)
     res.redirect('/500')
@@ -353,5 +405,5 @@ let show_nearest_van_list_page = async (req, res) => {
 
 // export functions above
 module.exports = {
-    show_page, get_van_objects, store_user_location_from_post_to_session, show_search_page, search_by_van_name, show_nearest_van_list_page,show_van_detail_page
+    show_page, get_van_objects, store_user_location_from_post_to_session, show_search_page, search_by_van_name, show_nearest_van_list_page,show_van_detail_page, receive_search_text
 }
