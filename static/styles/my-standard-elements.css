@@ -74,6 +74,10 @@ input[type="number"] {
     height: 15rem;
 }
 
+.h_k_b_tiny {
+    height: 10rem;
+}
+
 .h_k_b_small {
     height: 8rem;
 }

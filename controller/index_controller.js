@@ -323,7 +323,8 @@ let show_nearest_van_list_page = async (req, res) => {
             let distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
             let van = {
                 van_name: res_obj['van_name'],
-                stars: parseFloat(res_obj['stars']),
+                van_title: string_utils.change_dash_into_space(res_obj['van_name']),
+                stars_percentage: (parseFloat(res_obj['stars']) / 5 * 100),
                 text_address: res_obj['text_address'],
                 distance: distance,
             }
@@ -340,7 +341,10 @@ let show_nearest_van_list_page = async (req, res) => {
             }
         }
 
-        res.json(showing_list)
+        res.render('./customer/nearest_vans', {
+            title: 'Nearest Vans',
+            showing_list: showing_list
+        })
     } catch (e) {
         console.log(e)
         res.redirect('/500')
