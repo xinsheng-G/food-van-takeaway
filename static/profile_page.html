@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="./styles/my-standard-elements.css">
     <link rel="stylesheet" href="./styles/themify-icons.min.css">
     <link rel="stylesheet" href="./styles/font-awesome.min.css">
+    <link rel="stylesheet" href="./styles/star-rating.css">
 
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
@@ -28,40 +29,43 @@
     <div class="shopCar">
         <div class="header">
             <div class="nav_shop">
-                <div class="nav_title_conter">SEARCH</div>
+                <div class="nav_title_conter">Profile</div>
                 <!-- back button -->
                 <a href="#" class="x" onClick="history.go(-1); return false;">X</a>
             </div>
 
         </div>
-
-        <div class="h_k_b_small"></div>
-
-        <div class="search-on-search-page input-group mar-btm pad-lft pad-rgt pad-top" style="position: fixed; background-color: #ecf0f5">
-            <input type="text" placeholder="van name" class="form-control input-lg left-normal-right-round">
-            <span class="input-group-btn">
-                     <button class="btn btn-primary btn-lg" type="button">Search</button>
-                 </span>
-        </div>
-
-
+        <div style="height: 12rem;"></div>
 
         <!-- detail body -->
-        <div class="conter">
-            <div style="text-align: center; margin-top: 200px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="red" class="bi bi-info-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                  </svg>
-            </div>
-
-
-            <br>
-            <h5 style="color:red;text-align: center;font-size:20px">whoops...no result found</h5>
-
+        <div style="text-align: center;">
+            <img src="./images/avator_demo.png" class="my-round-border" alt="">
         </div>
 
-        <div class="k_b"></div>
+        <div style="text-align: center; margin-top: 20px;">
+            <h5>USER ID: xxxx</h5>
+            <h5>ASHLEY MORRISON</h5>
+        </div>
+
+        <div style="margin-top: 60px; text-align: center;">
+            <a class="btn btn-primary my-round-border" style="padding: 6px 84px; font-size: 18px">Edit Profile</a>
+        </div>
+
+        <div style="margin-top: 25px; text-align: center;">
+            <a class="btn btn-primary my-round-border" style="padding: 6px 56px; font-size: 18px">Update Password</a>
+        </div>
+
+       
+
+        <div class="foot" style="height: 95px">
+            <div class="row foot_button_group">
+                <div class="col-xs-6">
+                    <a class="btn btn-danger my-round-border" style="padding: 8px 58px; font-size: 18px">Logout</a>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <div class="left_nav">
         <img src="./images/drink.png" alt="">
