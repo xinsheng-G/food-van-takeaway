@@ -22,6 +22,7 @@
     <script src="./scripts/bootstrapValidator.min.js"></script>
     <script type="text/javascript"
             src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=006Akv1GpTT8c2OpAnw1WIKnRKsr784W"></script>
+    <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
     <title>Index</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -244,12 +245,6 @@
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
 
-    /**
-     * Baidu coordinate BD-09 secondary encryption measures. The coordinate system of the external interface of
-     * Baidu is not the real longitude and latitude collected by GPS, which needs to be converted through
-     * the coordinate conversion interface.
-     *
-     * */
     var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST'});
     let convertor = new BMapGL.Convertor();
 
@@ -264,18 +259,43 @@
     let options = {
         //Whether to use high precision equipment
         enableHighAccuracy:true,
-        timeout:5000,
+        timeout:3000,
         maximumAge:0
     };
 
+    // User info window
+    let userContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
+    <a href="" id="btn-van" style="z-index: 999"></a>
+    </div>`;
+    let userInfoWindow = new BMapGL.InfoWindow(userContent);
+
+    /**
+     * Locating
+     */
+    let longitude = 0;
+    let latitude = 0;
+    let accuracy = 0;
+    let user_point = default_user_point;
+
     /* get user location via geolocation */
     navigator.geolocation.getCurrentPosition(position => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let accuracy = position.coords.accuracy;
+        longitude = position.coords.longitude;
+        latitude = position.coords.latitude;
+        accuracy = position.coords.accuracy;
 
         console.log("user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
         console.log("accuracy：" + accuracy);
+
+        if(accuracy > 10000) {
+            /** if accuracy is too low, use pure IP locating service*/
+            longitude = geoplugin_longitude();
+            latitude = geoplugin_latitude();
+            accuracy = geoplugin_locationAccuracyRadius();
+            console.log("Geolocation service is not accurate, using pure IP locating...")
+            console.log("Pure IP locating user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+            console.log("accuracy：" + accuracy);
+            alert('Geolocation service failed. Using pure IP address locating service, which could cause low accuracy.')
+        }
 
         // AJAX post to store user location to session
         $.post('/get_location', {x_pos: longitude, y_pos: latitude});
@@ -283,13 +303,18 @@
         user_pos_obj.x_pos = longitude;
         user_pos_obj.y_pos = latitude;
 
-        let user_point = new BMapGL.Point(user_pos_obj.x_pos, user_pos_obj.y_pos);
+        user_point = new BMapGL.Point(user_pos_obj.x_pos, user_pos_obj.y_pos);
 
         /* translate coordinate and draw */
         let pointArr = []
 
         pointArr.push(user_point)
 
+        /**
+         * Baidu coordinate uses BD-09 secondary encryption measures. The coordinate system of the external interface of
+         * Baidu is not the real longitude and latitude collected by GPS, which needs to be converted through
+         * the coordinate conversion interface.
+         * */
         convertor.translate(pointArr, 1, 5, data => {
             if(data.status === 0) {
 
@@ -297,14 +322,9 @@
 
                 let userMarker = new BMapGL.Marker(data.points[0], {icon: redIcon});
 
-                // User info window
-                let sContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
-    <a href="" id="btn-van" style="z-index: 999"></a>
-    </div>`;
-                let infoWindow = new BMapGL.InfoWindow(sContent);
                 // click event
                 userMarker.addEventListener('click', function () {
-                    this.openInfoWindow(infoWindow);
+                    this.openInfoWindow(userInfoWindow);
 
                 });
 
@@ -314,20 +334,62 @@
         });
 
     }, positionError => {
-        alert('locating failed. Make sure your Browser supports geolocation.')
-        map.centerAndZoom(default_user_point, 18);
-        let userMarker = new BMapGL.Marker(default_user_point, {icon: redIcon});
+        /** geolocation is invalid for chrome browser,
+         * using geoplugin to get location
+         * */
+        longitude = geoplugin_longitude();
+        latitude = geoplugin_latitude();
+        accuracy = geoplugin_locationAccuracyRadius();
 
-        // map.addOverlay(userMarker);
-        let sContent = `<div><h4 style='margin:0 0 5px 0;'>{{{customer_username}}}</h4>
-    <a href="" id="btn-van" style="z-index: 999"></a>
-    </div>`;
-        let infoWindow = new BMapGL.InfoWindow(sContent);
-        // click event
-        userMarker.addEventListener('click', function () {
-            this.openInfoWindow(infoWindow);
+        if (accuracy < 10000) {
+            console.log("user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+            console.log("accuracy：" + accuracy);
+            $.post('/get_location', {x_pos: longitude, y_pos: latitude});
 
-        });
+            user_pos_obj.x_pos = longitude;
+            user_pos_obj.y_pos = latitude;
+
+            user_point = new BMapGL.Point(user_pos_obj.x_pos, user_pos_obj.y_pos);
+
+            /* translate coordinate and draw */
+            let pointArr = []
+
+            pointArr.push(user_point)
+
+            convertor.translate(pointArr, 1, 5, data => {
+                if(data.status === 0) {
+
+                    map.centerAndZoom(data.points[0], 18);
+
+                    let userMarker = new BMapGL.Marker(data.points[0], {icon: redIcon});
+
+                    // click event
+                    userMarker.addEventListener('click', function () {
+                        this.openInfoWindow(userInfoWindow);
+
+                    });
+
+                    // draw the marker
+                    map.addOverlay(userMarker);
+                    alert('Geolocation service is not supported. Using pure IP address locating service, which could cause low accuracy.')
+                }
+            });
+        }
+        else
+        {
+            /** if the location result is not accurate */
+            alert('geolocation locating failed. Make sure your Browser supports geolocation.')
+            map.centerAndZoom(default_user_point, 18);
+            let userMarker = new BMapGL.Marker(default_user_point, {icon: redIcon});
+
+            $.post('/get_location', {x_pos: user_pos_obj.x_pos , y_pos: user_pos_obj.y_pos});
+
+            userMarker.addEventListener('click', function () {
+                this.openInfoWindow(infoWindow);
+
+            });
+            map.addOverlay(userMarker);
+        }
     }, options);
 
     // dynamic load vans, incoming string with no escape
@@ -364,8 +426,6 @@
     });
 
     map.enableScrollWheelZoom(true);
-
-
 </script>
 
 </body>

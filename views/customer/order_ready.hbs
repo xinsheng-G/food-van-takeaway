@@ -104,6 +104,14 @@
     setTimeout(function(){location.reload()},15000);
 
     // update user location when they are looking at order monitor page
+    let options = {
+        enableHighAccuracy:true,
+        timeout:3000,
+        maximumAge:0
+    };
+
+    default_pos_obj = {x_pos: 144.95782936759818, y_pos: -37.79872198514221}
+
     navigator.geolocation.getCurrentPosition(position => {
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
@@ -112,10 +120,33 @@
         console.log("locating demo: user location：" + latitude + "," + longitude);
         console.log("accuracy：" + accuracy);
 
+        if(accuracy > 10000) {
+            /** if accuracy is too low, use pure IP locating service*/
+            longitude = geoplugin_longitude();
+            latitude = geoplugin_latitude();
+            accuracy = geoplugin_locationAccuracyRadius();
+            console.log("Geolocation service is not accurate, using pure IP locating...")
+            console.log("Pure IP locating user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+            console.log("accuracy：" + accuracy);
+        }
+
         // AJAX post to store user location to session
         $.post('/get_location', { x_pos:  longitude, y_pos: latitude});
 
     }, positionError => {
-        alert('locating failed. Make sure your Browser supports geolocation.')
+        let longitude = geoplugin_longitude();
+        let latitude = geoplugin_latitude();
+        let accuracy = geoplugin_locationAccuracyRadius();
+
+        if (accuracy < 10000) {
+            console.log("user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+            console.log("accuracy：" + accuracy);
+            $.post('/get_location', {x_pos: longitude, y_pos: latitude});
+        }
+        else
+        {
+            /** if the location result is not accurate */
+            $.post('/get_location', {x_pos: default_pos_obj.x_pos , y_pos: default_pos_obj.y_pos});
+        }
     });
 </script>
