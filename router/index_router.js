@@ -45,6 +45,8 @@ router.post('/search', indexController.receive_search_text);
 // Fuzzy query based on van name
 router.get('/search/:search_text', indexController.search_by_van_name);
 
+// router.post('/get_position_by_ip', indexController.get_position_by_ip)
+
 // handle 404 or 500
 router.all('*', exceptionRouter);
 

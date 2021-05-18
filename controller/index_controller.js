@@ -405,7 +405,54 @@ let show_nearest_van_list_page = async (req, res) => {
     }
 }
 
+
+let get_position_by_ip = async (req, res) => {
+
+    const http = require("https");
+    let ip_address = req.body.ip_address
+    const geo_API_settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://api.getgeoapi.com/api/v2/ip/" + ip_address +"?api_key=0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d",
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-key": "48a030c68f2f647c63f73dfe65e8664ba811c0f2",
+            "x-rapidapi-host": "ip-geo-location.p.rapidapi.com"
+        }
+    };
+
+    console.log(ip_address)
+    console.log("https://api.getgeoapi.com/api/v2/ip/" + ip_address +"?api_key=0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d")
+    const options = {
+        "method": "GET",
+        "hostname": "https://api.getgeoapi.com/api/v2/ip/" + ip_address +"?api_key=0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d",
+        "port": null,
+        "path": "/ip/check?format=json",
+        "headers": {
+            "x-rapidapi-key": "0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d",
+            "x-rapidapi-host": "ip-geo-location.p.rapidapi.com",
+            "useQueryString": true
+        }
+    };
+
+    const request = http.request(options, function (response) {
+        const chunks = [];
+
+        response.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+
+        response.on("end", function () {
+            const body = Buffer.concat(chunks);
+            console.log(body.toString());
+            res.json(body);
+        });
+    });
+
+    request.end();
+}
+
 // export functions above
 module.exports = {
-    show_page, get_van_objects, store_user_location_from_post_to_session, show_search_page, search_by_van_name, show_nearest_van_list_page,show_van_detail_page, receive_search_text
+    show_page, get_van_objects, store_user_location_from_post_to_session, show_search_page, search_by_van_name, show_nearest_van_list_page,show_van_detail_page, receive_search_text, get_position_by_ip
 }
