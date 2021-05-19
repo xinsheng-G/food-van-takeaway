@@ -186,11 +186,18 @@ let show_dashboard = (req, res) => {
     })
 }
 
+let show_buisness = (req, res) => {
+    van_name = req.query.van_name;
+    res.render('./vendor/buisness', {
+        van: van_name
+    })
+}
 module.exports = {
     set_location,
     filtered_orders,
     update_order_status,
     show_order_details,
-    show_dashboard
+    show_dashboard,
+    show_buisness
 
 }

@@ -1,6 +1,14 @@
 <script>
     let order_time = moment().subtract(3, "minutes");
 
+    let update_order_status = (btn, order_id) => {
+        btn.className = "btn btn-success btn-rounded";
+        axios.post(`http://localhost:8080/vendor/update_order_status/${order_id}`)
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
     let build_order = (order) => {
 
             let element = document.getElementById('inject-orders');
@@ -55,7 +63,8 @@
             if (order.status !== 'complete'){
                 let update_status = document.createElement('td');
                 let button = document.createElement('button');
-                button.className = "btn btn-primary";
+                button.className = "btn btn-primary btn-rounded";
+                button.onclick = function() {update_order_status(this, order._id)};
                 let button_text = document.createTextNode('UPDATE');
                 switch (order.status) {
                     case 'confirming':
@@ -73,7 +82,6 @@
                     default:
                         console.log('400: invalid order status');
                 }
-                
                 button.appendChild(button_text);
                 update_status.appendChild(button);
                 row.appendChild(update_status);
@@ -88,57 +96,61 @@
 
 
     let timeout = (ms) => { return new Promise(res => setTimeout(res, ms)); }
+
     let update_state = (selected) => {
+        document.getElementById("order_count").innerHTML = `0`;
+        if(selected.id !== "nav-active"){
+            remove_orders();
+            let current = document.getElementById("nav-active");
+            selected.id = current.id
+            current.id = "";
+
+            let deselected_class = selected.className
+            selected.className = current.className
+            current.className = deselected_class;
+            
+
+            let header = document.getElementById("inject-orders-header");
+            header.innerHTML = "";
+            switch (selected.value) {
+                    case 'confirming':
+                        header.innerHTML = `<th id = "th-order-id">Order Id</th>
+                        <th id = "th-lineitems">Order</th>
+                        <th id = "th-update">Update Order</th>`;
+                        break;
+
+                    case 'preparing':
+                        header.innerHTML = `<th id = "th-order-id">Order Id</th>
+                        <th id = "th-lineitems">Order</th>
+                        <th id = "th-timer">Timer</th>
+                        <th id = "th-discount">Discount</th>
+                        <th id = "th-update">Update Order</th>`;
+                        break;
+
+                    case 'ready':
+                        header.innerHTML = `<th id = "th-order-id">Order Id</th>
+                        <th id = "th-lineitems">Order</th>
+                        <th id = "th-discount">Discount</th>
+                        <th id = "th-update">Update Order</th>`;
+                        break;
+                    
+                    case 'complete':
+                        header.innerHTML = `<th id = "th-order-id">Order Id</th>
+                        <th id = "th-lineitems">Order</th>
+                        <th id = "th-discount">Discount</th>`;
+                        break;
+
+                    default:
+                        console.log('400: invalid order status');
+                }
+        }
         
-            if(selected.id !== "nav-active"){
-                let current = document.getElementById("nav-active");
-                selected.id = current.id
-                current.id = "";
-
-                let deselected_class = selected.className
-                selected.className = current.className
-                current.className = deselected_class;
-                
-                remove_orders();
-                let header = document.getElementById("inject-orders-header");
-                header.innerHTML = "";
-                switch (selected.value) {
-                        case 'confirming':
-                            header.innerHTML = `<th id = "th-order-id">Order Id</th>
-                            <th id = "th-lineitems">Order</th>
-                            <th id = "th-update">Update Order</th>`;
-                            break;
-
-                        case 'preparing':
-                            header.innerHTML = `<th id = "th-order-id">Order Id</th>
-                            <th id = "th-lineitems">Order</th>
-                            <th id = "th-timer">Timer</th>
-                            <th id = "th-discount">Discount</th>
-                            <th id = "th-update">Update Order</th>`;
-                            break;
-
-                        case 'ready':
-                            header.innerHTML = `<th id = "th-order-id">Order Id</th>
-                            <th id = "th-lineitems">Order</th>
-                            <th id = "th-discount">Discount</th>
-                            <th id = "th-update">Update Order</th>`;
-                            break;
-                        
-                        case 'complete':
-                            header.innerHTML = `<th id = "th-order-id">Order Id</th>
-                            <th id = "th-lineitems">Order</th>
-                            <th id = "th-discount">Discount</th>`;
-                            break;
-
-                        default:
-                            console.log('400: invalid order status');
-                    }
-            }
     }
     let get_orders = async () => {
         
         await timeout(5000);
         let err = null;
+        
         while( err === null ) {
 
             let state = document.getElementById("nav-active").value;
@@ -149,6 +161,7 @@
                 let orders = res.data;
                 await timeout(500);
                 remove_orders();
+                document.getElementById("order_count").innerHTML = `${orders.length}`;
                 orders.forEach(order => {
                     build_order(order);
                 })
@@ -180,6 +193,7 @@
                 </div>
                  <div class= "col-xs-5 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-1 col-md-offset-1"> 
                     <button id =""class="btn nav-btn btn-info" value ="ready" onclick = "update_state(this)">Ready Orders</button>
+
                 </div>
                 <div class= "col-xs-5 col-sm-2 col-md-2 col-xs-offset-2 col-sm-offset-1 col-md-offset-1"> 
                     <button id ="" class="btn nav-btn btn-info" value ="complete" onclick = "update_state(this)">Completed Orders</button>
@@ -189,8 +203,9 @@
     </div>
 
     <div class = "panel">
-        <div class = "panel-heading">
+        <div class = "panel-heading" style ="display: flex; flex-direction: row; justify-content: center; align-items: center">
             <h1 class = "panel-title text-primary" style = "text-align: center; font-size: 1.5em;">ORDERS</h1>
+            <span id = "order_count" class="badge badge-secondary" style ="width: 25px; height: 25px; padding: 6px"></span>
         </div>
         <div class ="panel-body">
             <div class ="bootstrap-table">
@@ -221,6 +236,7 @@
                         <tbody id = "inject-orders">
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>

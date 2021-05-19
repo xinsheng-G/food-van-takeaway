@@ -1,0 +1,31 @@
+<script>
+    let open = () => {
+        location.href = "http://localhost:8080/vendor/dashboard";
+    }
+    
+</script>
+<div class ="main" style ="display: flex; flex-direction: row; justify-content: space-between;">
+    <div class = "col-sm-5 col-md-5" style ="display: flex; flex-direction: column; justify-content: center; align-items: center">
+        <div class = "" style=" border-radius: 1.2em; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center" >
+           <img src = "./images/van.png" style = "height: 80px" >
+           <div class = "panel-heading">
+              <h1 style = "text-transform: uppercase; font-size: 3rem">Open your SnackVan</h1>
+           </div>
+           <div class = "panel-body">
+               <div class = "form-group" style=" width: 400px; margin-top: 40px;">
+                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location</label>
+                   <div class= "input-group"> 
+                     <input id ="location-description" type="text" class="form-control input-lg">
+                     <span class="input-group-addon">?</span>
+                   </div>
+               </div>
+               <div style = "height: 50px; display: flex; flex-direction: row; justify-content: space-between;"> 
+                   <button id = "open" class = "btn btn-success btn-lg btn-rounded" onclick = "open()">OPEN FOR BUISNESS</button>
+                   <button id = "open" class = "btn btn-danger btn-lg btn-rounded">SIGN OUT</button>
+               </div>
+           </div>
+        </div>
+    </div>
+    <img src = "./images/coffee25.jpeg" style ="width: 50vw; height: 100vh; object-fit: cover;" >
+</div>
+
