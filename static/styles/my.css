@@ -1,3 +1,11 @@
+@font-face {
+    font-family: ExampleFont;
+    src: url(/fonts/fontawesome-webfont.woff2?v=4.7.0) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
 
 /* standard purple from UI mock up */
 /* override default primary button */
