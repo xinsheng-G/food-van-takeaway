@@ -469,8 +469,9 @@
     for(let i in vans_to_show) {
         let van = vans_to_show[i];
 
-        if(van.position == null || van.position.x_pos == null || van.position.y_pos == null ||
+        if(van.location == null || van.location.x_pos == null || van.location.y_pos == null ||
                 van.van_name == null) {
+            console.log('a van info is missing');
             continue;
         }
 
