@@ -10,11 +10,11 @@ function change_dash_into_space(name) {
 
 /**
  * get partial id from full_id string
- * 4-digits to avoid collision in showing on the screen */
+ * 6-digits to avoid collision in showing on the screen */
 function get_partial_id(full_id) {
 
     let full_id_string = full_id.toString()
-    return full_id_string.toString().substring(full_id_string.length - 4).toUpperCase()
+    return full_id_string.toString().substring(full_id_string.length - 6).toUpperCase()
 }
 
 /** retrieve date string YYYY-MM-DD from Date obj from Mongoose */
