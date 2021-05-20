@@ -119,14 +119,14 @@
                 password: {
                     validators: {
                         stringLength: {
-                            min: 6,
+                            min: 8,
                             max: 20,
-                            message: 'password length should be 6~20'
+                            message: 'password length should be 8~20'
                         },
-                        // identical: {
-                        //     field: 'retype_password',
-                        //     message: 'The password and its confirm are not the same'
-                        // },
+                        regexp : {
+                            regexp : /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/,
+                            message : 'The password must consist of letters and numbers.'
+                        },
                         notEmpty: {
                             message: 'The password is required'
                         }
@@ -136,13 +136,17 @@
                 retype_password: {
                     validators: {
                         stringLength: {
-                            min: 6,
+                            min: 8,
                             max: 20,
-                            message: 'password length should be 6~20'
+                            message: 'password length should be 8~20'
                         },
                         identical: {
                             field: 'password',
                             message: 'The password and its confirm are not the same'
+                        },
+                        regexp : {
+                            regexp : /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/,
+                            message : 'The password must consist of letters and numbers.'
                         },
                         notEmpty: {
                             message: 'The password is required'
