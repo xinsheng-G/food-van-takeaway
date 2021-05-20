@@ -14,6 +14,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
  * */
 
 const vendor_loginController = require('../../controller/vendor/vendor_login_controller');
+
 //Deliverable 2 functions
 const vendor_Controller = require('../../controller/vendor/vendor_controller');
 
@@ -24,21 +25,26 @@ const exceptionHandler = require('../../controller/handle_exceptions');
 
 router.use(express.static('./static'));
 
-//Deliverable 2.1 Route
+//Set Van location to open
 router.post('/van_open/:id', vendor_Controller.set_location);
 
-//Deliverable 2.2 Route
-router.get('/orders/:van_name/:status', vendor_Controller.filtered_orders);
+//Filter Orders based on order Status
+router.get('/orders/:van_name/:state', vendor_Controller.filtered_orders);
 
-//Deliverable 2.3 Route
+//Update order status to next status
 router.post('/update_order_status/:id', vendor_Controller.update_order_status);
 
+//Show order details
+router.get('/order/:id', vendor_Controller.show_order_details);
 
-router.get('/', (req, res) => {
+//router.get('/search_order/:van_name', vendor_Controller.search_orders);
 
-    // need a session, when vendor has logged in, / will direct to manager page; if not, go to vendor login page
-    res.redirect('/vendor/login')
-})
+
+router.get('/dashboard', vendor_Controller.show_dashboard);
+router.get('/buisness', vendor_Controller.show_buisness);
+
+//router.get('/', vendor_Controller.landing_page);
+
 router.get('/login', vendor_loginController.show_page);
 
 // receive info login page's form

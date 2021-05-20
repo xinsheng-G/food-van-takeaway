@@ -1,9 +1,10 @@
 const moment = require('moment');
-
+cons
 let set_location = (req, res) => {
+    console.log(req.body);
     // Reading Request
     let van_name = req.params.id;
-    let van_location = JSON.parse(req.body.van_location);
+    let van_location = req.body;
 
     // Loading Van Collection
     let van_model = require('../../model/van')
@@ -35,21 +36,20 @@ let set_location = (req, res) => {
 let filtered_orders = async(req, res) => {
 
     // Reading Request
-    let status_filter = req.params.status;
     let van_name = req.params.van_name;
-
+    let status = req.params.state;
     // Loading Order Collection
     let order_model = require('../../model/order');
 
     //Async function to wait for response from database
     try {
-        //Setting up Query: filter orders based on provided status(Confirming, Preparing (outstanding), Ready, Complete)
-        let query = { 'order_van_name': van_name, 'status': status_filter };
 
-        let filter_orders = await order_model.find(query).lean();
+        //Setting up Query: filter orders based on provided status(Confirming, Preparing (outstanding), Ready, Complete)
+        let query = { 'order_van_name': van_name, 'status': status };
+        let orders = await order_model.find(query).lean();
 
         // Displaying list of  filtered orders in response body on Success
-        res.send(filter_orders);
+        res.send(orders);
 
     } catch (err) {
         console.log(err);
@@ -93,6 +93,10 @@ let update_order_status = (req, res) => {
                     order_status = 'complete';
                     break;
 
+                case 'complete':
+                    order_status = 'complete';
+                    break;
+
                 default:
                     res.end('400: invalid order status');
             }
@@ -119,8 +123,108 @@ let update_order_status = (req, res) => {
         })
         .catch(err => console.log(err));
 }
+
+let show_order_details = (req, res) => {
+    order_id = req.params.id;
+
+    let order_model = require('../../model/order');
+    let customer_model = require('../../model/customer');
+    let snack_model = require('../../model/snack');
+
+    let query = { '_id': order_id };
+    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1, 'status': 1 };
+
+    order_model.findOne(query, projection).lean().then(order => {
+
+        let customer_query = { 'login_id': order.order_customer_id };
+        let customer_projection = { 'firstname': 1, 'lastname': 1 };
+
+        customer_model.findOne(customer_query, customer_projection).lean()
+            .then(customer_name => {
+
+                order.order_customer_id = order.customer_name;
+                delete order.order_customer_id
+                order.customer_name = `${customer_name.firstname} ${customer_name.lastname}`;
+
+            }).catch(err => console.log(err));
+
+        let snacks_projection = { 'snack_name': 1, 'price': 1 };
+        snack_model.find({}, snacks_projection).lean()
+            .then(snacks => {
+                let lineItems_info = [];
+                order.lineItems.forEach(item => {
+                    snack = snacks.filter(snack => {
+                        let lineItem_total = 0;
+                        if (snack.snack_name === item.snack_name) {
+
+                            lineItem_total = snack.price * item.number;
+
+                            lineItems_info.push({
+                                'snack_name': snack.snack_name,
+                                'number': item.number,
+                                'total': lineItem_total
+                            });
+                            return true;
+
+                        } else {
+                            return false;
+                        };
+                    });
+                });
+                order.lineItems = lineItems_info;
+                res.send(order)
+            }).catch(err => console.log(err));
+
+    }).catch(err => console.log(err));
+
+
+}
+
+let show_dashboard = (req, res) => {
+    let van_name = req.params.van_name;
+    res.render('./vendor/dashboard', {
+        van: van_name
+    })
+}
+
+let show_buisness = (req, res) => {
+    let van_name = req.params.van_name;
+    res.render('./vendor/buisness', {
+        van: van_name
+    })
+}
+
+/*let search_orders = (req, res) => {
+    let van_name = req.params.van_name;
+    //req.body not working
+    let search_string = req.body.search_string;
+
+    let order_model = require('../../model/order');
+    //searches Whole Object _id, json key is variable, 
+    let query = req.body.search_mode === 'search-order-id' ? { "order_van_name": van_name, '_id': { "$regex": search_string, "$options": "i" } } : { "order_van_name": van_name, 'order_customer_id': { "$regex": search_string, "$options": "i" } };
+    console.log(query);
+    let searched_order_details = [];
+    order_model.find(query).lean().then(orders => {
+        orders.forEach(async order => {
+            let url = `http://localhost:8080`;
+            //does axios work in node
+            await axios.get(`${url}/vendor/order/${order._id}`).then(order_details => {
+                searched_order_details.push(order_details.data);
+            }).catch(err => console.log(err));
+        });
+        res.send(searched_order_details);
+    }).catch(err => console.log(err));
+
+
+}*/
+
 module.exports = {
     set_location,
     filtered_orders,
-    update_order_status
+    update_order_status,
+    show_order_details,
+    show_dashboard,
+    show_buisness
+    //, search_orders
+
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Locating information</title>
+    <link href="css/myStyle/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width: 1366px)">
+</head>
+<style>
+    /*
+       (1) location captured by app
+       (2) description of location
+       (3) whether open for business
+       */
+    .formInput{
+        background-color: #f7f7f7;
+        border: none;
+        border-radius: 30px;
+        width: 100%;
+        height:85px;
+        margin-bottom: 20px;
+    }
+
+</style>
+<body style="width: 100%; height: 100%">
+<div class="leftPart">
+    <div class="van"
+         align="center"
+         style="margin-top: 30px">
+        <img src="images/van.png">
+    </div>
+    <div class="pageTitlePart"
+         align="center">
+        <p class="pageTitle"
+           style="letter-spacing: 7px">
+            Locating Information
+        </p>
+    </div>
+
+    <!-- Locating information form START -->
+    <div style="width: 80%;
+                height:60%;
+                margin:0 auto;
+                padding-top: 30px"
+         align="center">
+        <div>
+            <input class="formInput" style="margin-bottom: 10px">
+            <p style="color: #e48257;
+                      font-family: FuturaBold;
+                      font-size: 20px;
+                      letter-spacing: 2px;
+                      margin-top: 0px"
+               align="left">
+                * Your location will be sent to database
+            </p>
+        </div>
+
+        <div style="margin-top: 70px">
+            <p style="color: #707070;
+                      font-family: FuturaBold;
+                      font-size: 25px;
+                      letter-spacing: 2px"
+               align="left">
+                Enter the description of your location:<br>e.g. at the north gate of Uni of Melbourne
+            </p>
+            <input class="formInput">
+        </div>
+
+        <!-- Open for business START -->
+        <div align="left" style="margin-top: 20px">
+            <input type="checkbox"
+                   value="#rem"
+                   id="rem"
+                   style="border-radius:30px;
+                          width: 20px;
+                          height: 20px;
+                          border: none">
+            <label for="rem" style="font-family: FuturaBold; color: #707070; font-size: 20px; letter-spacing: 2px;">
+                Open
+                for Business
+            </label>
+        </div>
+        <!-- Open for business START -->
+
+        <!-- SIGN OUT & CONFIRM button START -->
+        <div class="btnPart" align="center"
+             style="width:100%;
+                    margin-top: 8%">
+            <button class="btn"
+                    style="float:left;">
+                SIGN OUT</button>
+            <button class="btn"
+                    style="float: right;">
+                CONFIRM
+            </button>
+        </div>
+        <!-- SIGN OUT & CONFIRM button END -->
+
+    </div>
+    <!-- Locating information form END -->
+
+</div>
+<div class="rightPart">
+    <img src="images/coffee.jpeg">
+</div>
+</body>
+</html>
