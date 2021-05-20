@@ -863,7 +863,8 @@ let rate_the_order = async (req, res) => {
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
         if(!order_id === user_id) {
-            res.redirect('/customer/my_orders')
+            console.log("rating fail in order id")
+            res.send('failed')
             return
         }
         /** get the order that is marking */
@@ -876,7 +877,7 @@ let rate_the_order = async (req, res) => {
         /** if the order has been marked */
         if(order['stars'] !== -1) {
             console.log('the order: ' + order_id + ' has been marked')
-            res.redirect('/customer/my_orders')
+            res.send('failed')
             return
         }
 
@@ -931,6 +932,8 @@ let rate_the_order = async (req, res) => {
         );
 
         // using AJAX in page file to redirect
+        console.log("ok")
+        res.send('ok');
 
     } catch (e) {
         console.log(e)

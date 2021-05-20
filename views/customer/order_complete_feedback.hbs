@@ -77,8 +77,17 @@
 
 <script>
     $("#submit_btn").click(function () {
-        $.post('/customer/my_orders/order_feedback', $("#rate_form").serialize());
-        window.location.href ="/customer/my_orders/order_complete";
+        $.post('/customer/my_orders/order_feedback', $("#rate_form").serialize(), function (data) {
+            if(data === "ok") {
+                console.log("{{order_id}} rate received")
+                window.location.href ="/customer/my_orders/order_complete";
+            }
+            else
+            {
+                alert("rating failed, please try again")
+                window.location.href ="/customer/my_orders";
+            }
+        })
     });
 
 </script>
