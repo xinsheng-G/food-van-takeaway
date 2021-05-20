@@ -1,9 +1,10 @@
 const moment = require('moment');
 
 let set_location = (req, res) => {
+    console.log(req.body);
     // Reading Request
     let van_name = req.params.id;
-    let van_location = JSON.parse(req.body.van_location);
+    let van_location = req.body;
 
     // Loading Van Collection
     let van_model = require('../../model/van')
@@ -131,7 +132,7 @@ let show_order_details = (req, res) => {
     let snack_model = require('../../model/snack');
 
     let query = { '_id': order_id };
-    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1 };
+    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1, 'status': 1 };
 
     order_model.findOne(query, projection).lean().then(order => {
 
@@ -180,18 +181,43 @@ let show_order_details = (req, res) => {
 }
 
 let show_dashboard = (req, res) => {
-    van_name = req.query.van_name;
+    let van_name = req.params.van_name;
     res.render('./vendor/dashboard', {
         van: van_name
     })
 }
 
 let show_buisness = (req, res) => {
-    van_name = req.query.van_name;
+    let van_name = req.params.van_name;
     res.render('./vendor/buisness', {
         van: van_name
     })
 }
+
+/*let search_orders = (req, res) => {
+    let van_name = req.params.van_name;
+    //req.body not working
+    let search_string = req.body.search_string;
+
+    let order_model = require('../../model/order');
+    //searches Whole Object _id, json key is variable, 
+    let query = req.body.search_mode === 'search-order-id' ? { "order_van_name": van_name, '_id': { "$regex": search_string, "$options": "i" } } : { "order_van_name": van_name, 'order_customer_id': { "$regex": search_string, "$options": "i" } };
+    console.log(query);
+    let searched_order_details = [];
+    order_model.find(query).lean().then(orders => {
+        orders.forEach(async order => {
+            let url = `http://localhost:8080`;
+            //does axios work in node
+            await axios.get(`${url}/vendor/order/${order._id}`).then(order_details => {
+                searched_order_details.push(order_details.data);
+            }).catch(err => console.log(err));
+        });
+        res.send(searched_order_details);
+    }).catch(err => console.log(err));
+
+
+}*/
+
 module.exports = {
     set_location,
     filtered_orders,
@@ -199,5 +225,6 @@ module.exports = {
     show_order_details,
     show_dashboard,
     show_buisness
+    //, search_orders
 
 }

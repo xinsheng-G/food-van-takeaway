@@ -1,6 +1,12 @@
 <script>
-    let open = () => {
-        location.href = "http://localhost:8080/vendor/dashboard";
+    let url = `http://localhost:8080`;
+    let van_name = `debug_van_name`;
+    let open_van = () => {
+        let van_location = {'x_pos': 1234.5678, 'y_pos': 1234.5678 }
+        axios.post( `${url}/vendor/van_open/${van_name}`, van_location).then(res => {
+            console.log(`front-end`);
+            console.log(res.data);
+        }).catch(err => {console.log(err);});
     }
     
 </script>
@@ -20,8 +26,8 @@
                    </div>
                </div>
                <div style = "height: 50px; display: flex; flex-direction: row; justify-content: space-between;"> 
-                   <button id = "open" class = "btn btn-success btn-lg btn-rounded" onclick = "open()">OPEN FOR BUISNESS</button>
-                   <button id = "open" class = "btn btn-danger btn-lg btn-rounded">SIGN OUT</button>
+                   <button id = "open" class = "btn btn-success btn-lg btn-rounded">OPEN FOR BUISNESS</button>
+                   <button id = "sign-out" class = "btn btn-danger btn-lg btn-rounded" onClick = "open_van()">SIGN OUT</button>
                </div>
            </div>
         </div>

@@ -37,6 +37,9 @@ router.post('/update_order_status/:id', vendor_Controller.update_order_status);
 //Show order details
 router.get('/order/:id', vendor_Controller.show_order_details);
 
+//router.get('/search_order/:van_name', vendor_Controller.search_orders);
+
+
 router.get('/dashboard', vendor_Controller.show_dashboard);
 router.get('/buisness', vendor_Controller.show_buisness);
 

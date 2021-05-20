@@ -1,9 +1,96 @@
 <script>
     let order_time = moment().subtract(3, "minutes");
+    let search_mode = "search-order-id";
+    let url = `http://localhost:8080`;
+    
+    let search = () => {
+        let search_string = document.getElementById("search-string").value;
+    }
+    let select_search_mode = (btn) => {
+        if (!(btn.classList.contains("active"))){
+
+            let btn_toggle_off = document.getElementById(search_mode);
+
+            let btn_tooggl_on_class = btn_toggle_off.className;
+            btn_toggle_off.className = btn.className;
+            btn.className =  btn_toggle_off.className;
+
+            btn_toggle_off.ariaPressed = false;
+            btn.ariaPressed = true;
+
+            search_mode = btn.id;
+            console.log(search_mode);
+        }
+        
+    }
+
+    let show_search_modal = () => {
+        document.getElementById("background-fade").style.display = "block";
+        document.getElementById("search").style.display = "block";
+    }
+    let show_order_details = (order) => {
+
+        axios.get(`${url}/vendor/order/${order.id}`).then (res => {
+            let order_details = res.data;
+            document.getElementById("det-order-cust-name").innerHTML = order_details.customer_name;
+            document.getElementById("det-order-num").innerHTML = "1234";
+
+            let grand_total = 0;
+            let element = document.getElementById('inject-order-details');
+            element.innerHTML = "";
+            order_details.lineItems.forEach(item => {
+                let row = document.createElement('tr');
+
+                let item_name = document.createElement('td');
+                item_name.style.textTransform = "capitalize";
+                let item_name_data = document.createTextNode(`${item.snack_name.replace(/[_-]/g, " ")}`);
+                item_name.appendChild(item_name_data);
+                row.appendChild(item_name);
+
+                let item_quantity = document.createElement('td');
+                let item_quantity_data = document.createTextNode(`${item.number}`);
+                item_quantity.appendChild(item_quantity_data);
+                row.appendChild(item_quantity);
+
+                let item_total = document.createElement('td');
+                let item_total_data = document.createTextNode(`\$${item.total}`);
+                item_total.appendChild(item_total_data);
+                row.appendChild(item_total);
+                grand_total += item.total;
+
+                element.appendChild(row);
+            })
+            let row = document.createElement('tr');
+            for (var i = 0; i<2; i++){
+                 let empty_td = document.createElement('td');
+                 row.appendChild(empty_td);
+            }
+            let grand_total_td = document.createElement('td');
+            let grand_total_td_data = document.createTextNode(`\$${grand_total}`);
+            grand_total_td.appendChild(grand_total_td_data);
+            row.appendChild(grand_total_td);
+            element.appendChild(row);
+
+            document.getElementById("det-order-time").innerHTML = moment(order_details.start_time, 'YYYY-MM-DD[T00:00:00.000Z]').format('MMMM Do YYYY, h:mm:ss a');
+            order_details.is_given_discount ? document.getElementById("det-order-discount").innerHTML = "Yes":document.getElementById("det-order-discount").innerHTML = "No";
+            order_details.status !== "complete" ? document.getElementById("det-update-order").innerHTML = `<button class = "btn btn-primary" style = "text-transform: capitalize;" onclick = "function() {update_order_status(this, ${order.id})};">${order_details.status}?</button>`:document.getElementById("det-update-order").innerHTML = ``;
+            document.getElementById("background-fade").style.display = "block";
+            document.getElementById("order-details").style.display = "block";
+
+     
+            
+        }).catch ( err => {
+            console.log(err);
+        });
+    }
+    let close_modal = (mdl) => {
+        document.getElementById("background-fade").style.display = "none";
+        document.getElementById(mdl).style.display = "none";
+    }
 
     let update_order_status = (btn, order_id) => {
         btn.className = "btn btn-success btn-rounded";
-        axios.post(`http://localhost:8080/vendor/update_order_status/${order_id}`)
+        axios.post(`${url}/vendor/update_order_status/${order_id}`)
         .catch(error => {
             console.log(error);
         });
@@ -86,6 +173,8 @@
                 update_status.appendChild(button);
                 row.appendChild(update_status);
             }
+            row.id = order._id;
+            row.onclick = function()  {show_order_details(this)};
 
             element.appendChild(row);
     }
@@ -154,14 +243,13 @@
         while( err === null ) {
 
             let state = document.getElementById("nav-active").value;
-            let url = `http://localhost:8080/vendor/orders/valve/${state}`;
 
-            await axios.get(url)
+            await axios.get(`${url}/vendor/orders/valve/${state}`)
             .then(async res => {
                 let orders = res.data;
                 await timeout(500);
                 remove_orders();
-                document.getElementById("order_count").innerHTML = `${orders.length}`;
+                orders.length < 100 ? document.getElementById("order_count").innerHTML = `${orders.length}`: document.getElementById("order_count").innerHTML = `99+`;
                 orders.forEach(order => {
                     build_order(order);
                 })
@@ -205,13 +293,13 @@
     <div class = "panel">
         <div class = "panel-heading" style ="display: flex; flex-direction: row; justify-content: center; align-items: center">
             <h1 class = "panel-title text-primary" style = "text-align: center; font-size: 1.5em;">ORDERS</h1>
-            <span id = "order_count" class="badge badge-secondary" style ="width: 25px; height: 25px; padding: 6px"></span>
+            <span id = "order_count" class="badge badge-warning" style ="width: auto; height: 25px; padding: 6px">0</span>
         </div>
         <div class ="panel-body">
             <div class ="bootstrap-table">
                 <div class ="fixed-table-container">
-                    <div class="fixed-table-header" style="display: none;">
-                        <table></table>
+                    <div class="fixed-table-header" style="display: block; ">
+                        <button id = "search-btn" class="btn btn-mint" type="button" style="float: right; width: 200px" onclick="show_search_modal()">Search Orders</button>
                     </div>
                     <table class = "table table-hover" data-sort-name ="_id">
                         <thead>
@@ -241,6 +329,84 @@
             </div>
         </div>
     </div>
+    
+    <div id = "order-details" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+                <div class ="modal-header">
+                    <h3 class="modal-title">Order Details</h3>
+                    <button type="button" class="close" onclick = 'close_modal("order-details")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
+                </div>
+                <div class ="modal-body">
+                    <div class = "bootbox-body" style = "display: block"> 
+                        <div style = "display: flex; flex-direction: row; justify-content: space-around" >
+                            <h6 style = "font-weight: 100;">Customer Name: <span id = "det-order-cust-name" style = "font-weight: bold;"></span></h6>
+                            <h6 style = "font-weight: 100;">Order Number: <span id = "det-order-num" style = "font-weight: bold;"></span></h6>
+                        </div>
+                        <div class = "bootstrap-table">
+                            <div class ="fixed-table-container">
+                                <div class="fixed-table-header" style="display: none;">
+                                    <table></table>
+                               </div>
+                               <table class = "table table-hover" data-sort-name ="_id">
+                                    <thead>
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id = "inject-order-details">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div style = "display: flex; flex-direction: row; justify-content: space-around" >
+                            <h6 style = "font-weight: 100;">Order Start Time: <span id = "det-order-time" style = "font-weight: bold;"></span></h6>
+                            <h6 style = "font-weight: 100;">Discounted: <span id = "det-order-discount" style = "font-weight: bold;"></span></h6>
+                        </div>
+                    </div>
+                </div>
+                <div id = "det-update-order" class ="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div id = "search" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+                <div class ="modal-header">
+                    <h3 class="modal-title">Order Search</h3>
+                    <button type="button" class="close" onclick = 'close_modal("search")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
+                </div>
+                <div class ="modal-body">
+                    <div class = "bootbox-body" style = "display: block">
+                        <div class="input-group mar-btm">
+                            <input id = "search-string" type="text" placeholder="Search" class="form-control">
+                            <span class="input-group-btn">
+                                <button id = "search-btn" class="btn btn-mint" type="button">Search</button>
+                            </span>
+					    </div>
+                        <div class="btn-group" style = "display: flex; flex-direction: row; justify-content: center">
+                            <button id = "search-order-id" class="btn btn-primary active" aria-pressed = "true"  type="button" onclick="select_search_mode(this)" style = "margin-right: 2rem;">Search By Order ID</button>
+                            <button id = "search-cust-id" class="btn btn-primary"  type="button" onclick="select_search_mode(this)">Search by Customer ID</button>
+                        </div>
+                    </div>
+                </div>
+                <div class ="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick = 'close_modal("search")'>
+                        Return to Dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id = "background-fade" class="modal-backdrop fade in" style = "display: none;"></div>
 </div>
 
