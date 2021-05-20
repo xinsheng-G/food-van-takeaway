@@ -28,6 +28,9 @@ router.use(express.static('./static'));
 //Set Van location to open
 router.post('/van_open/:id', vendor_Controller.set_location);
 
+//Set Van location to closed
+router.post('/van_close/:id', vendor_Controller.close_snackvan);
+
 //Filter Orders based on order Status
 router.get('/orders/:van_name/:state', vendor_Controller.filtered_orders);
 

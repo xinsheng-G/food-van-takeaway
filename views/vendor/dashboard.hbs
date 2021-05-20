@@ -1,7 +1,9 @@
 <script>
     let order_time = moment().subtract(3, "minutes");
+    let updating = false;
+    let van_name = `{{van}}`;
     let search_mode = "search-order-id";
-    let url = `http://localhost:8080`;
+    let url = `{{url}}`;
     
     let search = () => {
         let search_string = document.getElementById("search-string").value;
@@ -11,9 +13,9 @@
 
             let btn_toggle_off = document.getElementById(search_mode);
 
-            let btn_tooggl_on_class = btn_toggle_off.className;
+            let btn_toggle_on_class = btn_toggle_off.className;
             btn_toggle_off.className = btn.className;
-            btn.className =  btn_toggle_off.className;
+            btn.className =  btn_toggle_on_class;
 
             btn_toggle_off.ariaPressed = false;
             btn.ariaPressed = true;
@@ -24,16 +26,17 @@
         
     }
 
-    let show_search_modal = () => {
+    let show_modal = (modal_name) => {
+        document.getElementById(modal_name).style.display = "block";
         document.getElementById("background-fade").style.display = "block";
-        document.getElementById("search").style.display = "block";
     }
+
     let show_order_details = (order) => {
 
         axios.get(`${url}/vendor/order/${order.id}`).then (res => {
             let order_details = res.data;
             document.getElementById("det-order-cust-name").innerHTML = order_details.customer_name;
-            document.getElementById("det-order-num").innerHTML = "1234";
+            document.getElementById("det-order-num").innerHTML = order.id.substring(order.id.length - 6).toUpperCase();
 
             let grand_total = 0;
             let element = document.getElementById('inject-order-details');
@@ -69,16 +72,13 @@
             let grand_total_td_data = document.createTextNode(`\$${grand_total}`);
             grand_total_td.appendChild(grand_total_td_data);
             row.appendChild(grand_total_td);
+            row.style.backgroundColor = "#FFDA77";
             element.appendChild(row);
 
             document.getElementById("det-order-time").innerHTML = moment(order_details.start_time, 'YYYY-MM-DD[T00:00:00.000Z]').format('MMMM Do YYYY, h:mm:ss a');
             order_details.is_given_discount ? document.getElementById("det-order-discount").innerHTML = "Yes":document.getElementById("det-order-discount").innerHTML = "No";
             order_details.status !== "complete" ? document.getElementById("det-update-order").innerHTML = `<button class = "btn btn-primary" style = "text-transform: capitalize;" onclick = "function() {update_order_status(this, ${order.id})};">${order_details.status}?</button>`:document.getElementById("det-update-order").innerHTML = ``;
-            document.getElementById("background-fade").style.display = "block";
-            document.getElementById("order-details").style.display = "block";
-
-     
-            
+            show_modal("order-details");
         }).catch ( err => {
             console.log(err);
         });
@@ -98,85 +98,87 @@
 
     let build_order = (order) => {
 
-            let element = document.getElementById('inject-orders');
-            let row = document.createElement('tr');
+            if(!(updating)){
+                let element = document.getElementById('inject-orders');
+                let row = document.createElement('tr');
 
-            let order_id = document.createElement('td');
-            let order_id_data = document.createTextNode(`12345`);
-            order_id.appendChild(order_id_data);
-            row.appendChild(order_id)
+                let order_id = document.createElement('td');
+                let order_id_data = document.createTextNode(order._id.substring(order._id.length - 6).toUpperCase());
+                order_id.appendChild(order_id_data);
+                row.appendChild(order_id)
 
 
-            let create_lineitem_data = (lineItems) => {
-                let lineitems = document.createElement('td');
-                lineItems.forEach(item => {
-                   let lineitem = document.createElement('p');
-                   lineitem.style.textTransform = "capitalize";
-                   let line = document.createTextNode(`${item.snack_name.replace(/[_-]/g, " ")} x ${item.number}`);
-                   lineitem.appendChild(line);
-                   lineitems.appendChild(lineitem);
-                })
-                return lineitems;
-            }
-            row.appendChild(create_lineitem_data(order.lineItems));
-
-            if (order.status === 'preparing') {
-
-                let timer = document.createElement('td');
-                let current_time = moment();
-                let time = current_time.diff(order_time)/1000;
-                let timer_data= document.createTextNode(`${Math.floor(time/60)}:${Math.floor(time%60) < 10 ? `0${Math.floor(time%60)}`: Math.floor(time%60)}`);
-                timer.appendChild(timer_data);
-                row.appendChild(timer); 
-            }
-
-            if (order.status !== 'confirming') {
-                let discount = document.createElement('td');
-                let label = document.createElement('span');
-                label.className = "label label-table ";
-                if (order.is_given_discount) {
-                    label.className += "label-danger";
-                    label.appendChild(document.createTextNode("YES"));
-                } else {
-                    label.className += "label-success";
-                    label.appendChild(document.createTextNode("NO"));
+                let create_lineitem_data = (lineItems) => {
+                    let lineitems = document.createElement('td');
+                    lineItems.forEach(item => {
+                    let lineitem = document.createElement('p');
+                    lineitem.style.textTransform = "capitalize";
+                    let line = document.createTextNode(`${item.snack_name.replace(/[_-]/g, " ")} x ${item.number}`);
+                    lineitem.appendChild(line);
+                    lineitems.appendChild(lineitem);
+                    })
+                    return lineitems;
                 }
-                discount.appendChild(label);
-                row.appendChild(discount);
-            }
-            
+                row.appendChild(create_lineitem_data(order.lineItems));
 
-            
-            if (order.status !== 'complete'){
-                let update_status = document.createElement('td');
-                let button = document.createElement('button');
-                button.className = "btn btn-primary btn-rounded";
-                button.onclick = function() {update_order_status(this, order._id)};
-                let button_text = document.createTextNode('UPDATE');
-                switch (order.status) {
-                    case 'confirming':
-                        button_text = document.createTextNode('CONFIRM');
-                        break;
+                if (order.status === 'preparing') {
 
-                    case 'preparing':
-                        button_text = document.createTextNode('READY');
-                        break;
-
-                    case 'ready':
-                        button_text = document.createTextNode('COMPLETE');
-                        break;
-
-                    default:
-                        console.log('400: invalid order status');
+                    let timer = document.createElement('td');
+                    let current_time = moment();
+                    let time = current_time.diff(order_time)/1000;
+                    let timer_data= document.createTextNode(`${Math.floor(time/60)}:${Math.floor(time%60) < 10 ? `0${Math.floor(time%60)}`: Math.floor(time%60)}`);
+                    timer.appendChild(timer_data);
+                    row.appendChild(timer); 
                 }
-                button.appendChild(button_text);
-                update_status.appendChild(button);
-                row.appendChild(update_status);
-            }
-            row.id = order._id;
-            row.onclick = function()  {show_order_details(this)};
 
-            element.appendChild(row);
+                if (order.status !== 'confirming') {
+                    let discount = document.createElement('td');
+                    let label = document.createElement('span');
+                    label.className = "label label-table ";
+                    if (order.is_given_discount) {
+                        label.className += "label-danger";
+                        label.appendChild(document.createTextNode("YES"));
+                    } else {
+                        label.className += "label-success";
+                        label.appendChild(document.createTextNode("NO"));
+                    }
+                    discount.appendChild(label);
+                    row.appendChild(discount);
+                }
+                
+
+                
+                if (order.status !== 'complete'){
+                    let update_status = document.createElement('td');
+                    let button = document.createElement('button');
+                    button.className = "btn btn-primary btn-rounded";
+                    button.onclick = function() {update_order_status(this, order._id)};
+                    let button_text = document.createTextNode('UPDATE');
+                    switch (order.status) {
+                        case 'confirming':
+                            button_text = document.createTextNode('CONFIRM');
+                            break;
+
+                        case 'preparing':
+                            button_text = document.createTextNode('READY');
+                            break;
+
+                        case 'ready':
+                            button_text = document.createTextNode('COMPLETE');
+                            break;
+
+                        default:
+                            console.log('400: invalid order status');
+                    }
+                    button.appendChild(button_text);
+                    update_status.appendChild(button);
+                    row.appendChild(update_status);
+                }
+                row.id = order._id;
+                row.onclick = function()  {show_order_details(this)};
+
+                element.appendChild(row);
+            }
     }
     let remove_orders = () => {
             let element = document.getElementById('inject-orders');
@@ -186,7 +188,9 @@
 
     let timeout = (ms) => { return new Promise(res => setTimeout(res, ms)); }
 
-    let update_state = (selected) => {
+    let update_state = async (selected) => {
+        updating = true;
+        document.getElementById("order-table").style.filter =" blur(2px)";
         document.getElementById("order_count").innerHTML = `0`;
         if(selected.id !== "nav-active"){
             remove_orders();
@@ -227,24 +231,28 @@
                         header.innerHTML = `<th id = "th-order-id">Order Id</th>
                         <th id = "th-lineitems">Order</th>
                         <th id = "th-discount">Discount</th>`;
+                        document.getElementById("search-btn").style.display = "inline-block";
                         break;
 
                     default:
                         console.log('400: invalid order status');
                 }
         }
-        
+        await timeout(1000);
+        updating = false;
+        document.getElementById("order-table").style.filter ="";
     }
     let get_orders = async () => {
         
         await timeout(5000);
+        console.log();
         let err = null;
         
         while( err === null ) {
 
             let state = document.getElementById("nav-active").value;
 
-            await axios.get(`${url}/vendor/orders/valve/${state}`)
+            await axios.get(`${url}/vendor/orders/${van_name}/${state}`)
             .then(async res => {
                 let orders = res.data;
                 await timeout(500);
@@ -299,9 +307,9 @@
             <div class ="bootstrap-table">
                 <div class ="fixed-table-container">
                     <div class="fixed-table-header" style="display: block; ">
-                        <button id = "search-btn" class="btn btn-mint" type="button" style="float: right; width: 200px" onclick="show_search_modal()">Search Orders</button>
+                        <button id = "search-btn" class="btn btn-mint" type="button" style="display: none; float: right; width: 200px" onclick="show_modal('search')">Search Orders</button>
                     </div>
-                    <table class = "table table-hover" data-sort-name ="_id">
+                    <table id = "order-table"class = "table table-hover" data-sort-name ="_id">
                         <thead>
                             <tr id = "inject-orders-header">
                                 <th id = "th-order-id">
@@ -324,9 +332,12 @@
                         <tbody id = "inject-orders">
                         </tbody>
                     </table>
-
                 </div>
             </div>
+        </div>
+        <div class="panel-footer mar-rgt" style="display: flex; flex-direction: row; justify-content: flex-end;">
+            <button id = "update-location-btn" class="btn btn-mint mar-rgt" type="button" style="width: 200px" onclick="show_modal('update-location')">Update Location</button>
+            <button id = "close-btn" class="btn btn-danger" type="button" style="width: 200px" onclick="show_modal('close-business')">Close SnackVan</button>
         </div>
     </div>
     
@@ -402,6 +413,55 @@
                     <button type="button" class="btn btn-danger" onclick = 'close_modal("search")'>
                         Return to Dashboard
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id = "update-location" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class = "modal-dialog">
+            <div class = "modal-content">
+                <div class ="modal-header">
+                    <h3 class="modal-title">Update Van Location</h3>
+                    <button type="button" class="close" onclick = 'close_modal("update-location")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
+                </div>
+                <div class ="modal-body">
+                    <div class = "bootbox-body" style = "display: block">
+                        <div   div class = "form-group" style=" width: 400px; margin-top: 40px;">
+                            <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address</label>
+                            <input id ="location-address" type="text" class="form-control input-lg">
+                            <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location</label>
+                            <div class= "input-group"> 
+                                <input id ="location-description" type="text" class="form-control input-lg">
+                                <span class="input-group-addon">?</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="modal-footer">
+                    <button type="button" class="btn btn-mint" onclick = ''>
+                        Update Location
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id = "close-business" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" onclick = 'close_modal("close-business")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
+
+                <div class="bootbox-body"><h4>Are you sure?</h4></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">Cancel</button>
+                    <button type="button" class="btn btn-danger">Close SnackVan</button>
                 </div>
             </div>
         </div>

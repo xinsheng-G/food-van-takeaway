@@ -1,16 +1,20 @@
 const moment = require('moment');
 let set_location = (req, res) => {
     console.log(req.body);
+
     // Reading Request
     let van_name = req.params.id;
-    let van_location = req.body;
+
+    //update with req.body with geotext api
+    let van_location = { 'x_pos': 0, 'y_pos': 0 };
+    let van_location_description = "";
 
     // Loading Van Collection
     let van_model = require('../../model/van')
 
     //Setting up Query: find and update van dettails (Open for buisness and locaiton)
     let query = { 'van_name': van_name };
-    let update = { "$set": { "is_open": true, "location": van_location } };
+    let update = { "$set": { "is_open": true, "location": van_location, "description": van_location_description } };
     let options = { new: true }
 
     van_model.findOneAndUpdate(query, update, options)
@@ -31,7 +35,37 @@ let set_location = (req, res) => {
         .catch(err => console.log(err));
 
 }
+let close_snackvan = (req, res) => {
+    console.log(req.body);
+    // Reading Request
+    let van_name = req.params.id;
 
+    // Loading Van Collection
+    let van_model = require('../../model/van')
+
+    //Setting up Query: find and update van dettails (Closed for buisness)
+    let query = { 'van_name': van_name };
+    let update = { "$set": { "is_open": false, "location": { 'x_pos': null, 'y_pos': null }, "description": null } };
+    let options = { new: true }
+
+    van_model.findOneAndUpdate(query, update, options)
+        .then(updatedDocument => {
+
+            // Displaying document in Console and relevant informaion in response body on Success
+            if (updatedDocument) {
+
+                //console.log(`Successfully updated document: ${updatedDocument}.`);
+                res.send(`Closed for Business: ${updatedDocument.van_name}`);
+
+            } else {
+                console.log("No such van name exists");
+                res.send("400: Van not found");
+            }
+
+        })
+        .catch(err => console.log(err));
+
+}
 let filtered_orders = async(req, res) => {
 
     // Reading Request
@@ -180,20 +214,20 @@ let show_order_details = (req, res) => {
 }
 
 let show_dashboard = (req, res) => {
-    let van_name = req.params.van_name;
     res.render('./vendor/dashboard', {
-        van: van_name
-    })
+        van: 'valve',
+        url: `http://${req.headers.host}`
+    });
 }
 
 let show_buisness = (req, res) => {
-    let van_name = req.params.van_name;
     res.render('./vendor/buisness', {
-        van: van_name
+        van_name: 'valve',
+        url: `http://${req.headers.host}`
     })
 }
 
-/*let search_orders = (req, res) => {
+let search_orders = (req, res) => {
     let van_name = req.params.van_name;
     //req.body not working
     let search_string = req.body.search_string;
@@ -201,6 +235,7 @@ let show_buisness = (req, res) => {
     let order_model = require('../../model/order');
     //searches Whole Object _id, json key is variable, 
     let query = req.body.search_mode === 'search-order-id' ? { "order_van_name": van_name, '_id': { "$regex": search_string, "$options": "i" } } : { "order_van_name": van_name, 'order_customer_id': { "$regex": search_string, "$options": "i" } };
+
     console.log(query);
     let searched_order_details = [];
     order_model.find(query).lean().then(orders => {
@@ -215,15 +250,16 @@ let show_buisness = (req, res) => {
     }).catch(err => console.log(err));
 
 
-}*/
+}
 
 module.exports = {
     set_location,
+    close_snackvan,
     filtered_orders,
     update_order_status,
     show_order_details,
     show_dashboard,
-    show_buisness
-    //, search_orders
+    show_buisness,
+    search_orders
 
 }
