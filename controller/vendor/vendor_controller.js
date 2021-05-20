@@ -240,7 +240,7 @@ let search_orders = (req, res) => {
     let searched_order_details = [];
     order_model.find(query).lean().then(orders => {
         orders.forEach(async order => {
-            let url = `http://localhost:8080`;
+            let url = `http://${req.headers.host}`;
             //does axios work in node
             await axios.get(`${url}/vendor/order/${order._id}`).then(order_details => {
                 searched_order_details.push(order_details.data);
