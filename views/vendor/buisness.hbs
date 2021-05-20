@@ -1,11 +1,16 @@
 <script>
-    let url = `http://localhost:8080`;
-    let van_name = `debug_van_name`;
+    let url = `{{url}}`;
+    let van_name = `{{van}}`;
+
     let open_van = () => {
-        let van_location = {'x_pos': 1234.5678, 'y_pos': 1234.5678 }
-        axios.post( `${url}/vendor/van_open/${van_name}`, van_location).then(res => {
-            console.log(`front-end`);
-            console.log(res.data);
+
+        let van_address = document.getElementById("location-address").value;
+        let van_location_description = document.getElementById("location-description").value;
+        let JSON_form = {"van_adress": van_address, "van_location_description": van_location_description};
+
+        axios.post( `${url}/vendor/van_open/${van_name}`, JSON_form).then(res => {
+            console.log(`${res.statusText} : ${res.status}`);
+            window.location.href = `${url}/vendor/dashboard`;
         }).catch(err => {console.log(err);});
     }
     
@@ -19,15 +24,17 @@
            </div>
            <div class = "panel-body">
                <div class = "form-group" style=" width: 400px; margin-top: 40px;">
-                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location</label>
+                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address *</label>
+                   <input id ="location-address" type="text" class="form-control input-lg">
+                   <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location *</label>
                    <div class= "input-group"> 
                      <input id ="location-description" type="text" class="form-control input-lg">
                      <span class="input-group-addon">?</span>
                    </div>
                </div>
-               <div style = "height: 50px; display: flex; flex-direction: row; justify-content: space-between;"> 
-                   <button id = "open" class = "btn btn-success btn-lg btn-rounded">OPEN FOR BUISNESS</button>
-                   <button id = "sign-out" class = "btn btn-danger btn-lg btn-rounded" onClick = "open_van()">SIGN OUT</button>
+               <div style = "display: flex; flex-direction: row; justify-content: space-between;"> 
+                   <button id = "open" class = "btn btn-success btn-rounded" onClick = "open_van()">OPEN FOR BUISNESS</button>
+                   <button id = "sign-out" class = "btn btn-danger btn-rounded"  >SIGN OUT</button>
                </div>
            </div>
         </div>
