@@ -33,7 +33,7 @@
         axios.get(`${url}/vendor/order/${order.id}`).then (res => {
             let order_details = res.data;
             document.getElementById("det-order-cust-name").innerHTML = order_details.customer_name;
-            document.getElementById("det-order-num").innerHTML = "1234";
+            document.getElementById("det-order-num").innerHTML = get_partial_id(order.id);
 
             let grand_total = 0;
             let element = document.getElementById('inject-order-details');
@@ -102,7 +102,7 @@
             let row = document.createElement('tr');
 
             let order_id = document.createElement('td');
-            let order_id_data = document.createTextNode(`12345`);
+            let order_id_data = document.createTextNode(get_partial_id(order.id));
             order_id.appendChild(order_id_data);
             row.appendChild(order_id)
 
