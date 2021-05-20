@@ -1,5 +1,4 @@
 const moment = require('moment');
-cons
 let set_location = (req, res) => {
     console.log(req.body);
     // Reading Request
