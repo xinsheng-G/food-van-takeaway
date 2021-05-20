@@ -21,7 +21,7 @@ const vendor_Controller = require('../../controller/vendor/vendor_controller');
 const registerController = require('../../controller/vendor/vendor_register_controller');
 const exceptionHandler = require('../../controller/handle_exceptions');
 
-
+const login_interceptor = require('../../controller/login_interceptor')
 
 router.use(express.static('./static'));
 

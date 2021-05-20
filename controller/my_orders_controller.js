@@ -38,6 +38,13 @@ let show_my_orders_page = async (req, res) => {
             let current_order = current_orders[i];
             let full_id = current_order['_id'].toString();
 
+            /* exception handling: skip buggy record */
+            if(current_order['order_van_name'] == null || current_order['start_time'] == null ||
+                current_order['total_price'] == null || current_order['cost'] == null ||
+                current_order['is_given_discount'] == null) {
+                continue;
+            }
+
             // 4-digits to avoid collision in showing on the screen
             current_order['partial_id'] =  string_utils.get_partial_id(full_id);
 
@@ -51,7 +58,16 @@ let show_my_orders_page = async (req, res) => {
             /** update discount information before show them on the screen */
             /** this function is from /utils/dataBase_discount_handler */
             await dataBase_discount_handler.update_discount_info(current_order)
+        }
 
+        let valid_current_order_array = [];
+        for(let i in current_orders) {
+            let current_order = current_orders[i];
+            if(current_order['start_date'] == null) {
+                continue;
+            }
+
+            valid_current_order_array.push(current_order);
         }
 
         // sorted by end_time
@@ -80,25 +96,40 @@ let show_my_orders_page = async (req, res) => {
         // add partial id to each element for display
         previous_orders.forEach((previous_order) => {
             let full_id = previous_order['_id'].toString();
-            // 6-digits to avoid collision
-            previous_order['partial_id'] =  string_utils.get_partial_id(full_id);
 
-            // change van name format into van title (change dash into space)
-            previous_order['van_title'] = string_utils.change_dash_into_space(previous_order['order_van_name'])
+            /* exception handling: skip buggy record */
+            if(previous_order['order_van_name'] != null && previous_order['start_time'] != null &&
+                previous_order['total_price'] != null && previous_order['end_time'] != null) {
 
-            // retrieve date and time string from Date type of MongoDB
-            previous_order['start_date'] =  string_utils.get_date_str_from_Date(previous_order['start_time'])
-            previous_order['start_clock'] = string_utils.get_hour_minute_from_Date(previous_order['start_time'])
+                // 6-digits to avoid collision
+                previous_order['partial_id'] =  string_utils.get_partial_id(full_id);
 
-            previous_order['end_date'] = string_utils.get_date_str_from_Date(previous_order['end_time'])
-            previous_order['end_clock'] = string_utils.get_hour_minute_from_Date(previous_order['end_time'])
+                // change van name format into van title (change dash into space)
+                previous_order['van_title'] = string_utils.change_dash_into_space(previous_order['order_van_name'])
 
+                // retrieve date and time string from Date type of MongoDB
+                previous_order['start_date'] =  string_utils.get_date_str_from_Date(previous_order['start_time'])
+                previous_order['start_clock'] = string_utils.get_hour_minute_from_Date(previous_order['start_time'])
+
+                previous_order['end_date'] = string_utils.get_date_str_from_Date(previous_order['end_time'])
+                previous_order['end_clock'] = string_utils.get_hour_minute_from_Date(previous_order['end_time'])
+            }
         })
+
+        let valid_prev_order_array = [];
+        for(let i in previous_orders) {
+            let previous_order = previous_orders[i];
+            if(previous_order['start_date'] == null) {
+                continue;
+            }
+
+            valid_prev_order_array.push(previous_order);
+        }
 
         res.render('./customer/my_orders', {
             title: 'My Orders',
-            current_orders: current_orders,
-            previous_orders: previous_orders
+            current_orders: valid_current_order_array,
+            previous_orders: valid_prev_order_array
         })
 
     } catch (e) {
@@ -788,6 +819,18 @@ let place_new_order = async (req, res) => {
             }
         })
 
+        /* exception handling */
+        /* empty order */
+        if(lineItems.length === 0) {
+            /* nothing in the order */
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'Empty order'
+            })
+
+            return;
+        }
+
         // query price into a list
         // do price calculation in back-end is a security way
         let snack_model = require('../model/snack')
@@ -819,6 +862,18 @@ let place_new_order = async (req, res) => {
 
         cost = total_price
         refund = 0
+
+        /* exception handling */
+        /* missing key info */
+        if(user_id == null || van_name == null || time_now == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'New order missing info'
+            })
+
+            return;
+        }
+
         // create new order and save to db
         let order_model = require('../model/order')
         let new_order = new order_model({

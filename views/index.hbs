@@ -465,7 +465,15 @@
     // dynamic load vans, incoming string with no escape
     // Need to be changed into Ajax later, to support refreshing
     let vans_to_show = [{{{vans_to_show}}}];
-    vans_to_show.forEach((van) => {
+
+    for(let i in vans_to_show) {
+        let van = vans_to_show[i];
+
+        if(van.position == null || van.position.x_pos == null || van.position.y_pos == null ||
+                van.van_name == null) {
+            continue;
+        }
+
         let van_point = new BMapGL.Point(van.location.x_pos, van.location.y_pos);
         console.log('create van map point: ' + van.location.x_pos + ', ' + van.location.y_pos);
 
@@ -485,7 +493,7 @@
                 map.addOverlay(marker);
             }
         });
-    });
+    }
 
     map.addEventListener("touchmove", function (e) {
         map.enableDragging();

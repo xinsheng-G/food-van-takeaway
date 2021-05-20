@@ -58,9 +58,7 @@ let show_page = async (req, res) => {
 
         } else {
             console.log("has van in array")
-            // for(let i in opening_vans) {
-            //     vans.push(opening_vans[i]);
-            // }
+
             res.render('index', {
                 layout: false,
                 vans_to_show: opening_vans,
@@ -132,6 +130,14 @@ let show_van_detail_page = async (req, res) => {
             res.render('./customer/warning',{
                 title: 'Warning',
                 warning_message: 'This van is not existing/opening'
+            })
+            return
+        }
+
+        if(van_obj.picture_path == null || van_obj.stars == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'This van is missing information'
             })
             return
         }
@@ -273,23 +279,28 @@ let search_by_van_name = async (req, res) => {
         let vans_to_show = []
 
         result.forEach((res_obj) => {
-            let van_location = res_obj['location'];
-            let distance = default_distance
 
-            if (van_location == null) {
-                console.log('van: '+ res_obj['van_name'] + ' missing location information.')
-            } else {
-                distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
-            }
+            /* don't show buggy records */
+            if(res_obj['van_name'] != null && res_obj['stars'] != null) {
+                let van_location = res_obj['location'];
+                let distance = default_distance
 
-            let van = {
-                van_name: res_obj['van_name'],
-                van_title: string_utils.change_dash_into_space(res_obj['van_name']),
-                stars_percentage: (parseFloat(res_obj['stars']) / 5 * 100),
-                text_address: res_obj['text_address'],
-                distance: distance,
+                if (van_location == null || van_location.x_pos == null || van_location.y_pos == null) {
+                    console.log('van: '+ res_obj['van_name'] + ' missing location information.')
+
+                } else {
+
+                    distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
+                    let van = {
+                        van_name: res_obj['van_name'],
+                        van_title: string_utils.change_dash_into_space(res_obj['van_name']),
+                        stars_percentage: (parseFloat(res_obj['stars']) / 5 * 100),
+                        text_address: res_obj['text_address'],
+                        distance: distance,
+                    }
+                    vans_to_show.push(van)
+                }
             }
-                vans_to_show.push(van)
         })
 
         vans_to_show = vans_to_show.sort(array_sorter.sortBy('distance'))
@@ -369,11 +380,13 @@ let show_nearest_van_list_page = async (req, res) => {
             let res_obj = query_results[i]
 
             let van_location = res_obj['location'];
-            if (van_location == null) {
+            if (van_location == null || res_obj['van_name'] == null || res_obj['stars'] == null ||
+                van_location.x_pos == null || van_location.y_pos == null) {
                 // if a van doesn't have a location stored in the db
                 // don't show it
-                continue
+                continue;
             }
+
             let distance = math_utils.findDistance(user_location.x_pos, user_location.y_pos, van_location.x_pos, van_location.y_pos)
             let van = {
                 van_name: res_obj['van_name'],
