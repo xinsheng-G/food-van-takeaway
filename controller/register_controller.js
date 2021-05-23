@@ -22,7 +22,7 @@ let add_customer = (req, res) => {
             "password": encrypt_util.encrypt(sanitize(req.body.password)),
             "firstname": sanitize(req.body.firstname),
             "lastname": sanitize(req.body.lastname),
-            "birthday": sanitize(req.body.birthday),
+            // "birthday": sanitize(req.body.birthday),
             "avatar_path": 'https://source.unsplash.com/Tn8DLxwuDMA'
         })
 

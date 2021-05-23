@@ -81,19 +81,19 @@
 
                     <!-- bottom button group (shows in mobile device) -->
                     <div class="map-bottom bottom-button-group-behavior">
-                        <div class="row" style="height: 15px">
-                            <div class="col-xs-2 col-md-2">
+<!--                        <div class="row" style="height: 15px">-->
+<!--                            <div class="col-xs-2 col-md-2">-->
 
-                            </div>
-                            <div class="col-xs-8 col-md-8">
-                                <a href="/" class="btn btn-primary my-round-border btn-block"><i
-                                        class="fa fa-refresh"></i>&nbsp;Refresh</a>
-                                <br>
-                            </div>
-                            <div class="col-xs-2 col-md-2">
+<!--                            </div>-->
+<!--                            <div class="col-xs-8 col-md-8">-->
+<!--                                <a href="/" class="btn btn-primary my-round-border btn-block"><i-->
+<!--                                        class="fa fa-refresh"></i>&nbsp;Refresh</a>-->
+<!--                                <br>-->
+<!--                            </div>-->
+<!--                            <div class="col-xs-2 col-md-2">-->
 
-                            </div>
-                        </div>
+<!--                            </div>-->
+<!--                        </div>-->
 
                         <div class="row">
                             <div class="col-xs-4 col-md-4">
@@ -168,32 +168,32 @@
 
                                 <!--Menu list item-->
                                 <li>
-                                    <a href="" data-original-title="" title="">
+                                    <a href="/customer/profile" data-original-title="" title="">
                                         <i class="fa fa-user-circle-o"></i>
                                         <span class="menu-title">My Account</span>
-                                        <i class="arrow"></i>
+<!--                                        <i class="arrow"></i>-->
                                     </a>
 
-                                    <!--Submenu-->
-                                    <ul class="collapse" aria-expanded="false">
-                                        <li>
-                                            <a href="/customer/profile" data-original-title="" title="">
-                                                <i class="fa fa-address-card"></i>
-                                                <span class="menu-title">
-												Manage Profile
-                                            </span>
-                                            </a>
-                                        </li>
+<!--                                    &lt;!&ndash;Submenu&ndash;&gt;-->
+<!--                                    <ul class="collapse" aria-expanded="false">-->
+<!--                                        <li>-->
+<!--                                            <a href="/customer/profile" data-original-title="" title="">-->
+<!--                                                <i class="fa fa-address-card"></i>-->
+<!--                                                <span class="menu-title">-->
+<!--												Manage Profile-->
+<!--                                            </span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
 
-                                        <li>
-                                            <a href="/customer/logout" data-original-title="" title="">
-                                                <i class="fa fa-power-off"></i>
-                                                <span class="menu-title">
-												Log Out
-                                            </span>
-                                            </a>
-                                        </li>
-                                    </ul>
+<!--                                        <li>-->
+<!--                                            <a href="/customer/logout" data-original-title="" title="">-->
+<!--                                                <i class="fa fa-power-off"></i>-->
+<!--                                                <span class="menu-title">-->
+<!--												Log Out-->
+<!--                                            </span>-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
                                 </li>
 
                                 <!--Menu list item-->
@@ -244,6 +244,9 @@
 
 <!-- path is set in app.js : app.use(express.static('static')); -->
 <script type="text/javascript">
+
+    //live page refreshes every 60 seconds, to get refresh location
+    setTimeout(function(){location.reload()},60000);
 
     var map = new BMapGL.Map("map", {drawMargin: 100, drawer: 'BMAP_SVG_DRAWER_FIRST'});
     let convertor = new BMapGL.Convertor();
