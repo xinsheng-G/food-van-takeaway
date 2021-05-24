@@ -26,21 +26,21 @@ const login_interceptor = require('../../controller/login_interceptor')
 router.use(express.static('./static'));
 
 //Set Van location to open
-router.post('/van_open/:id', vendor_Controller.set_location);
+router.put('/van_open/:id', vendor_Controller.set_location);
 
 //Set Van location to closed
-router.post('/van_close/:id', vendor_Controller.close_snackvan);
+router.put('/van_close/:id', vendor_Controller.close_snackvan);
 
 //Filter Orders based on order Status
 router.get('/orders/:van_name/:state', vendor_Controller.filtered_orders);
 
 //Update order status to next status
-router.post('/update_order_status/:id', vendor_Controller.update_order_status);
+router.put('/update_order_status/:id', vendor_Controller.update_order_status);
 
 //Show order details
 router.get('/order/:id', vendor_Controller.show_order_details);
 
-//router.get('/search_order/:van_name', vendor_Controller.search_orders);
+router.get('/search_order/:van_name', vendor_Controller.search_orders);
 
 
 router.get('/dashboard', vendor_Controller.show_dashboard);

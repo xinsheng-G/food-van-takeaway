@@ -1,4 +1,3 @@
-// Food Buddy server using Handlebars
 const express = require('express')
 const bodyParser = require('body-parser')
 const exphbs = require('express-handlebars')
@@ -26,7 +25,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 /* configure content-filter */
-let blackList = ['$','{','&&','||']
+let blackList = ['$', '{', '&&', '||']
 let options = {
     urlBlackList: blackList,
     bodyBlackList: blackList,
@@ -47,11 +46,11 @@ app.set('view engine', 'hbs')
 app.use(cookieParser('secret'))
 
 app.use(session({
-    secret :  'secret', // Signs the cookie associated with the session ID
-    resave : true,
+    secret: 'secret', // Signs the cookie associated with the session ID
+    resave: true,
     saveUninitialized: false, // Whether to save uninitialized sessions
-    cookie : {
-        maxAge : 1000 * 60 * 120, // Sets the duration of the session in milliseconds
+    cookie: {
+        maxAge: 1000 * 60 * 120, // Sets the duration of the session in milliseconds
     },
 }));
 
@@ -60,7 +59,7 @@ app.use(express.static('static'));
 app.use(express.static('upload_images'));
 
 // make post router can parse form
-app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // customer router, for customer app functionalities
 app.use('/customer', customer_router)
