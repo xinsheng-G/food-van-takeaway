@@ -23,7 +23,7 @@ const exceptionHandler = require('../../controller/handle_exceptions');
 
 const login_interceptor = require('../../controller/login_interceptor')
 
-router.use(express.static('./static'));
+router.use(express.static('static'));
 
 //Set Van location to open
 router.post('/van_open/:id', vendor_Controller.set_location);

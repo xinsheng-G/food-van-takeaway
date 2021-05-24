@@ -5,7 +5,7 @@ const sanitize = require('mongo-sanitize');
 
 let show_page = (req, res) => {
     // render index page
-    res.render('/vendor/register',{title: 'register'});
+    res.render('./vendor/register',{title: 'register'});
 }
 
 let add_vendor = (req, res) => {
@@ -65,11 +65,11 @@ let add_vendor = (req, res) => {
 
 let show_success_page = (req, res) => {
 
-    res.render('/vendor/register_success', {title: 'Success'});
+    res.render('./vendor/register_success', {title: 'Success'});
 }
 
 let show_failed_page =  (req, res) => {
-    res.render('/vendor/warning',
+    res.render('./vendor/warning',
         {
             title: 'warning',
             warning_message: 'Something went wrong.'
