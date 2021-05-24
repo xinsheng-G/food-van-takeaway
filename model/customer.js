@@ -3,12 +3,12 @@ let mongoose = require('./mongoDB'),
 
 // customer schema for customers collection
 let customerSchema = new Schema({
-    login_id: String,
-    password: String,
-    username: String,
+    login_id: {type: String, required:true},
+    password: {type: String, required:true},
+    username: {type: String, required:true},
 
-    firstname: String,
-    lastname: String,
+    firstname: {type: String, required:true},
+    lastname: {type: String, required:true},
 
     // optional
     birthday: String,
@@ -16,8 +16,9 @@ let customerSchema = new Schema({
     // maybe we can store image path to db rather than store huge byte data.
     // the image could be uploaded by users to `upload_images` folder,
     // For this project, we just hard-code an Unslash source url, don't need to implement upload function.
-    avatar_path: String,
+    avatar_path: {type: String, required:true},
 
+    // we don't need store customer's location in the db, leave it
     location: {x_pos: Number, y_pos: Number},
 
     /**

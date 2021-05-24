@@ -90,7 +90,7 @@
                 </div>
 
             </div>
-            <button class="btn foot_right_button my-round-border" type="submit">
+            <button id="submit-btn" class="btn foot_right_button my-round-border" type="submit">
                 Confirm Change
             </button>
         </div>
@@ -149,6 +149,11 @@
 
             price_all.val(new_price)
             total_snacks.text(parseInt(total_snacks.text()) + 1);
+            if(parseFloat(price_all.val()) > 0) {
+                $("#submit-btn").attr("disabled",false)
+            } else {
+                $("#submit-btn").attr("disabled",true)
+            }
         })
 
         $('#{{this.snack_name}}_del').click(function () {
@@ -162,6 +167,11 @@
 
                 price_all.val(new_price)
                 total_snacks.text(parseInt(total_snacks.text()) - 1);
+                if(parseFloat(price_all.val()) > 0) {
+                    $("#submit-btn").attr("disabled",false)
+                } else {
+                    $("#submit-btn").attr("disabled",true)
+                }
             } else {
                 input.val(0);
             }
@@ -187,6 +197,11 @@
 
                 price_all.val(new_price)
                 total_snacks.text(parseInt(total_snacks.text()) + 1);
+                if(parseFloat(price_all.val()) > 0) {
+                    $("#submit-btn").attr("disabled",false)
+                } else {
+                    $("#submit-btn").attr("disabled",true)
+                }
             })
 
             $('#{{this.snack_name}}_del').click(function () {
@@ -200,6 +215,11 @@
 
                     price_all.val(new_price)
                     total_snacks.text(parseInt(total_snacks.text()) - 1);
+                    if(parseFloat(price_all.val()) > 0) {
+                        $("#submit-btn").attr("disabled",false)
+                    } else {
+                        $("#submit-btn").attr("disabled",true)
+                    }
                 } else {
                     input.val(0);
                 }

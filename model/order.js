@@ -20,11 +20,11 @@ let orderSchema = new Schema({
      *    can decide whether to show the order detail to this user or not
      *
      */
-    order_customer_id: String,
-    order_van_name: String,
+    order_customer_id: {type: String, required:true},
+    order_van_name: {type: String, required:true},
 
     // confirming, preparing, ready, complete, cancelled
-    status: String,
+    status: {type: String, required:true},
 
     /**
      * we shouldn't keep customer's last name in order, if one customer
@@ -42,8 +42,8 @@ let orderSchema = new Schema({
     //     default: Date.now
     // },
 
-    start_time: Date,
-    end_time: Date,
+    start_time: {type:Date, required:true},
+    end_time: {type:Date, required:true},
 
     /** Line items for an order
      *
@@ -53,12 +53,12 @@ let orderSchema = new Schema({
      * info for a specific order (maybe we don't need to), we can query the snack_name in lineItems collections.
      *
      */
-    lineItems: [{snack_name:String, number: Number, remark: String}],
-    is_given_discount: Boolean,
-    stars: Number,
-    cost: Number,
-    refund: Number,
-    total_price: Number
+    lineItems: {type:[{snack_name:String, number: Number, remark: String}], required:true},
+    is_given_discount: {type: Boolean, required: true},
+    stars: {type:Number, required:true},
+    cost: {type:Number, required:true},
+    refund: {type:Number, required:true},
+    total_price: {type:Number, required:true}
 
 }
 );

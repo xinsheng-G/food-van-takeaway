@@ -27,7 +27,7 @@ let show_my_orders_page = async (req, res) => {
                     $or:[{'status': 'confirming'}, {'status': 'preparing'}, {'status': 'ready'}, {'status': 'complete'}],
                     $and:[{'stars':{$lt: 0}}]
                 },
-                '_id order_van_name status start_time total_price cost is_given_discount').sort({start_time: -1}).lean();
+                '_id order_van_name status start_time total_price cost is_given_discount lineItems').sort({start_time: -1}).lean();
         } catch (e) {
             console.log(e)
         }
@@ -41,7 +41,8 @@ let show_my_orders_page = async (req, res) => {
             /* exception handling: skip buggy record */
             if(current_order['order_van_name'] == null || current_order['start_time'] == null ||
                 current_order['total_price'] == null || current_order['cost'] == null ||
-                current_order['is_given_discount'] == null) {
+                current_order['is_given_discount'] == null ||
+                current_order['lineItems'] == null) {
                 continue;
             }
 
@@ -58,6 +59,9 @@ let show_my_orders_page = async (req, res) => {
             /** update discount information before show them on the screen */
             /** this function is from /utils/dataBase_discount_handler */
             await dataBase_discount_handler.update_discount_info(current_order)
+
+            /** implement auto cancel function */
+            await dataBase_discount_handler.auto_cancel_outdated_order(current_order)
         }
 
         let valid_current_order_array = [];
@@ -88,7 +92,7 @@ let show_my_orders_page = async (req, res) => {
                 {'order_customer_id': user_id,
                     $or:[{'status': 'complete'}],
                     $and:[{'stars':{$gte: 0}}]},
-                '_id order_van_name status start_time end_time total_price').sort({end_time: -1}).lean();
+                '_id order_van_name status start_time end_time total_price lineItems').sort({end_time: -1}).lean();
         } catch (e) {
             console.log(e)
         }
@@ -99,7 +103,8 @@ let show_my_orders_page = async (req, res) => {
 
             /* exception handling: skip buggy record */
             if(previous_order['order_van_name'] != null && previous_order['start_time'] != null &&
-                previous_order['total_price'] != null && previous_order['end_time'] != null) {
+                previous_order['total_price'] != null && previous_order['end_time'] != null &&
+                previous_order['lineItems'] != null) {
 
                 // 6-digits to avoid collision
                 previous_order['partial_id'] =  string_utils.get_partial_id(full_id);
@@ -268,6 +273,18 @@ let show_order_monitor_page = async (req, res) => {
             res.render('./customer/warning',{
                 title: 'Warning',
                 warning_message: 'No records, maybe try again?'
+            })
+            return
+        }
+
+        /** check buggy order record*/
+        if(order['order_customer_id'] == null || order['status'] == null ||
+            order['start_time'] == null || order['end_time'] == null ||
+            order['lineItems '] == null || order['cost'] == null ||
+            order['refund'] == null || order['total_price'] == null) {
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'buggy order information.'
             })
             return
         }
@@ -734,6 +751,17 @@ let edit_order_info = async (req, res) => {
                 lineItems.push(new_item)
             }
         })
+
+        /* if order don't have lineitems */
+        if(lineItems.length === 0) {
+            /* nothing in the order */
+            res.render('./customer/warning',{
+                title: 'Warning',
+                warning_message: 'Empty order'
+            })
+
+            return;
+        }
 
         // query price into a list
         // do price calculation in back-end is a security way

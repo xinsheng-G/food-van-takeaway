@@ -58,4 +58,31 @@ let update_discount_info = async function(current_order) {
     }
 }
 
-module.exports = {update_discount_info}
+let auto_cancel_outdated_order = async function(current_order) {
+    let time_now = moment().utc()
+    let delta_minute = (time_now - current_order['start_time']) / 1000 / 60
+    // console.log('current time period minutes: ' + delta_minute)
+
+    /*
+     * orders older than 120 minutes (2 hours) if not ready/complete are cancelled
+    */
+    if(delta_minute > 120 &&
+        current_order['status'] !=='ready' &&
+        current_order['status'] !=='cancelled' &&
+        current_order['status'] !=='complete') {
+
+        try {
+            await order_model.findByIdAndUpdate(
+                current_order['_id'].toString(),
+                {
+                    'status': 'cancelled',
+                }
+            );
+        } catch (e) {
+            console.log('auto cancel failed')
+            throw e
+        }
+    }
+}
+
+module.exports = {update_discount_info, auto_cancel_outdated_order}
