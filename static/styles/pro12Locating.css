@@ -1,0 +1,28 @@
+@import "vendorBasic.css";
+html{
+    width: 1366px;
+    height: 1024px;
+}
+
+
+
+/* Area of locating information page's title*/
+.pageTitlePart{
+    width: 100%;
+    height: 8%;
+    margin: 0 auto
+}
+
+/*
+   (1) location captured by app
+   (2) description of location
+   (3) whether open for business
+   */
+.formInput{
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height:85px;
+    margin-bottom: 20px;
+}

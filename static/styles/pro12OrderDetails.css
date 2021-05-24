@@ -1,0 +1,92 @@
+@import "vendorBasic.css";
+html{
+    height: 1024px;
+    width: 1366px;
+}
+
+
+.content{
+    width:100%;
+    height:100%;
+    float: left;
+    background-color: #c8cce2
+}
+
+/* Area of page's title*/
+.pageTitlePart{
+    width: 100%;
+    height: 8%;
+    margin: 0 auto
+}
+
+
+
+/* Style of table content
+(including the navigation part and search bar) */
+.tableContent{
+    width: 95%;
+    height: 70%;
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    margin: 0 auto
+}
+
+/* style of details' title */
+.detailTitle, .detailTitle:hover{
+    text-align: center;
+    width: 40%;
+    height: 75px;
+    font-size: 25px;
+
+    background-color: #c8cce2;
+}
+
+/* style of details' content */
+.detailRow{
+    text-align: center;
+    height: 50px
+}
+
+
+th, td{
+    height: 30px;
+    letter-spacing: 3px;
+    text-align: left;
+}
+
+/* when basic info is clicked, the style won't change */
+.basicInfo:hover{
+    background-color: transparent;
+}
+
+
+td{
+    font-family: FuturaMedium;
+}
+
+/* Each item's style will change when hovering */
+tr:hover{
+    background-color: #c8cce2;
+}
+
+/* Title's style of table's basic information*/
+th{
+    font-family: FuturaBold;
+    width: 50%;
+}
+
+/* detail content on even rows has different bkg-color */
+.detailContent:nth-child(even){
+    background-color: #ebebeb;
+}
+
+/* detail content's bkg-color will change while hovering */
+.detailContent:hover{
+    background-color: #c8cce2;
+}
+
+/* total part won't change when hovering */
+.total, .total:hover{
+    background-color: #fce19b;
+}

@@ -1,0 +1,23 @@
+@import "vendorBasic.css";
+html{
+    width: 1366px;
+    height: 1024px;
+}
+
+
+.formTitle{
+    font-family: FuturaMedium;
+    font-size: 30px;
+    letter-spacing: 3px;
+    color: #f7f7f7;
+    margin-bottom: 8px
+}
+
+.formInput{
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    width: 100%;
+    height:85px;
+    margin-bottom: 20px;
+}

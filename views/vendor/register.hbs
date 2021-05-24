@@ -1,0 +1,128 @@
+
+
+<!-- Left part form START -->
+<div id="register_form" class="leftPart">
+    <!-- page title START -->
+    <div class="pageTitlePart"
+         align="center"
+         style="margin: 60px auto">
+        <img src="images/van.png"
+             style="width: 85px;
+             height: 85px">
+        <p class="pageTitle">
+            Create a new account
+        </p>
+    </div>
+    <!-- page title END -->
+
+    <!-- form content of register START -->
+    <div class="form">
+        <div>
+            <p class="formTitle">
+                Van's name:
+            </p>
+            <input name="van_name" data-bv-field="van_name" class="regisFormInput">
+        </div>
+
+        <div>
+            <p class="formTitle">
+                Set a password:</p>
+            <input name="password" data-bv-field="password" class="regisFormInput">
+        </div>
+
+        <div>
+            <p class="formTitle">
+                Repeat your password:</p>
+            <input name="retype_password" data-bv-field="retype_password" class="regisFormInput"
+                   style="height:70px">
+        </div>
+
+        <!-- check box START -->
+        <div align="left" style="margin-top: 20px">
+            <input class="checkbox"
+                   type="checkbox"
+                   id="remember"
+                   style="" />
+            <label class="remember" for="remember">
+                remember me
+            </label>
+        </div>
+        <!-- check box START -->
+
+        <!-- REGISTER button START -->
+        <div class="btnPart"
+             align="center"
+             style="margin-top: 10%">
+            <button class="btn">REGISTER</button>
+        </div>
+        <!-- REGISTER button END -->
+    </div>
+    <!-- form content of register END -->
+
+</div>
+<!-- Left part form END -->
+
+<!-- Right part image START -->
+<div class="rightPart">
+    <img src="images/coffee25.jpeg">
+</div>
+<!-- Right part form END -->
+
+<script>
+    // FORM VALIDATION
+    // =================================================================
+    $(function () {
+        $('#register_form').bootstrapValidator({
+            message: 'This value is not valid',
+            fields: {
+                van_name: {
+                    validators: {
+                        stringLength: {
+                            min: 3,
+                            max: 30,
+                            message: 'the strength of van name should not between 3 and 30'
+                        },
+
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_]+$/,
+                            message: 'Only letters, numbers and dashes'
+                        },
+
+                        notEmpty: {
+                            message: 'van name is required'
+                        },
+                    }
+                },
+                password: {
+                    validators: {
+                        stringLength: {
+                            min: 6,
+                            max: 20,
+                            message: 'password length should be 6~20'
+                        },
+                        notEmpty: {
+                            message: 'The password is required'
+                        }
+                    }
+                },
+                retype_password: {
+                    validators: {
+                        stringLength: {
+                            min: 6,
+                            max: 20,
+                            message: 'password length should be 6~20'
+                        },
+                        identical: {
+                            field: 'password',
+                            message: 'The password and its confirm are not the same'
+                        },
+                        notEmpty: {
+                            message: 'The password is required'
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+</script>

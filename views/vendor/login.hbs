@@ -1,0 +1,98 @@
+
+<div class="leftPart">
+
+    <!-- Page logo and title START -->
+    <div class="van"
+         align="center"
+         style="margin: 0 auto">
+        <img src="static/images/van.png">
+    </div>
+
+    <div class="pageTitlePart"
+         align="center">
+        <div class="pageTitle">
+            Get Ready and Go to Sell!
+        </div>
+    </div>
+    <!-- Page logo and title END -->
+
+    <!-- Form START -->
+    <form id="login_form" style="width: 80%;
+                height:60%;
+                margin:0 auto;
+                padding-top: 30px"
+                align="center">
+        <div>
+            <p class="formTitle" align="left">
+                Van's name:
+            </p>
+            <input id="van_name" class="signInFormInput">
+        </div>
+
+        <div>
+            <p class="formTitle" align="left">
+                Password:
+            </p>
+            <input id="password" class="signInFormInput">
+        </div>
+
+        <!-- SIGN IN button START -->
+        <div class="btnPart"
+             align="center">
+            <button class="btn",type="submit">
+                SIGN IN
+            </button>
+        </div>
+        <!-- SIGN IN button END -->
+
+        <!-- for new user -->
+        <p class="clickMe">
+            If you are a new van, click <a href="">here</a> to create a new account
+        </p>
+    </form>
+    <!-- Form END -->
+
+</div>
+<!-- Left part form END -->
+
+<!-- Right part img START -->
+<div class="rightPart">
+    <img src="static/images/coffee25.jpeg">
+</div>
+<!-- Right part form END -->
+
+<script>
+    $(function () {
+        $('#login_form').bootstrapValidator({
+            message: 'This value is not valid',
+            fields: {
+                van_name: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The van name is required'
+                        },
+                        stringLength: {
+                            max: 64,
+                            message: 'van name should not be too long'
+                        },
+                        emailAddress: {
+                            message: 'Need to be email address'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        stringLength: {
+                            min: 6,
+                            max: 20,
+                            message: 'password length should be 6~20'
+                        },
+                        notEmpty: {
+                            message: 'The password is required'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
