@@ -7,11 +7,10 @@
  * */
 
 let vendor_login_interceptor = function (req, res, next) {
-    if ((req.session.user && req.session.user_type === 'VENDOR') || (req.cookies.user && req.cookies.user_type === 'VENDOR')) {
+    if ((req.session.vendor_user) || (req.cookies.vendor_user)) {
 
-        if(!req.session.user) {
-            req.session.user = req.cookies.user
-            req.session.user_type = req.cookies.user_type
+        if(!req.session.vendor_user) {
+            req.session.vendor_user = req.cookies.vendor_user
         }
 
         next();

@@ -45,48 +45,72 @@ html{
     background-color: #c8cce2
 }
 
+.form{
+    width: 80%;
+    height:60%;
+    margin:0 auto;
+    padding-top: 30px;
+    align-content: center;
+}
+
 .formTitle{
     font-family: FuturaMedium;
     font-size: 30px;
     letter-spacing: 3px;
     color: #f7f7f7;
     margin-bottom: 8px;
-    text-shadow: 3px 3px #534E52;
+    text-align: left;
 }
 
-.formInput{
+/* style of input in SIGN IN page */
+.signInFormInput{
     background-color: #f7f7f7;
     border: none;
     border-radius: 30px;
+    font-family: FuturaMedium;
+    font-size: 30px;
+    letter-spacing: 5px;
     width: 100%;
     height:85px;
     margin-bottom: 20px;
+    outline: none;
+    text-indent: 20px;
 }
 
-/* Right part (image) */
-.rightPart{
-    width:25%;
-    height:100%;
-    float: right
+.signInFormInput:hover{
+    outline: none;
+    box-shadow: 3px 3px 15px #534E52;
 }
 
-a:link{
-    text-decoration: none;
-    color: #f7f7f7;
+/* style of input in REGISTER page */
+.regisFormInput{
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 30px;
+    font-family: FuturaMedium;
+    font-size: 30px;
+    letter-spacing: 5px;
+    width: 100%;
+    height:70px;
+    margin-bottom: 20px;
+    outline: none;
+    text-indent: 20px;
 }
 
-a:hover, a:active{
-    color: #af8baf;
+.regisFormInput:hover{
+    outline: none;
+    box-shadow: 3px 3px 15px #534E52;
 }
+
 
 /* Area of button*/
 .btnPart{
-    width:95%;
+    width: 95%;
     height: 10%;
-    margin: 40px auto;
+    margin: 50px auto;
 }
 
-/* Style of Button LEAVE */
+/* Style of Button */
 .btn{
     width: 300px;
     height: 80px;
@@ -103,4 +127,47 @@ a:hover, a:active{
 .btn:hover, .btn:active{
     background-color: #f7f7f7;
     color: #af8baf;
+}
+
+/* click me part in REGISTER page */
+.clickMe{
+    font-family: FuturaMedium;
+    letter-spacing: 2px;
+    color: #534E52;
+    font-size: 24px
+}
+
+a:hover{
+    text-decoration: underline;
+    color: #af8baf;
+}
+
+/* Right part (image) */
+.rightPart{
+    width:25%;
+    height:100%;
+    float: right
+}
+
+/* Checkbox in REGISTER page */
+.checkbox{
+    width: 25px;
+    height: 25px;
+}
+
+.remember{
+    color: #ffda77;
+    font-size: 25px;
+    font-family: FuturaBold;
+    text-shadow: 2px 2px #534E52;
+    letter-spacing:3px
+}
+
+/* warning when login/register failed*/
+.failing{
+    color: #534E52;
+    font-family: FuturaBold;
+    font-size: 30px;
+    line-height: 50px;
+    text-align: center;
 }

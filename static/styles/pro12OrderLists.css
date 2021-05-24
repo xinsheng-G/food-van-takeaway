@@ -1,54 +1,43 @@
-html {
+html{
     width: 1366px;
     height: 1024px;
 }
 
-
 /* Font Families */
-
 @font-face {
     font-family: FuturaBold;
     src: url("../fonts/FuturaStd-Bold.otf") format("truetype");
 }
-
 @font-face {
     font-family: FuturaLight;
     src: url("../fonts/FuturaStd-Light.otf") format("truetype");
 }
-
 @font-face {
     font-family: FuturaMedium;
     src: url("../fonts/FuturaStd-Medium.otf") format("truetype");
 }
-
 @font-face {
     font-family: FuturaMediumOblique;
     src: url("../fonts/FuturaStd-MediumOblique.otf") format("truetype");
 }
 
-
 /* Area of whole background */
-
-.content {
-    width: 100%;
-    height: 100%;
+.content{
+    width:100%;
+    height:100%;
     float: left;
     background-color: #c8cce2
 }
 
-
 /* Area of page's title*/
-
-.pageTitlePart {
+.pageTitlePart{
     width: 100%;
     height: 8%;
     margin: 0 auto
 }
 
-
 /* Style of page's title*/
-
-.pageTitle {
+.pageTitle{
     font-family: FuturaBold;
     color: #ffda77;
     font-size: 45px;
@@ -56,11 +45,9 @@ html {
     text-shadow: 3px 3px #534E52;
 }
 
-
 /* Style of table content
    (including the navigation part and search bar) */
-
-.tableContent {
+.tableContent{
     width: 95%;
     height: 70%;
     background-color: #f7f7f7;
@@ -69,17 +56,13 @@ html {
     margin: 0 auto
 }
 
-
 /* Basic style of table*/
-
-table {
+table{
     width: 100%;
     border-collapse: collapse
 }
 
-
 /* Style of order lists' Search bar (except for finished orders) */
-
 .orderListSearchBar {
     font-family: FuturaMedium;
     font-size: 15px;
@@ -94,16 +77,13 @@ table {
     outline: none;
 }
 
-.orderListSearchBar:hover,
-.orderListSearchBar:active {
+.orderListSearchBar:hover, .orderListSearchBar:active{
     outline: none;
     box-shadow: 3px 3px 15px #534E52;
 }
 
-
 /* Style of finished orders' search bar ) */
-
-.finishSearchBar {
+.finishSearchBar{
     font-family: FuturaMedium;
     font-size: 15px;
     letter-spacing: 2px;
@@ -117,60 +97,48 @@ table {
     margin-bottom: 30px
 }
 
-.orderListSearchBar:hover,
-.orderListSearchBar:active {
+.orderListSearchBar:hover, .orderListSearchBar:active{
     outline: none;
     box-shadow: 3px 3px 15px #534E52;
 }
 
 
 /* INSIDE border style of the table */
-
-td {
+td{
     border-right: 2px dotted #707070;
 }
 
-
 /* style of order content*/
-
-tr {
+tr{
     height: 45px;
-    border-bottom: 2px solid #707070;
+    border-bottom:2px solid #707070;
     font-family: FuturaLight;
     font-size: 15px;
     letter-spacing: 3px;
     text-align: center;
 }
 
-
 /* When an order(a row) is hovered/clicked */
-
-tr:hover,
-tr:active {
+tr:hover, tr:active{
     background-color: #c8cce2;
 }
 
-
 /* content in "Items" column should be ALIGN TO LEFT
    (which is the 2nd column)*/
-
-table tr td:nth-child(2) {
+table tr td:nth-child(2){
     padding: 10px;
     font-size: 15px;
     letter-spacing: 3px;
     text-align: left;
 }
 
-
 /* The table has no outside border
    (Delete the right border of the last column)*/
-
-table tr td:nth-child(6),
-th:nth-child(6) {
+table tr td:nth-child(6), th:nth-child(6){
     border-right: none;
 }
 
-.locatingTips {
+.locatingTips{
     color: #e48257;
     font-family: FuturaBold;
     font-size: 20px;
@@ -179,21 +147,19 @@ th:nth-child(6) {
     text-align: left;
 }
 
-
 /* Style of checkbox of DISCOUNT & CANCELLATION*/
-
-.checkboxFini {
-    margin: 0 35%;
+.checkboxFini{
+    margin: 0 auto;
+    width: 25px;
+    height: 25px;
 }
 
-.checkbox {
+.checkbox{
     margin: 0 5%;
 }
 
-
 /* Navigation bar's style */
-
-.navigations {
+.navigations{
     width: 95%;
     border-radius: 30px;
     height: 120px;
@@ -205,10 +171,8 @@ th:nth-child(6) {
     background-color: #af8baf;
 }
 
-
 /* Each item in navigation bar */
-
-.navs {
+.navs{
     float: left;
     width: 25%;
     height: 100%;
@@ -220,10 +184,8 @@ th:nth-child(6) {
     letter-spacing: 10px;
 }
 
-
 /* bubble notice */
-
-.notice {
+.notice{
     font-family: FuturaBold;
     font-size: 12px;
     position: absolute;
@@ -238,85 +200,67 @@ th:nth-child(6) {
     letter-spacing: 0;
 }
 
-
 /* Original style of a link*/
-
-a:link {
+a:link{
     text-decoration: none;
     color: #f7f7f7;
 }
 
-
 /* style of a link when it is hovered/clicked */
-
-a:hover,
-a:active {
+a:hover, a:active{
     color: #af8baf;
     background-color: #ffda77;
 }
 
 
 /* Style of Table's title*/
-
-.tableTitle {
+.tableTitle{
     color: #534e52;
     font-family: FuturaMedium;
     letter-spacing: 3px;
-    font-size: 20px;
+    font-size:20px;
     height: 55px;
-    border-bottom: 3px solid #707070;
+    border-bottom:3px solid #707070;
     border-right: 2px dotted #707070;
 }
 
-
 /* Basic style of table*/
-
-table {
+table{
     width: 100%;
     border-collapse: collapse
 }
 
-
 /* Table Part
    (navigation bar and search bar excluded)*/
-
-.tablePart {
+.tablePart{
     width: 95%;
     height: 80%;
     margin: 0 auto
 }
 
-
 /* INSIDE border style of the table */
-
-td {
+td{
     border-right: 2px dotted #707070;
 }
 
-
 /* style of order content*/
-
-tr {
+tr{
     height: 45px;
-    border-bottom: 2px solid #707070;
+    border-bottom:2px solid #707070;
     font-family: FuturaLight;
     font-size: 15px;
     letter-spacing: 3px;
     text-align: center;
 }
 
-
 /* When an order(a row) is hovered/clicked */
-
-tr:hover {
+tr:hover{
     background-color: #c8cce2;
 }
 
-
 /* content in "Items" column should be ALIGN TO LEFT
    (which is the 2nd column)*/
-
-table tr td:nth-child(2) {
+table tr td:nth-child(2){
     padding: 10px;
     font-size: 15px;
     letter-spacing: 3px;
@@ -324,10 +268,10 @@ table tr td:nth-child(2) {
 }
 
 
+
 /* Button for each order
    (when an order is confirmed, this button will be clicked)*/
-
-.statusBtn {
+.statusBtn{
     font-size: 10px;
     font-family: FuturaMedium;
     color: #f7f7f7;
@@ -341,7 +285,7 @@ table tr td:nth-child(2) {
     box-shadow: 3px 3px 3px #534E52;
 }
 
-.statusBtn:hover {
+.statusBtn:hover{
     font-size: 10px;
     font-family: FuturaMedium;
     color: #af8baf;
@@ -355,19 +299,15 @@ table tr td:nth-child(2) {
     box-shadow: 3px 3px 3px #534E52;
 }
 
-
 /* Area of button*/
-
-.btnPart {
+.btnPart{
     width: 95%;
     height: 10%;
     margin: 30px auto;
 }
 
-
 /* Style of Button LEAVE */
-
-.btn {
+.btn{
     width: 300px;
     height: 80px;
     border: none;
@@ -380,38 +320,31 @@ table tr td:nth-child(2) {
     box-shadow: 3px 3px 3px #534E52;
 }
 
-.btn:hover,
-.btn:active {
+.btn:hover, .btn:active{
     background-color: #f7f7f7;
     color: #af8baf;
 }
 
-
 /* Left part (words) */
-
-.leftPart {
-    width: 70%;
-    height: 100%;
+.leftPart{
+    width:70%;
+    height:100%;
     float: left;
     background-color: #c8cce2
 }
 
-
 /* Right part (image) */
-
-.rightPart {
-    width: 30%;
-    height: 100%;
+.rightPart{
+    width:30%;
+    height:100%;
     float: right
 }
 
-
 /* Checkbox in LOCATING page */
-
-.remember {
+.remember{
     color: #ffda77;
     font-size: 25px;
     font-family: FuturaBold;
     text-shadow: 2px 2px #534E52;
-    letter-spacing: 3px
+    letter-spacing:3px
 }
