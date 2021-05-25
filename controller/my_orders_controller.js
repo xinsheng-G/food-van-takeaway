@@ -170,7 +170,7 @@ let show_previous_order_details_page = async (req, res) => {
         try{
             order = await order_model.findOne(
                 {'_id': order_id},
-                '_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
+                '_id order_customer_id order_van_name status start_time end_time lineItems cost refund total_price').lean();
         } catch (e) {
             console.log(e)
         }
@@ -187,7 +187,7 @@ let show_previous_order_details_page = async (req, res) => {
         /** Security for GET method */
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
-        if(!order['order_customer_id'] === req.session.user) {
+        if(order['order_customer_id'] !== req.session.user) {
             res.redirect('/customer/my_orders')
             return
         }
@@ -280,8 +280,9 @@ let show_order_monitor_page = async (req, res) => {
         /** check buggy order record*/
         if(order['order_customer_id'] == null || order['status'] == null ||
             order['start_time'] == null || order['end_time'] == null ||
-            order['lineItems '] == null || order['cost'] == null ||
+            order['lineItems'] == null || order['cost'] == null ||
             order['refund'] == null || order['total_price'] == null) {
+
             res.render('./customer/warning',{
                 title: 'Warning',
                 warning_message: 'buggy order information.'
@@ -291,7 +292,7 @@ let show_order_monitor_page = async (req, res) => {
 
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
-        if(!order['order_customer_id'] === req.session.user) {
+        if(order['order_customer_id'] !== req.session.user) {
             res.redirect('/customer/my_orders')
             return
         }
@@ -517,7 +518,7 @@ let cancel_order = async (req, res) => {
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
-        if(!order['order_customer_id'] === req.session.user) {
+        if(order['order_customer_id'] !== req.session.user) {
             res.redirect('/customer/my_orders')
             return
         }
@@ -583,7 +584,7 @@ let show_edit_page = async (req, res) => {
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
-        if(!order['order_customer_id'] === req.session.user) {
+        if(order['order_customer_id'] !== req.session.user) {
             res.redirect('/customer/my_orders')
             return
         }
@@ -712,7 +713,7 @@ let edit_order_info = async (req, res) => {
         /** Security */
         /** check whether the order belongs to the logged-in customer or not */
         /** if not, return my orders page */
-        if(!order['order_customer_id'] === req.session.user) {
+        if(order['order_customer_id'] !== req.session.user) {
             res.redirect('/customer/my_orders')
             return
         }
@@ -942,20 +943,21 @@ let rate_the_order = async (req, res) => {
 
         let user_id = sanitize(req.session.user);
 
-        /** Security */
-        /** check whether the order belongs to the logged-in customer or not */
-        /** if not, return my orders page */
-        if(!order_id === user_id) {
-            console.log("rating fail in order id")
-            res.send('failed')
-            return
-        }
+
         /** get the order that is marking */
         let order_model = require('../model/order')
         let order = await order_model.findOne(
             {'_id': order_id},
-            '_id stars order_van_name status').lean();
+            '_id stars order_customer_id order_van_name status').lean();
 
+        /** Security */
+        /** check whether the order belongs to the logged-in customer or not */
+        /** if not, return my orders page */
+        if(order['order_customer_id'] !== user_id) {
+            console.log("rating fail in order id")
+            res.send('failed')
+            return
+        }
 
         /** if the order has been marked */
         if(order['stars'] !== -1) {

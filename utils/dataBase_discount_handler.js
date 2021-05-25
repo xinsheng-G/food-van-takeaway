@@ -64,7 +64,7 @@ let auto_cancel_outdated_order = async function(current_order) {
     // console.log('current time period minutes: ' + delta_minute)
 
     /*
-     * orders older than 120 minutes (2 hours) if not ready/complete are cancelled
+     * orders older than 120 minutes (2 hours) if not confirmed are cancelled
     */
     if(delta_minute > 120 &&
         current_order['status'] !=='ready' &&
