@@ -25,7 +25,7 @@ let show_page = async (req, res) => {
         if(van_obj == null || van_obj['is_open'] !== true) {
             res.render('./customer/warning',{
                 title: 'Warning',
-                warning_message: 'This van is not existing/opening'
+                warning_message: 'van name: '+ van_name +' is not existing/opening'
             })
             return
         }
@@ -36,7 +36,7 @@ let show_page = async (req, res) => {
          * To prevent Handlebars access deny problem
          * */
         let snack_model = require('../model/snack')
-        snacks = await snack_model.find({}, '_id snack_name is_drink is_available price picture_path').lean();
+        snacks = await snack_model.find({}, '-_id snack_name is_drink is_available price picture_path').lean();
 
         // divide snacks into drinks and foods
         snacks.forEach((snack) => {
