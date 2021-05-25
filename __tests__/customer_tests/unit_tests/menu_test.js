@@ -3,6 +3,12 @@ const menu_controller = require("../../../controller/menu_controller")
 const van_model = require('../../../model/van')
 const snack_model = require('../../../model/snack')
 
+const mongoose = require('../../../model/mongoDB')
+
+/**
+ * Run:
+ * npm test -- ./customer_tests/unit_tests/menu_test.js
+ */
 /*
 * Menu unit test - function show_page() from menu_controller.js
 * */
@@ -254,4 +260,8 @@ describe("Unit testing show_page from menu_controller.js", () => {
             ]
         })
     })
+
+    afterAll(async () => {
+        await mongoose.disconnect();
+    });
 })
