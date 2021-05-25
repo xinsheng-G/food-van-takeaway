@@ -122,11 +122,11 @@ let show_van_detail_page = async (req, res) => {
     try{
         let van_name = sanitize(req.params.van_name)
         let van_model = require('../model/van')
-        let van_obj = await van_model.findOne({'van_name': van_name},
+        let van_obj = await van_model.findOne({'van_name': van_name, 'is_open': true},
             'picture_path text_address stars location is_open').lean();
 
         // shouldn't show non-exist van's details
-        if(van_obj == null) {
+        if(van_obj == null || van_obj['is_open'] == null || van_obj['is_open'] === false) {
             res.render('./customer/warning',{
                 title: 'Warning',
                 warning_message: 'This van is not existing/opening'
