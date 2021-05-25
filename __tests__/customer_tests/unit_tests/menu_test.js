@@ -1,10 +1,10 @@
-const menu_controller = require("../../controller/menu_controller")
+const menu_controller = require("../../../controller/menu_controller")
 
-const van_model = require('../../model/van')
-const snack_model = require('../../model/snack')
+const van_model = require('../../../model/van')
+const snack_model = require('../../../model/snack')
 
 /*
-* Menu unit test
+* Menu unit test - function show_page() from menu_controller.js
 * */
 describe("Unit testing show_page from menu_controller.js", () => {
     const req = {

@@ -22,5 +22,8 @@
     "mongo-sanitize": "^1.1.0",
     "mongoose": "^5.12.3",
     "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "supertest": "^6.1.3"
   }
 }
