@@ -53,6 +53,7 @@ let check_login = (req, res) => {
                         // sent user_id information to session
                         req.session.vendor_user = user.van_name;
                         // req.session.user_type = user.user_type;
+                        console.log("req.session.vendor_user: " + req.session.vendor_user)
 
                         // sent user_id to cookie, remember the user
                         if(req.body.remember_me === 'on') {
@@ -101,8 +102,9 @@ let handle_logout = (req, res) => {
     });
 }
 
+/* to dashboard */
 let show_success_page = (req, res) => {
-    res.redirect('/vendor/login_success')
+    res.redirect('/vendor/dashboard')
 }
 
 let show_failed_page = (req, res) => {
