@@ -53,6 +53,14 @@
             </div>
         </div>
 
+        <!-- check box START -->
+        <div align="left" style="margin-top: 20px">
+            <input id="remember_me" name="remember_me" type="checkbox" />
+            <label class="remember" for="remember_me">
+                remember me
+            </label>
+        </div>
+
         <!-- SIGN IN button START -->
         <div class="btnPart"
              align="center">
@@ -89,7 +97,7 @@
                             message: 'The van name is required'
                         },
                         stringLength: {
-                            max: 12,
+                            max: 20,
                             message: 'van name should not be too long'
                         },
                         regexp: {
@@ -101,9 +109,8 @@
                 password: {
                     validators: {
                         stringLength: {
-                            min: 6,
                             max: 20,
-                            message: 'password length should be 6~20'
+                            message: 'password length should be 8~20'
                         },
                         notEmpty: {
                             message: 'The password is required'
