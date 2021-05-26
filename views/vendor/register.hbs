@@ -1,4 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="styles/pro12SignIn&Up.css" media="screen and (min-width:1366px)">
+    <link rel="stylesheet" href="./styles/bootstrap.min.css">
 
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/bootstrap.min.js"></script>
+    <script src="./scripts/bootstrapValidator.min.js"></script>
+</head>
+
+<body style="width: 100%; height: 100%">
 
 <!-- Left part form START -->
 <div id="register_form" class="leftPart">
@@ -79,8 +92,8 @@
                     validators: {
                         stringLength: {
                             min: 3,
-                            max: 30,
-                            message: 'the strength of van name should not between 3 and 30'
+                            max: 12,
+                            message: 'the strength of van name should not between 3 and 12'
                         },
 
                         regexp: {
@@ -96,9 +109,9 @@
                 password: {
                     validators: {
                         stringLength: {
-                            min: 6,
+                            min: 8,
                             max: 20,
-                            message: 'password length should be 6~20'
+                            message: 'password length should be 8~20'
                         },
                         notEmpty: {
                             message: 'The password is required'
@@ -108,9 +121,9 @@
                 retype_password: {
                     validators: {
                         stringLength: {
-                            min: 6,
+                            min: 8,
                             max: 20,
-                            message: 'password length should be 6~20'
+                            message: 'password length should be 8~20'
                         },
                         identical: {
                             field: 'password',
@@ -126,3 +139,6 @@
     });
 
 </script>
+
+</body>
+</html>

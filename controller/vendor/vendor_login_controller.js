@@ -8,7 +8,10 @@ const sanitize = require('mongo-sanitize');
 
 // render login page
 let show_page = (req, res) => {
-    res.render('./vendor/login',{title: 'Login'});
+    res.render('./vendor/login',{
+        layout: false,
+        title: 'Login'
+    });
 }
 
 // check login info
@@ -92,7 +95,10 @@ let check_login = (req, res) => {
 let handle_logout = (req, res) => {
     req.session.destroy();
 
-    res.render('./vendor/logout', {title: 'Log Out'});
+    res.render('./vendor/logout', {
+        layout: false,
+        title: 'Log Out'
+    });
 }
 
 let show_success_page = (req, res) => {
@@ -101,7 +107,10 @@ let show_success_page = (req, res) => {
 
 let show_failed_page = (req, res) => {
 
-    res.render('./vendor/login_failed', {title: 'Login failed'});
+    res.render('./vendor/login_failed', {
+        layout: false,
+        title: 'Login failed'
+    });
 }
 
 // export functions above

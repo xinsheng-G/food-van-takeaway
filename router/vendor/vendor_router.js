@@ -59,14 +59,14 @@ router.get('/login_success', vendor_loginController.show_success_page);
 // show fail page
 router.get('/login_failed', vendor_loginController.show_failed_page);
 
-// // show register page
-// router.get('/register', registerController.show_page);
-//
-// // receive register info
-// router.post('/register', registerController.add_customer);
-//
-// // show register success
-// router.get('/register_success', registerController.show_success_page);
+// show register page
+router.get('/register', registerController.show_page);
+
+// receive register info
+router.post('/register', registerController.add_vendor);
+
+// show register success
+router.get('/register_success', registerController.show_success_page);
 
 // handle 404
 router.all('*', exceptionHandler.handle404)

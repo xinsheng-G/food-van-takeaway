@@ -2,10 +2,14 @@ const md5_util = require('../../utils/MD5_utils')
 const encrypt_util = require('../../utils/encrypt_util')
 const path = require('path');
 const sanitize = require('mongo-sanitize');
+const str_utils = require('../../utils/string_utils')
 
 let show_page = (req, res) => {
     // render index page
-    res.render('./vendor/register',{title: 'register'});
+    res.render('./vendor/register',{
+        layout: false,
+        title: 'register'
+    });
 }
 
 let add_vendor = (req, res) => {
@@ -16,7 +20,7 @@ let add_vendor = (req, res) => {
 
         // receive data from post body
         let user = new vendor_model({
-            "van_name": sanitize(req.body.van_name),
+            "van_name": str_utils.change_space_into_dash(sanitize(req.body.van_name)),
             // all passwords should be encrypted before store it in db
             "password": encrypt_util.encrypt(sanitize(req.body.password)),
             "is_open": false,
@@ -65,12 +69,16 @@ let add_vendor = (req, res) => {
 
 let show_success_page = (req, res) => {
 
-    res.render('./vendor/register_success', {title: 'Success'});
+    res.render('./vendor/register_success', {
+        layout: false,
+        title: 'Success'
+    });
 }
 
 let show_failed_page =  (req, res) => {
     res.render('./vendor/warning',
         {
+            layout: false,
             title: 'warning',
             warning_message: 'Something went wrong.'
         });

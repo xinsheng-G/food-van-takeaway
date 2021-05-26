@@ -8,6 +8,11 @@ function change_dash_into_space(name) {
     return res.charAt(0).toUpperCase() + res.slice(1);
 }
 
+function change_space_into_dash(name) {
+    let res = name.replace(/\ /g, "_");
+    return res
+}
+
 /**
  * get partial id from full_id string
  * 6-digits to avoid collision in showing on the screen */
@@ -33,4 +38,4 @@ function get_hour_minute_from_Date(date_obj) {
     return moment(new Date(date_obj)).format('hh:mm A').toString()
 }
 
-module.exports = {change_dash_into_space, get_date_str_from_Date, get_hour_minute_from_Date, get_partial_id}
+module.exports = {change_dash_into_space, get_date_str_from_Date, get_hour_minute_from_Date, get_partial_id, change_space_into_dash}
