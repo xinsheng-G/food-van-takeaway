@@ -26,7 +26,8 @@ let add_vendor = (req, res) => {
             "is_open": false,
             "stars": 0,
             "description": "new van",
-            "test_address": "",
+            "text_address": " ",
+            "picture_path": "https://source.unsplash.com/Fkwj-xk6yck",
             "location": {x_pos: 0, y_pos: 0}
         })
 

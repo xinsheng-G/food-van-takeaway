@@ -53,6 +53,8 @@ router.get('/login', vendor_loginController.show_page);
 // receive info login page's form
 router.post('/login', vendor_loginController.check_login);
 
+router.get('/logout', vendor_loginController.handle_logout);
+
 // show login success page(now it just directs to home page)
 router.get('/login_success', vendor_loginController.show_success_page);
 
