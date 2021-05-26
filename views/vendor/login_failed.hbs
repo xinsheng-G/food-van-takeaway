@@ -2,67 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In</title>
-    <link href="../static/styles/underConstruction.css" rel="stylesheet" media="screen and (min-width:1366px)">
-    <link rel="stylesheet" href="./styles/nifty.min.css">
-    <link rel="stylesheet" href="./styles/nifty-demo-icon.min.css">
-    <link rel="stylesheet" href="./styles/my.css">
-    <link rel="stylesheet" href="./styles/my-standard-elements.css">
-    <link rel="stylesheet" href="./styles/themify-icons.min.css">
-    <link rel="stylesheet" href="./styles/font-awesome.min.css">
-
-    <script src="./scripts/jquery.min.js"></script>
-    <script src="./scripts/bootstrap.min.js"></script>
-    <script src="./scripts/nifty.min.js"></script>
-    <script src="./scripts/icons.js"></script>
+    <title>Login Failed</title>
+    <link href="styles/pro12OrderLists.css" rel="stylesheet" media="screen and (min-width:1366px)">
 </head>
-<body>
-
-<div id="container" class="cls-container  login-page">
-
-    <!-- BACKGROUND IMAGE -->
-    <!--===================================================-->
-    <div id="bg-overlay"></div>
-
-
-    <!-- LOGIN FORM -->
-    <!--===================================================-->
-    <h1 class="h1 text-white"><img src="./images/icon_drink_snack.png" alt="icon">Snacks in a Van</h1>
-    <div class="cls-content my-login-content-padding">
-        <div class="login-box pager-rounded cls-content-sm panel">
-
-            <div class="panel-body">
-                <div class="text-center">
-                    <h2 class="h2 text-uppercase text-bold">Login Failed</h2>
-                </div>
-                <br>
-                <div class="text-center">
-                    <img src="./images/icon_warning.png" alt="warning">
-                </div>
-                <br>
-                <div class="text-center">
-                    <h5 class="h5 text-uppercase text-bold">Incorrect user name or password</h5>
-                </div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <a href="#" onClick="history.go(-1); return false;" class="btn btn-block btn-rounded btn-primary-negative">Return Back</a>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
+<style>
+    div.content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<body style="width: 100%; height: 100%">
+<div class="content">
+    <!-- Details of this order -->
+    <div style="width: 93%;
+                height: 90%;
+                background-color: #f7f7f7;
+                border: none;
+                border-radius:30px">
+        <div style="width: 100%;
+                    height: 85%">
+            <!-- Image of under construction page START -->
+            <div style="float: left;
+                        width: 30%;
+                        height: 40%;
+                        margin-top: 15%;
+                        margin-left: 15%">
+                <img src="images/satellite.png" />
             </div>
+            <!-- Image of under construction page END -->
+
+            <!-- Warning message START -->
+            <div style="float: right;
+                        width: 50%;
+                        height: 50%;
+                        background-color: #c8cce2;
+                        border: none;
+                        border-radius:30px;
+                        margin-top: 15%;
+                        margin-right: 5%">
+                <p style="font-family: FuturaMediumOblique;
+                          font-size: 30px;
+                          letter-spacing: 5px;
+                          margin: 35px;
+                          line-height: 60px">
+                    Login Failed!
+                    <br>
+                    <br>
+                    Please enter correct van name and password and try again
+                </p>
+            </div>
+            <!-- Warning message START -->
 
         </div>
+
+        <!-- GO BACK button START-->
+        <div class="btnPart" align="center">
+            <a href="/vendor/login">
+            <button class="btn">
+                GO BACK
+            </button>
+            </a>
+            
+        </div>
+        <!-- GO BACK button END-->
+
     </div>
-    <!--===================================================-->
-
-
 </div>
 
 </body>
