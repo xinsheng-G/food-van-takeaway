@@ -3,6 +3,7 @@ const md5_util = require('../../utils/MD5_utils')
 const path = require('path');
 const encrypt_util = require('../../utils/encrypt_util')
 const sanitize = require('mongo-sanitize');
+const str_utils = require('../../utils/string_utils')
 
 
 
@@ -21,7 +22,7 @@ let check_login = (req, res) => {
         // encrypt to bcrypt
         let user_plain_password = sanitize(req.body.password);
         let user = {
-            "van_name": sanitize(req.body.van_name),
+            "van_name": str_utils.change_space_into_dash(sanitize(req.body.van_name)),
             "password": encrypt_util.encrypt(user_plain_password),
             "user_type": 'VENDOR'
         }
@@ -94,6 +95,7 @@ let check_login = (req, res) => {
 }
 
 let handle_logout = (req, res) => {
+    res.clearCookie('vendor_user')
     req.session.destroy();
 
     res.render('./vendor/logout', {
@@ -117,5 +119,5 @@ let show_failed_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_page, check_login, show_success_page, show_failed_page
+    show_page, check_login, show_success_page, show_failed_page, handle_logout
 }
