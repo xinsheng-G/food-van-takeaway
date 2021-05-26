@@ -77,10 +77,10 @@ let show_success_page = (req, res) => {
 }
 
 let show_failed_page =  (req, res) => {
-    res.render('./vendor/warning',
+    res.render('./vendor/register_failed',
         {
             layout: false,
-            title: 'warning',
+            title: 'failed',
             warning_message: 'Something went wrong.'
         });
 }

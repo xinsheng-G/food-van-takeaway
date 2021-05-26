@@ -70,6 +70,9 @@ router.post('/register', registerController.add_vendor);
 // show register success
 router.get('/register_success', registerController.show_success_page);
 
+// show register failed
+router.get('/register_failed', registerController.show_failed_page);
+
 // handle 404
 router.all('*', exceptionHandler.handle404)
 
