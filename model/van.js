@@ -22,7 +22,7 @@ let vanSchema = new Schema({
     // We can store image path to online DB rather than store huge byte data.
     // the image could be located in upload_images folder
     // For this project, we just hard-code an Unslash source url, don't need to implement upload function.
-    picture_path: { type: Boolean, required: true },
+    picture_path: { type: String, required: true },
     description: String,
 
     text_address: String,

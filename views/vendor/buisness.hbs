@@ -1,6 +1,13 @@
 <script>
     let url = `{{url}}`;
     let van_name = `{{van}}`;
+
+    let sign_out = () => {
+         axios.get( `${url}/vendor/logout`).then(res => {
+            close_modal("vendor-sign-out");
+            console.log(`${res.statusText} : ${res.status}`);
+         });
+    }
     let form_validate = () => {
         document.getElementById("error-location-description").innerHTML = "";
         let van_location_description = document.getElementById("location-description").value.trim();
@@ -121,7 +128,7 @@
                </div>
                <div style = "display: flex; flex-direction: row; justify-content: space-between;"> 
                    <button id = "open" class = "btn btn-success btn-rounded" onclick = 'form_validate()'>OPEN FOR BUISNESS</button>
-                   <button id = "sign-out" class = "btn btn-danger btn-rounded"  >SIGN OUT</button>
+                   <button id = "sign-out" class = "btn btn-danger btn-rounded" onclick = 'show_modal("vendor-sign-out");' >SIGN OUT</button>
                </div>
            </div>
         </div>
@@ -145,6 +152,25 @@
             </div>
         </div>
     </div>
+
+    <div id = "vendor-sign-out" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" onclick = 'close_modal("vendor-sign-out")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
+
+                <div class="bootbox-body"><h4>Are you Sure?</h4></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onClick = "sign_out()">Sign Out</button>
+                    <button type="button" class="btn btn-outline" onClick = 'close_modal("vendor-sign-out")'>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id = "background-fade" class="modal-backdrop fade in" style = "display: none;"></div>
 
 </div>
