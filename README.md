@@ -237,6 +237,20 @@ get to the menu page.
    Quick visit: https://project-t05-x3ra.herokuapp.com/customer/my_orders/
 
 ## Vendor Features
+1. Login: Redirect to login failed page if input incorrectly, forward into dashboard when login success.You could use dummy account to login, if you would like, also try to create your own account. Login page is available here:
+   
+   Quick visit: https://project-t05-x3ra.herokuapp.com/vendor/login
+  
+   
+2. Handle dashboard: Four bottons on top side indicate orders in four different status, click on them to check orders inside. Change status when you need to (eg.confirm order by clicking on comfirm botton at side in Unconfirmed Orders session).
+   
+   Quick visit: https://project-t05-x3ra.herokuapp.com/vendor/dashboard
+
+   
+3. Update location/close van: you could update your location by clicking on "Update Location". Closing van by clicking on "Close SnackVan", and this will redirect you to open for business page.
+   
+   Quick visit: https://project-t05-x3ra.herokuapp.com/vendor/buisness
+   
 
 ### Dummy vendor
 
