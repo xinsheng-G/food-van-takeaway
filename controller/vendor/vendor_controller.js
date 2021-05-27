@@ -118,7 +118,7 @@ let update_order_status = (req, res) => {
 
     //Setting up Query: find order and extract currentt status
     let query = { '_id': order_id };
-    let projection = { 'status': 1 };
+    let projection = { 'status': 1, "start_time": 1 };
 
     order_model.findOne(query, projection)
         .then(order => {
@@ -128,12 +128,12 @@ let update_order_status = (req, res) => {
 
                 case 'confirming':
                     order_status = 'preparing';
-                    end = moment(order.start_time, 'YYYY-MM-DD[T00:00:00.000Z]').add(15, "minutes").format('YYYY-MM-DD[T00:00:00.000Z]');
+                    end = new Date(order.start_time.getTime() + 15 * 60000);
                     break;
 
                 case 'preparing':
                     order_status = 'ready';
-                    end = moment().format('YYYY-MM-DD[T00:00:00.000Z]');
+                    end = new Date();
                     break;
 
                 case 'ready':
@@ -149,7 +149,7 @@ let update_order_status = (req, res) => {
             }
 
             //Setting up Query: find order and update order status and time
-            let update = { "$set": { "status": order_status, "start_time": start, "end_time": end } };
+            let update = { "$set": { "status": order_status, "end_time": end } };
             let options = { new: true };
 
             order_model.findOneAndUpdate(query, update, options)
@@ -179,7 +179,7 @@ let show_order_details = (req, res) => {
     let snack_model = require('../../model/snack');
 
     let query = { '_id': order_id };
-    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1, 'status': 1 };
+    let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1, 'status': 1, 'total_price': 1 };
 
     order_model.findOne(query, projection).lean().then(order => {
 
@@ -249,7 +249,7 @@ let show_dashboard = (req, res) => {
         }).catch(err => {
             console.log(err);
             res.redirect('/500')
-        })
+        });
 
 
 }
@@ -260,19 +260,22 @@ let show_buisness = (req, res) => {
     let van_model = require('../../model/van');
 
     let query = { 'van_name': van_name };
-    let projection = { "van_name": 1 };
+    let projection = { "van_name": 1, 'is_open': 1 };
     van_model.findOne(query, projection).lean()
         .then(van => {
             //add login check
-            res.render('./vendor/buisness', {
-                van: van.van_name,
-                url: `http://${req.headers.host}`
-            })
-
+            if (van.is_open) {
+                res.redirect('/vendor/dashboard');
+            } else {
+                res.render('./vendor/buisness', {
+                    van: van.van_name,
+                    url: `http://${req.headers.host}`
+                })
+            }
         }).catch(err => {
             console.log(err);
             res.redirect('/500')
-        })
+        });
 
 }
 

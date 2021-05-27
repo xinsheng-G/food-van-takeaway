@@ -1,15 +1,32 @@
 <script>
-    let order_time = moment().subtract(3, "minutes");
     let updating = false;
     let van_name = `{{van}}`;
     let search_mode = "search-order-id";
     let url = `{{url}}`;
 
-    let close_van = () => {
-         axios.put(`${url}/vendor/van_close/${van_name}`).then(res => {
+    let check_ongoing_orders = () => {
+        let states = ["confirming", "preparing", "ready"];
+        let ongoing_orders = 0;
+        states.forEach( async state => {
+            await axios.get(`${url}/vendor/orders/${van_name}/${state}`).then(res => {
+               ongoing_orders += res.data.length;
+            })
+            if(ongoing_orders !== 0) {
+                document.getElementById("alert-ongoing-orders").innerHTML = `There are still ${ongoing_orders} ongoing orders!`;
+                return false;
+            }
+        });
+        return true;
+    }
+
+    let close_van = async () => {
+        let check = await check_ongoing_orders();
+        if(check){
+        axios.put(`${url}/vendor/van_close/${van_name}`).then(res => {
                 console.log(`${res.statusText} : ${res.status}`);
                 window.location.href = `${url}/vendor/buisness`;
-            }).catch(err => {console.log(err);});
+            }).catch(err => {console.log(err)});
+        }
     }
 
     let update_location = () => {
@@ -21,8 +38,8 @@
 
         let open_van = (location) => {
 
-            let van_address = document.getElementById("location-address").value;
-            let van_location_description = document.getElementById("location-description").value;
+            let van_address = document.getElementById("location-address").value.trim();
+            let van_location_description = document.getElementById("location-description").value.trim();
             let van_location = location;
             //let JSON_form = {"van_adress": van_address, "van_location_description": van_location_description};
 
@@ -81,14 +98,25 @@
                open_van( `{"x_pos": ${longitude}, "y_pos": ${latitude}}`);
             }
         }, positionError => {
-            console.log("Geolocation service is not applicable, using pure IP locating...");
+            console.log("Geolocation servic e is not applicable, using pure IP locating...");
             location = geo_API_locating();
             if(location){
                 open_van(location);
             }
         });
     }
-
+    let update_location_form_validate = () => {
+        document.getElementById("error-location-description").innerHTML = "";
+        let van_location_description = document.getElementById("location-description").value.trim();    
+        if (van_location_description.length > 200) {
+            document.getElementById("error-location-description").innerHTML = "Description of location too long!";
+        } else if (van_location_description.length === 0) {
+            document.getElementById("error-location-description").innerHTML = "Description of location required!";
+        } else {
+            document.getElementById("error-location-description").innerHTML = ""; 
+            update_location();
+        }
+    }
     let search = () => {
         let search_string = document.getElementById("search-string").value;
         let element = document.getElementById('inject-search-details');
@@ -116,7 +144,7 @@
                     row.appendChild(order_status);
 
                     let end_time = document.createElement('td');
-                    let end_time_data = document.createTextNode(moment(end_time,'YYYY-MM-DD[T00:00:00.000Z]').format('MMMM Do YYYY, h:mm:ss a'));
+                    let end_time_data = document.createTextNode(moment(order.end_time).format('MMMM Do YYYY, h:mm:ss a'));
                     end_time.appendChild(end_time_data);
                     row.appendChild(end_time);
 
@@ -165,7 +193,6 @@
             document.getElementById("det-order-cust-name").innerHTML = order_details.customer_name;
             document.getElementById("det-order-num").innerHTML = order.id.substring(order.id.length - 6).toUpperCase();
 
-            let grand_total = 0;
             let element = document.getElementById('inject-order-details');
             element.innerHTML = "";
             order_details.lineItems.forEach(item => {
@@ -186,23 +213,36 @@
                 let item_total_data = document.createTextNode(`\$${item.total}`);
                 item_total.appendChild(item_total_data);
                 row.appendChild(item_total);
-                grand_total += item.total;
 
                 element.appendChild(row);
             })
+
             let row = document.createElement('tr');
-            for (var i = 0; i<2; i++){
-                 let empty_td = document.createElement('td');
-                 row.appendChild(empty_td);
-            }
+            let empty_td = document.createElement('td');
+            row.appendChild(empty_td);
+
             let grand_total_td = document.createElement('td');
-            let grand_total_td_data = document.createTextNode(`\$${grand_total}`);
+            let grand_total_td_data = document.createTextNode(`\$${order_details.cost}`);
+            if(order_details.refund > 0 && order_details.refund){
+               
+                let refund_td = document.createElement('td');
+                let refund_td_data = document.createTextNode(`-\$${order_details.refund}`);
+                refund_td.style.color = "red";
+                refund_td.appendChild(refund_td_data);
+                row.appendChild(refund_td);
+                grand_total_td_data = document.createTextNode(`\$${order_details.cost - order_details.refund}`);
+
+            } else {
+                let empty_td_2 = document.createElement('td');
+                row.appendChild(empty_td_2);
+            }
+
             grand_total_td.appendChild(grand_total_td_data);
             row.appendChild(grand_total_td);
             row.style.backgroundColor = "#FFDA77";
             element.appendChild(row);
 
-            document.getElementById("det-order-time").innerHTML = moment(order_details.start_time, 'YYYY-MM-DD[T00:00:00.000Z]').format('MMMM Do YYYY, h:mm:ss a');
+            document.getElementById("det-order-time").innerHTML = moment(order_details.start_time).format('MMMM Do YYYY, h:mm a');
             order_details.is_given_discount ? document.getElementById("det-order-discount").innerHTML = "Yes":document.getElementById("det-order-discount").innerHTML = "No";
             show_modal("order-details");
         }).catch ( err => {
@@ -258,8 +298,35 @@
 
                     let timer = document.createElement('td');
                     let current_time = moment();
-                    let time = current_time.diff(order_time)/1000;
-                    let timer_data= document.createTextNode(`${Math.floor(time/60)}:${Math.floor(time%60) < 10 ? `0${Math.floor(time%60)}`: Math.floor(time%60)}`);
+                    let end_time = moment(order.end_time);
+                    let time = end_time.diff(current_time)/1000;
+                    let order_time_over = false;
+                    if (time < 0) {
+                     time = current_time.diff(end_time)/1000 ;
+                     order_time_over = true;
+                    }
+
+                    let timer_ui = "" ;
+                    if(Math.floor(time/60) >= 100) {
+                        timer_ui = `99:59+`; 
+                    } else if (Math.floor(time%60) < 10) {
+                        timer_ui = `${Math.floor(time/60)}:0${Math.floor(time%60)}`;
+                    } else {
+                        timer_ui = `${Math.floor(time/60)}:${Math.floor(time%60)}`;
+                    }
+
+                    let timer_data= document.createTextNode(timer_ui);
+                    if (order_time_over) {
+                        timer.style.color = "red";
+                    }
+                    timer.appendChild(timer_data);
+                    row.appendChild(timer);
+
+                } else if (order.status === 'ready') {
+
+                    let timer = document.createElement('td');
+                    let end_time = moment(order.end_time).format('MMMM Do YYYY, h:mm:ss a');
+                    let timer_data= document.createTextNode(end_time);
                     timer.appendChild(timer_data);
                     row.appendChild(timer); 
                 }
@@ -355,6 +422,7 @@
                     case 'ready':
                         header.innerHTML = `<th id = "th-order-id">Order Id</th>
                         <th id = "th-lineitems">Order</th>
+                        <th id = "th-timer">Ready at</th>
                         <th id = "th-discount">Discount</th>
                         <th id = "th-update">Update Order</th>`;
                         document.getElementById("search-btn").style.display = "none";
@@ -529,7 +597,7 @@
                 <div class ="modal-body">
                     <div class = "bootbox-body" style = "display: block">
                         <div class="input-group mar-btm">
-                            <input id = "search-string" type="text" placeholder="Search" class="form-control">
+                            <input id = "search-string" type="text" placeholder="Search Exact Match" class="form-control">
                             <span class="input-group-btn">
                                 <button id = "search-btn" class="btn btn-mint" type="button" onclick="search()">Search</button>
                             </span>
@@ -571,19 +639,17 @@
                 </div>
                 <div class ="modal-body">
                     <div class = "bootbox-body" style = "display: block">
-                        <div class = "form-group" style=" width: 400px;">
-                            <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address *</label>
+                        <div class = "form-group" style=" width: 400px; margin-top: 40px;">
+                            <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address</label>
                             <input id ="location-address" type="text" class="form-control input-lg">
-                            <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location *</label>
-                            <div class= "input-group"> 
-                                <input id ="location-description" type="text" class="form-control input-lg">
-                                <span class="input-group-addon">?</span>
-                            </div>
+                            <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location * (200 Charcters)</label>
+                            <input id ="location-description" type="text" class="form-control input-lg">
+                            <label id ="error-location-description" class = "control-label mar-top" style = "color: red; font-size: 1.2rem; padding-left: 10px"></label>
                         </div>
                     </div>
                 </div>
                 <div class ="modal-footer">
-                    <button type="button" class="btn btn-mint" onclick = 'update_location()'>
+                    <button type="button" class="btn btn-mint" onclick = 'update_location_form_validate()'>
                         Update Location
                     </button>
                 </div>
@@ -599,7 +665,7 @@
                         <i class="pci-cross pci-circle"></i>
                     </button>
 
-                <div class="bootbox-body"><h4>Are you sure?</h4></div>
+                <div class="bootbox-body"><h4>Are you sure?</h4><h6 id = "alert-ongoing-orders"></h6></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" onclick = 'close_modal("close-business")'>Cancel</button>

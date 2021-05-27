@@ -1,10 +1,22 @@
 <script>
     let url = `{{url}}`;
     let van_name = `{{van}}`;
+    let form_validate = () => {
+        document.getElementById("error-location-description").innerHTML = "";
+        let van_location_description = document.getElementById("location-description").value.trim();
+        if (van_location_description.length > 200) {
+            document.getElementById("error-location-description").innerHTML = "Description of location too long!";
+        } else if (van_location_description.length === 0) {
+            document.getElementById("error-location-description").innerHTML = "Description of location required!";
+        } else {
+            document.getElementById("error-location-description").innerHTML = "";   
+            show_modal("access-location");
+        }
+    }
     let open_van = (location) => {
 
-        let van_address = document.getElementById("location-address").value;
-        let van_location_description = document.getElementById("location-description").value;
+        let van_address = document.getElementById("location-address").value.trim();
+        let van_location_description = document.getElementById("location-description").value.trim();
         let van_location = location;
         //let JSON_form = {"van_adress": van_address, "van_location_description": van_location_description};
 
@@ -101,16 +113,14 @@
            </div>
            <div class = "panel-body">
                <div class = "form-group" style=" width: 400px; margin-top: 40px;">
-                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address *</label>
+                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address</label>
                    <input id ="location-address" type="text" class="form-control input-lg">
-                   <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location *</label>
-                   <div class= "input-group"> 
-                     <input id ="location-description" type="text" class="form-control input-lg">
-                     <span class="input-group-addon">?</span>
-                   </div>
+                   <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location * (200 Charcters)</label>
+                   <input id ="location-description" type="text" class="form-control input-lg">
+                   <label id ="error-location-description" class = "control-label mar-top" style = "color: red; font-size: 1.2rem; padding-left: 10px"></label>
                </div>
                <div style = "display: flex; flex-direction: row; justify-content: space-between;"> 
-                   <button id = "open" class = "btn btn-success btn-rounded" onclick = 'show_modal("access-location")'>OPEN FOR BUISNESS</button>
+                   <button id = "open" class = "btn btn-success btn-rounded" onclick = 'form_validate()'>OPEN FOR BUISNESS</button>
                    <button id = "sign-out" class = "btn btn-danger btn-rounded"  >SIGN OUT</button>
                </div>
            </div>
@@ -138,4 +148,3 @@
     <div id = "background-fade" class="modal-backdrop fade in" style = "display: none;"></div>
 
 </div>
-
