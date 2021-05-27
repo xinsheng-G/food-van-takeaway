@@ -128,7 +128,7 @@ We have implemented more functionalities than requirements of the deliverable 2:
 
    
 
-### Vendor APP mockup
+### Vendor APP 
 
 
 1. Setting van status (vendor sendslocation,marksvan as ready-for-orders)
@@ -167,6 +167,13 @@ We have implemented more functionalities than requirements of the deliverable 2:
 Login ID: dummy@example.org
 
 password: 123456
+   
+### Dummy vendor
+
+Login ID: Justice
+
+password: Admin123
+
 
 - *If you would like, you could register a new customer account by clicking `join us today` button on the login page*
 
