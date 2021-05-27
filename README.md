@@ -5,26 +5,57 @@
 
 Welcome!
 
-**Our heroku app address**: https://project-t05-x3ra.herokuapp.com/
-
-**Our database entry**: 
-mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=admin&replicaSet=atlas-gq4o85-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
-
 * For *Deliverable 2：Mockup APP Server*, see [Mockup APP Server](#mockup-app-server).
+（**Customer app mockup is deprecated in the latest version**）
+
 
 * For *Deliverable 3：Backend with Frontend*, see [Customer Features](#customer-features).
 
+
+* For *Deliverable 4*, see [General Information](#general-information).
+
 ## Table of contents
+* [General Information](#general-information)
 * [Mockup APP Server](#mockup-app-server)
 * [Customer Features](#customer-features)
-* [General Info](#general-info)
+* [Vendor Features](#vendor-features)
 * [Technologies](#technologies)
-* [Code Implementation](#code-implementation)
-* [Adding Images](#adding-images)
+* [Use Cases](#use-cases)
+
+## General Information
+
+### Commit ID to mark
+< Waiting  >
+
+### URL website on Heroku
+https://project-t05-x3ra.herokuapp.com/
+
+### MongoDB Compass Database access
+mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=admin&replicaSet=atlas-gq4o85-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+
+### Dummy users
+#### Dummy customer
+
+Login ID: dummy@example.org
+
+password: dummy123456
+
+#### Dummy vendor
+
+Login ID: Justice
+
+password: Admin123
+
+
+### Test details
+
 
 ## Mockup APP Server
 
 ### Customer APP mockup
+
+
+**Warning: Customer app mockup is deprecated in the latest version!**
 
 Customer mockup functionalities are fulfilled by `customer_mock_up_controller.js` in `controller` folder and `customer_mock_up_router.js` in `router` folder.
 
@@ -166,7 +197,7 @@ We have implemented more functionalities than requirements of the deliverable 2:
 
 Login ID: dummy@example.org
 
-password: 123456
+password: dummy123456
    
 ### Dummy vendor
 
@@ -204,14 +235,16 @@ get to the menu page.
     To see more order details, click order blocks that shown in the `My Orders` page to gain a view of more order details. Where you can also change/Cancel a current order.
 
    Quick visit: https://project-t05-x3ra.herokuapp.com/customer/my_orders/
-   
+
+## Vendor Features
+
+### Dummy vendor
+
+Login ID: Justice
+
+password: Admin123
 
 
-
-
-## General info
-This is project ...
-Lorem ipsum dolor sit amet
 
 ## Technologies
 Project is created with:
@@ -221,60 +254,66 @@ Project is created with:
 * mongoose 5.12.3
 * Bootstrap 3
 * Baidu Map API
-* Open Street map OSM API
+* bcrypt
+* content-filter
 
-## Code Implementation
+## Use Cases
 
-You can include a code snippet here.
+### 1 Customer
 
-```HTML
-<!--
-Example code from: https://www.w3schools.com/jsref/met_win_alert.asp
-__>
+*When customer is NOT login-in*
 
-<!DOCTYPE html>
-<html>
-<body>
+- [x] A customer can find nearby vans ( van list OR map )
+- [x] Customer App can get customer's location.
+- [x] Customer App can access van locations from database.
+- [x] Customer App can calculate five nearest vans. ( show van locations in list )
+- [x] A customer can choose a van to purchase from.
+- [x] A menu should appear, which list snacks after a customer choosing a van
+- [x] Customer App needs to handle login registrations.
 
-<p>Click the button to display an alert box.</p>
+*When customer is login-in*
 
-<button onclick="myFunction()">Try it</button>
+- [x] A customer can register & login with email and password
+- [x] Customer App's database will store a customer's loginID(email), password, family name and given name.
+- [x] A Customer can change his/her profile details (names and password)
+- [x] A logged-in Customer can place an order.
+- [x] An order consists of 1..* snacks, with quantities for each, needs to be timestamped.
+- [x] An order will be given 20% discount if the order is not ready for pick up in 15min.  (This time can be changed by Company & developer)
+- [x] A customer can monitor order status (fulfilled or ready for pick up).
+- [x] A customer can cancel or change (add or remove items) the order within 10 min (This time can be changed by Company & developer)
+- [x] A cancelled order shouldn't be seen to Customers and Vendors
+- [x] Changing order can reset change timestamp
+- [x] A Customer can rate the order, rating should be 1-5
+- [x] Customer app will be used on phones and also desktops.
 
-<script>
-function myFunction() {
-  alert("Hello! I am an alert box!");
-}
-</script>
+### 2 Vendor
 
-</body>
-</html>
-```
+- [x] A vendor can log in using van name.
+- [x] A vendor can be registered by name and password.
+- [x] A vendor can send their location to the database, address input is short text address (.*** st, Melbourne )
+- [x] Vendor APP can capture the address text
+- [x] A vendor can mark his van as open-for-business OR quit for the day
+- [x] A vendor can change location address
+- [x] A vendor need a list of van's orders that are not yet fulfilled, in time order, urgent on the top
+- [x] A vendor can click on the order in the list and see order detail ( order number, customer's given name, order items, time remains for 20% discount )
+- [x] A vendor can mark an order as fufilled ( snacks are prepared ), should be seen
+- [x] A vendor can mark an order as finished ( snacks are picked up ), should be invisible, but not deleted in database
+- [x] A finished order should be findable and show again
+- [x] Vendor APP will be used on ipad size. Design should be clear so that operators will make less mistakes.
 
-## Adding Images
+### 3 Others
 
-You can use images/gif hosted online:
+#### 3.1 menu
 
-<p align="center">
-  <img src="https://github.com/Martin-Reinoso/sandpit-Profile/raw/main/Images_Readme/01.gif"  width="300" >
-</p>
+- [x] Snacks of menu should be stored in dataBase include images and prices for each
 
-Or you can add your own images from a folder in your repo with the following code. The example has a folder `Gifs` with an image file `Q1-1.gif`:
-```HTML
-<p align="center">
-  <img src="Gifs/Q1-1.gif"  width="300" >
-</p>
-```
+  ( for the image, hard-code UnSlash source url in dataBase is okay )
 
-To create a gif from a video you can follow this [link](https://ezgif.com/video-to-gif/ezgif-6-55f4b3b086d4.mov).
+#### 3.2 locations
 
-You can use emojis :+1: but do not over use it, we are looking for professional work. If you would not add them in your job, do not use them here! :shipit:
+- [x] calculate distance with Euclidean formula
+- [x] display locations on the map
 
-**Now Get ready to complete all the tasks:**
+#### 3.3 live pages
 
-- [x] Read the Project handouts carefully
-- [x] User Interface (UI)mockup
-- [X] App server mockup
-- [X] Front-end + back-end (one feature)
-- [ ] Complete system + source code
-- [ ] Report on your work(+ test1 feature)
-
+- [x] Order monitoring pages will be updated live (refresh and read data from database)
