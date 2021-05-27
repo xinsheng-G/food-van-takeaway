@@ -20,22 +20,12 @@ let orderSchema = new Schema({
      *    can decide whether to show the order detail to this user or not
      *
      */
-    <<
-    << << < HEAD
+
     order_customer_id: { type: String, required: true },
     order_van_name: { type: String, required: true },
 
     // confirming, preparing, ready, complete, cancelled
     status: { type: String, required: true },
-    ===
-    === =
-    order_customer_id: { type: String, required: true },
-    order_van_name: { type: String, required: true },
-
-    // confirming, preparing, ready, complete, cancelled
-    status: { type: String, required: true },
-    >>>
-    >>> > vendor - app - dev - fixes - 2
 
     /**
      * we shouldn't keep customer's last name in order, if one customer

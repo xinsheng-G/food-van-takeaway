@@ -1,6 +1,6 @@
 const moment = require('moment');
 const string_util = require('../../utils/string_utils');
-
+const discount_util = require('../../utils/dataBase_discount_handler');
 let set_location = (req, res) => {
 
     // Reading Request
@@ -37,11 +37,14 @@ let set_location = (req, res) => {
                 res.send(`Open for Business: ${updatedDocument.van_name} | OPEN: ${updatedDocument.is_open} at ${updatedDocument.van_location_description} `);
             } else {
                 console.log("No such van name exists");
-                res.send("400: Van not found");
+                res.redirect('/404');
             }
 
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        });
 
 }
 let close_snackvan = (req, res) => {
@@ -74,11 +77,14 @@ let close_snackvan = (req, res) => {
 
             } else {
                 console.log("No such van name exists");
-                res.send("400: Van not found");
+                res.redirect('/404');
             }
 
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        });
 
 }
 let filtered_orders = async(req, res) => {
@@ -95,12 +101,16 @@ let filtered_orders = async(req, res) => {
         //Setting up Query: filter orders based on provided status(Confirming, Preparing (outstanding), Ready, Complete)
         let query = { 'order_van_name': van_name, 'status': status };
         let orders = await order_model.find(query).sort({ "start_time": 1 }).lean();
-
+        orders.forEach(order => {
+            discount_util.auto_cancel_outdated_order(order);
+            discount_util.update_discount_info(order);
+        });
         // Displaying list of  filtered orders in response body on Success
         res.send(orders);
 
     } catch (err) {
         console.log(err);
+        res.redirect('/500');
     }
 }
 
@@ -157,18 +167,20 @@ let update_order_status = (req, res) => {
                     // Displaying document in Console and relevant informaion in response body on Success
                     if (updatedDocument) {
 
-                        console.log(`Successfully updated document: ${updatedDocument}.`);
+                        //console.log(`Successfully updated document: ${updatedDocument}.`);
                         res.send(`Successfully updated order: ${updatedDocument.id} | ${updatedDocument.status}.`);
 
                     } else {
                         console.log("No such order exists");
-                        res.send("400: Order not found");
+                        res.redirect('/404');
                     }
 
                 })
-                .catch(err => console.log(err));
+                .catch(err => { console.log(err);
+                    res.redirect('/500'); });
         })
-        .catch(err => console.log(err));
+        .catch(err => { console.log(err);
+            res.redirect('/500'); });
 }
 
 let show_order_details = (req, res) => {
@@ -193,7 +205,8 @@ let show_order_details = (req, res) => {
                 delete order.order_customer_id
                 order.customer_name = `${customer_name.firstname} ${customer_name.lastname}`;
 
-            }).catch(err => console.log(err));
+            }).catch(err => { console.log(err);
+                res.redirect('/500'); });
 
         let snacks_projection = { 'snack_name': 1, 'price': 1 };
         snack_model.find({}, snacks_projection).lean()
@@ -220,9 +233,11 @@ let show_order_details = (req, res) => {
                 });
                 order.lineItems = lineItems_info;
                 res.send(order)
-            }).catch(err => console.log(err));
+            }).catch(err => { console.log(err);
+                res.redirect('/500'); });
 
-    }).catch(err => console.log(err));
+    }).catch(err => { console.log(err);
+        res.redirect('/500'); });
 
 
 }
@@ -274,7 +289,7 @@ let show_buisness = (req, res) => {
             }
         }).catch(err => {
             console.log(err);
-            res.redirect('/500')
+            res.redirect('/500');
         });
 
 }
@@ -306,7 +321,8 @@ let search_orders = (req, res) => {
         }
 
         res.send(orders);
-    }).catch(err => console.log(err));
+    }).catch(err => { console.log(err);
+        res.redirect('/500'); });
 
 
 }
