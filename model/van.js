@@ -5,7 +5,7 @@ let mongoose = require('./mongoDB'),
 let vanSchema = new Schema({
 
     // logged by van_name, so van name is unique
-    van_name: { type: String, required: true, index: { unique: true } },
+    van_name: { type: String, required: true },
     password: { type: String, required: true },
     is_open: { type: Boolean, required: true },
     stars: Number,
@@ -22,7 +22,7 @@ let vanSchema = new Schema({
     // We can store image path to online DB rather than store huge byte data.
     // the image could be located in upload_images folder
     // For this project, we just hard-code an Unslash source url, don't need to implement upload function.
-    picture_path: { type: Boolean, required: true },
+    picture_path: { type: String, required: true },
     description: String,
 
     text_address: String,
