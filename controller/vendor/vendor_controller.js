@@ -176,11 +176,15 @@ let update_order_status = (req, res) => {
                     }
 
                 })
-                .catch(err => { console.log(err);
-                    res.redirect('/500'); });
+                .catch(err => {
+                    console.log(err);
+                    res.redirect('/500');
+                });
         })
-        .catch(err => { console.log(err);
-            res.redirect('/500'); });
+        .catch(err => {
+            console.log(err);
+            res.redirect('/500');
+        });
 }
 
 let show_order_details = (req, res) => {
@@ -205,8 +209,10 @@ let show_order_details = (req, res) => {
                 delete order.order_customer_id
                 order.customer_name = `${customer_name.firstname} ${customer_name.lastname}`;
 
-            }).catch(err => { console.log(err);
-                res.redirect('/500'); });
+            }).catch(err => {
+                console.log(err);
+                res.redirect('/500');
+            });
 
         let snacks_projection = { 'snack_name': 1, 'price': 1 };
         snack_model.find({}, snacks_projection).lean()
@@ -233,18 +239,22 @@ let show_order_details = (req, res) => {
                 });
                 order.lineItems = lineItems_info;
                 res.send(order)
-            }).catch(err => { console.log(err);
-                res.redirect('/500'); });
+            }).catch(err => {
+                console.log(err);
+                res.redirect('/vendor/login');
+            });
 
-    }).catch(err => { console.log(err);
-        res.redirect('/500'); });
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/500');
+    });
 
 
 }
 
 let show_dashboard = (req, res) => {
     //let van_name = req.session.user;
-    let van_name = 'valve';
+    let van_name = req.session.vendor_user;
     let van_model = require('../../model/van');
 
     let query = { 'van_name': van_name };
@@ -252,15 +262,19 @@ let show_dashboard = (req, res) => {
     van_model.findOne(query, projection).lean()
         .then(van => {
             //add login check
-            if (van.is_open) {
-                res.render('./vendor/dashboard', {
-                    van: van.van_name,
-                    url: `http://${req.headers.host}`
-                })
+            if (van) {
+                if (van.is_open) {
+                    res.render('./vendor/dashboard', {
+                        van: van.van_name,
+                        url: `http://${req.headers.host}`
+                    })
+                } else {
+                    res.redirect('/vendor/buisness');
+                }
             } else {
-                res.redirect('/vendor/buisness');
+                console.log("LOGIN AGAIN!")
+                res.redirect('/vendor/login');
             }
-
         }).catch(err => {
             console.log(err);
             res.redirect('/500')
@@ -271,7 +285,7 @@ let show_dashboard = (req, res) => {
 
 let show_buisness = (req, res) => {
     //let van_name = req.session.user;
-    let van_name = 'valve';
+    let van_name = req.session.vendor_user;
     let van_model = require('../../model/van');
 
     let query = { 'van_name': van_name };
@@ -279,13 +293,18 @@ let show_buisness = (req, res) => {
     van_model.findOne(query, projection).lean()
         .then(van => {
             //add login check
-            if (van.is_open) {
-                res.redirect('/vendor/dashboard');
+            if (van) {
+                if (van.is_open) {
+                    res.redirect('/vendor/dashboard');
+                } else {
+                    res.render('./vendor/buisness', {
+                        van: van.van_name,
+                        url: `http://${req.headers.host}`
+                    })
+                }
             } else {
-                res.render('./vendor/buisness', {
-                    van: van.van_name,
-                    url: `http://${req.headers.host}`
-                })
+                console.log("LOGIN AGAIN!")
+                res.redirect('/vendor/login');
             }
         }).catch(err => {
             console.log(err);
@@ -321,8 +340,10 @@ let search_orders = (req, res) => {
         }
 
         res.send(orders);
-    }).catch(err => { console.log(err);
-        res.redirect('/500'); });
+    }).catch(err => {
+        console.log(err);
+        res.redirect('/500');
+    });
 
 
 }
