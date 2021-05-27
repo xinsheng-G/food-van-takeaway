@@ -67,7 +67,7 @@ let show_my_orders_page = async (req, res) => {
         let valid_current_order_array = [];
         for(let i in current_orders) {
             let current_order = current_orders[i];
-            if(current_order['start_date'] == null) {
+            if(current_order['start_date'] == null || current_order['status'] === 'cancelled') {
                 continue;
             }
 
