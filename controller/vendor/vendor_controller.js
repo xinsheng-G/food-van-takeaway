@@ -259,6 +259,8 @@ let show_dashboard = (req, res) => {
 
     let query = { 'van_name': van_name };
     let projection = { "van_name": 1, 'is_open': 1 };
+    let url = req.headers.host === 'localhost:8080' ? `http://${req.headers.host}` : `https://${req.headers.host}`;
+
     van_model.findOne(query, projection).lean()
         .then(van => {
             //add login check
@@ -266,7 +268,7 @@ let show_dashboard = (req, res) => {
                 if (van.is_open) {
                     res.render('./vendor/dashboard', {
                         van: van.van_name,
-                        url: `http://${req.headers.host}`
+                        url: url
                     })
                 } else {
                     res.redirect('/vendor/buisness');
@@ -287,6 +289,8 @@ let show_buisness = (req, res) => {
     //let van_name = req.session.user;
     let van_name = req.session.vendor_user;
     let van_model = require('../../model/van');
+    console.log(req.headers.host)
+    let url = req.headers.host === 'localhost:8080' ? `http://${req.headers.host}` : `https://${req.headers.host}`;
 
     let query = { 'van_name': van_name };
     let projection = { "van_name": 1, 'is_open': 1 };
@@ -299,7 +303,7 @@ let show_buisness = (req, res) => {
                 } else {
                     res.render('./vendor/buisness', {
                         van: van.van_name,
-                        url: `http://${req.headers.host}`
+                        url: url
                     })
                 }
             } else {
