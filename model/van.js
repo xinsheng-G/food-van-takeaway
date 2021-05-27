@@ -5,9 +5,9 @@ let mongoose = require('./mongoDB'),
 let vanSchema = new Schema({
 
     // logged by van_name, so van name is unique
-    van_name: String,
-    password: String,
-    is_open: Boolean,
+    van_name: { type: String, required: true, index: { unique: true } },
+    password: { type: String, required: true },
+    is_open: { type: Boolean, required: true },
     stars: Number,
 
     // used to calculate average stars
@@ -19,15 +19,14 @@ let vanSchema = new Schema({
     // The reason to do this is that we don't want to travel the van's completed orders collection, and do loops
     // to accumulate each order's stars and calculate the average star.
     num_orders_completed: Number,
-
     // We can store image path to online DB rather than store huge byte data.
     // the image could be located in upload_images folder
     // For this project, we just hard-code an Unslash source url, don't need to implement upload function.
-    picture_path: String,
+    picture_path: { type: Boolean, required: true },
     description: String,
 
     text_address: String,
-    location: {x_pos: Number, y_pos: Number},
+    location: { x_pos: Number, y_pos: Number },
 
     // van can get it's orders by query Orders collection from db by van name, so don't need store orders as arraies in model
     /**
@@ -50,4 +49,4 @@ let vanSchema = new Schema({
 });
 
 /* the Van model corresponds to the vans collection in the database. */
-module.exports = mongoose.model('Van',vanSchema);
+module.exports = mongoose.model('Van', vanSchema);

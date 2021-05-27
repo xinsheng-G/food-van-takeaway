@@ -1,44 +1,150 @@
 <script>
     let url = `{{url}}`;
     let van_name = `{{van}}`;
+    let form_validate = () => {
+        document.getElementById("error-location-description").innerHTML = "";
+        let van_location_description = document.getElementById("location-description").value.trim();
+        if (van_location_description.length > 200) {
+            document.getElementById("error-location-description").innerHTML = "Description of location too long!";
+        } else if (van_location_description.length === 0) {
+            document.getElementById("error-location-description").innerHTML = "Description of location required!";
+        } else {
+            document.getElementById("error-location-description").innerHTML = "";   
+            show_modal("access-location");
+        }
+    }
+    let open_van = (location) => {
 
-    let open_van = () => {
+        let van_address = document.getElementById("location-address").value.trim();
+        let van_location_description = document.getElementById("location-description").value.trim();
+        let van_location = location;
+        //let JSON_form = {"van_adress": van_address, "van_location_description": van_location_description};
 
-        let van_address = document.getElementById("location-address").value;
-        let van_location_description = document.getElementById("location-description").value;
-        let JSON_form = {"van_adress": van_address, "van_location_description": van_location_description};
-
-        axios.post( `${url}/vendor/van_open/${van_name}`, JSON_form).then(res => {
-            console.log(`${res.statusText} : ${res.status}`);
+        const params = new URLSearchParams();
+        params.append('van_address',van_address );
+        params.append('van_location_description',van_location_description );
+        params.append('van_location', location);
+        axios.put( `${url}/vendor/van_open/${van_name}`, params).then(res => {
             window.location.href = `${url}/vendor/dashboard`;
+            console.log(`${res.statusText} : ${res.status}`);
         }).catch(err => {console.log(err);});
     }
-    
+
+    let geo_location = () => {
+        close_modal("access-location");
+
+        let longitude = 0;
+        let latitude = 0;
+        let accuracy = 0;
+        let location = {"x_pos": longitude, "y_pos": latitude};
+        /* get user location via geolocation */
+        navigator.geolocation.getCurrentPosition(position => {
+
+            longitude = position.coords.longitude;
+            latitude = position.coords.latitude;
+            accuracy = position.coords.accuracy;
+
+            console.log("user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+            console.log("accuracy：" + accuracy);
+            if(accuracy > 10000) {
+                console.log("Geolocation service is not accurate, using pure IP locating...");
+                location = geo_API_locating();
+                if(location){
+                    open_van(location);
+                }
+            } else {
+                open_van( `{"x_pos": ${longitude}, "y_pos": ${latitude}}`);
+            }
+        }, positionError => {
+            console.log("Geolocation service is not applicable, using pure IP locating...");
+            location = geo_API_locating();
+            if(location){
+                open_van(location);
+            }
+        });
+
+
+    }
+
+    let geo_API_locating = () => {
+        const geo_API_settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://api.getgeoapi.com/api/v2/ip/check?api_key=0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d",
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": "0e33f90ed8de88b9f3e2d8e3848c1ec7adee696d",
+                "x-rapidapi-host": "ip-geo-location.p.rapidapi.com"
+            }
+        };
+        $.ajax(geo_API_settings).done(res => {
+            longitude = res.location.longitude;
+            latitude = res.location.latitude;
+            let isSuccessful = res.status;
+
+            if(isSuccessful === "success"){
+                console.log("Using Pure IP locating, user location WGS84 GPS standard coordinate:" + longitude + "," + latitude);
+                return `{"x_pos": ${longitude}, "y_pos": ${latitude}}`;
+            } else {
+                console.log("Location Unidentified!");
+                return null;
+            }
+
+        }).catch(err => {console.log(err)});
+   }
+   
+    let show_modal = (modal_name) => {
+        document.getElementById(modal_name).style.display = "block";
+        document.getElementById("background-fade").style.display = "block";
+    }
+
+    let close_modal = (mdl) => {
+        document.getElementById("background-fade").style.display = "none";
+        document.getElementById(mdl).style.display = "none";
+    }
+
 </script>
 <div class ="main" style ="display: flex; flex-direction: row; justify-content: space-between;">
     <div class = "col-sm-5 col-md-5" style ="display: flex; flex-direction: column; justify-content: center; align-items: center">
         <div class = "" style=" border-radius: 1.2em; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center" >
            <img src = "./images/van.png" style = "height: 80px" >
            <div class = "panel-heading">
-              <h1 style = "text-transform: uppercase; font-size: 3rem">Open your SnackVan</h1>
+              <h1 style = "text-transform: uppercase; font-size: 3rem">Open {{van}} for Business</h1>
            </div>
            <div class = "panel-body">
                <div class = "form-group" style=" width: 400px; margin-top: 40px;">
-                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address *</label>
+                   <label class = "control-label" style = "color: black; font-size: 1.6rem; padding-left: 10px">Address</label>
                    <input id ="location-address" type="text" class="form-control input-lg">
-                   <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location *</label>
-                   <div class= "input-group"> 
-                     <input id ="location-description" type="text" class="form-control input-lg">
-                     <span class="input-group-addon">?</span>
-                   </div>
+                   <label class = "control-label mar-top" style = "color: black; font-size: 1.6rem; padding-left: 10px"> Description of your Location * (200 Charcters)</label>
+                   <input id ="location-description" type="text" class="form-control input-lg">
+                   <label id ="error-location-description" class = "control-label mar-top" style = "color: red; font-size: 1.2rem; padding-left: 10px"></label>
                </div>
                <div style = "display: flex; flex-direction: row; justify-content: space-between;"> 
-                   <button id = "open" class = "btn btn-success btn-rounded" onClick = "open_van()">OPEN FOR BUISNESS</button>
+                   <button id = "open" class = "btn btn-success btn-rounded" onclick = 'form_validate()'>OPEN FOR BUISNESS</button>
                    <button id = "sign-out" class = "btn btn-danger btn-rounded"  >SIGN OUT</button>
                </div>
            </div>
         </div>
     </div>
     <img src = "./images/coffee25.jpeg" style ="width: 50vw; height: 100vh; object-fit: cover;" >
-</div>
+    
+    <div id = "access-location" class = "bootbox modal fade in" tabindex="-1" style = "display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" onclick = 'close_modal("access-location")'>
+                        <i class="pci-cross pci-circle"></i>
+                    </button>
 
+                <div class="bootbox-body"><h4>Can SnackVan access your location?</h4></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-mint" onClick = "geo_location()">Access</button>
+                    <button type="button" class="btn btn-danger" onClick = 'close_modal("access-location")'>Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id = "background-fade" class="modal-backdrop fade in" style = "display: none;"></div>
+
+</div>

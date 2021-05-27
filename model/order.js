@@ -11,8 +11,8 @@ let orderSchema = new Schema({
 
     /**
      * "foreign key" in one-to-many relationship's many-side.
-    *    These two references are used to identify this order belongs to which customer and which van.
-    *    These two references are used to do query:
+     *    These two references are used to identify this order belongs to which customer and which van.
+     *    These two references are used to do query:
      *
      *    order_van_name should be shown on previous order's detail page
      *
@@ -20,11 +20,22 @@ let orderSchema = new Schema({
      *    can decide whether to show the order detail to this user or not
      *
      */
-    order_customer_id: {type: String, required:true},
-    order_van_name: {type: String, required:true},
+    <<
+    << << < HEAD
+    order_customer_id: { type: String, required: true },
+    order_van_name: { type: String, required: true },
 
     // confirming, preparing, ready, complete, cancelled
-    status: {type: String, required:true},
+    status: { type: String, required: true },
+    ===
+    === =
+    order_customer_id: { type: String, required: true },
+    order_van_name: { type: String, required: true },
+
+    // confirming, preparing, ready, complete, cancelled
+    status: { type: String, required: true },
+    >>>
+    >>> > vendor - app - dev - fixes - 2
 
     /**
      * we shouldn't keep customer's last name in order, if one customer
@@ -42,8 +53,8 @@ let orderSchema = new Schema({
     //     default: Date.now
     // },
 
-    start_time: {type:Date, required:true},
-    end_time: {type:Date, required:true},
+    start_time: { type: Date, default: Date.now },
+    end_time: Date,
 
     /** Line items for an order
      *
@@ -53,15 +64,21 @@ let orderSchema = new Schema({
      * info for a specific order (maybe we don't need to), we can query the snack_name in lineItems collections.
      *
      */
-    lineItems: {type:[{snack_name:String, number: Number, remark: String}], required:true},
-    is_given_discount: {type: Boolean, required: true},
-    stars: {type:Number, required:true},
-    cost: {type:Number, required:true},
-    refund: {type:Number, required:true},
-    total_price: {type:Number, required:true}
+    lineItems: {
+        type: [{
+            snack_name: { type: String, required: true },
+            number: { type: Number, required: true },
+            remark: String
+        }],
+        required: true
+    },
+    is_given_discount: { type: Boolean, required: true },
+    stars: Number,
+    cost: { type: Number, required: true },
+    refund: Number,
+    total_price: Number
 
-}
-);
+});
 
 
 /* The first parameter is the singular form of the
@@ -69,4 +86,4 @@ collection name corresponding to the model. Mongoose
 will automatically find collections whose names are the
 plural of model names. For the example, the Customer
 model corresponds to the customer collection in the database. */
-module.exports = mongoose.model('Order',orderSchema);
+module.exports = mongoose.model('Order', orderSchema);
