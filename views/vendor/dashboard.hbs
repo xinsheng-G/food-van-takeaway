@@ -5,6 +5,7 @@
     let url = `{{url}}`;
 
     let check_ongoing_orders = () => {
+        document.getElementById("alert-ongoing-orders").innerHTML = ""; 
         let states = ["confirming", "preparing", "ready"];
         let ongoing_orders = 0;
         states.forEach( async state => {
@@ -15,18 +16,20 @@
                 document.getElementById("alert-ongoing-orders").innerHTML = `There are still ${ongoing_orders} ongoing orders!`;
                 return false;
             }
-        });
+        });     
         return true;
     }
 
-    let close_van = async () => {
-        let check = await check_ongoing_orders();
-        if(check){
+    let close_van = () => {
         axios.put(`${url}/vendor/van_close/${van_name}`).then(res => {
                 console.log(`${res.statusText} : ${res.status}`);
                 window.location.href = `${url}/vendor/buisness`;
             }).catch(err => {console.log(err);  window.location.href = `${url}/500`;});
-        }
+
+        /* if(check_ongoing_orders()){
+        } else {
+            console.log("Complete ongoing orders!"); 
+        }*/
     }
 
     let update_location = () => {
@@ -144,7 +147,7 @@
                     row.appendChild(order_status);
 
                     let end_time = document.createElement('td');
-                    let end_time_data = document.createTextNode(moment(order.end_time).format('MMMM Do YYYY, h:mm:ss a'));
+                    let end_time_data = document.createTextNode(moment(order.end_time).format('MMMM Do YYYY, h:mm a'));
                     end_time.appendChild(end_time_data);
                     row.appendChild(end_time);
 
@@ -325,7 +328,7 @@
                 } else if (order.status === 'ready') {
 
                     let timer = document.createElement('td');
-                    let end_time = moment(order.end_time).format('MMMM Do YYYY, h:mm:ss a');
+                    let end_time = moment(order.end_time).format('MMMM Do YYYY, h:mm a');
                     let timer_data= document.createTextNode(end_time);
                     timer.appendChild(timer_data);
                     row.appendChild(timer); 
@@ -446,7 +449,6 @@
     let get_orders = async () => {
         
         await timeout(5000);
-        console.log();
         let err = null;
         
         while( err === null ) {

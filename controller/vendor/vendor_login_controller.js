@@ -9,7 +9,7 @@ const str_utils = require('../../utils/string_utils')
 
 // render login page
 let show_page = (req, res) => {
-    res.render('./vendor/login',{
+    res.render('./vendor/login', {
         layout: false,
         title: 'Login'
     });
@@ -18,7 +18,7 @@ let show_page = (req, res) => {
 // check login info
 let check_login = (req, res) => {
 
-    try{
+    try {
         // encrypt to bcrypt
         let user_plain_password = sanitize(req.body.password);
         let user = {
@@ -27,22 +27,22 @@ let check_login = (req, res) => {
             "user_type": 'VENDOR'
         }
 
-        console.log('input password encrypted: ' +user.password)
+        console.log('input password encrypted: ' + user.password)
 
         // select user model
         let vendor_model = require('../../model/van')
 
         // find by login_id, return the 'password' field of the model
-        let query = vendor_model.findOne({'van_name': user.van_name})
-        // the find will return the 'password' field of the model
+        let query = vendor_model.findOne({ 'van_name': user.van_name })
+            // the find will return the 'password' field of the model
         query.select('password');
         query.exec((err, resp) => {
-            if(err) {
+            if (err) {
                 console.log('error: ' + err);
             } else {
 
                 // if no login id record match
-                if(resp === null) {
+                if (resp === null) {
                     console.log('no match password')
                     res.redirect('/vendor/login_failed')
                 } else {
@@ -50,20 +50,19 @@ let check_login = (req, res) => {
 
                     // if password equals the record
                     /* Compare plain input password with encrypted database record */
-                    if(encrypt_util.compare(user_plain_password, resp.password)){
+                    if (encrypt_util.compare(user_plain_password, resp.password)) {
                         // sent user_id information to session
                         req.session.vendor_user = user.van_name;
                         // req.session.user_type = user.user_type;
                         console.log("req.session.vendor_user: " + req.session.vendor_user)
 
                         // sent user_id to cookie, remember the user
-                        if(req.body.remember_me === 'on') {
+                        if (req.body.remember_me === 'on') {
                             // res.cookie("user_type",
                             //     'VENDOR',
                             //     {maxAge: 1000 * 60 * 60 * 48})
                             res.cookie("vendor_user",
-                                user.van_name,
-                                {maxAge: 1000 * 60 * 60 * 48})
+                                user.van_name, { maxAge: 1000 * 60 * 60 * 48 })
                         }
 
                         // If the original request path exists, redirect the user to the previous request path
@@ -95,18 +94,15 @@ let check_login = (req, res) => {
 }
 
 let handle_logout = (req, res) => {
-    res.clearCookie('vendor_user')
     req.session.destroy();
-
-    res.render('./vendor/logout', {
-        layout: false,
-        title: 'Log Out'
-    });
+    res.clearCookie('vendor_user');
+    res.redirect('/login');
 }
+
 
 /* to dashboard */
 let show_success_page = (req, res) => {
-    res.redirect('/vendor/dashboard')
+    res.redirect('/vendor/buisness');
 }
 
 let show_failed_page = (req, res) => {
@@ -119,5 +115,9 @@ let show_failed_page = (req, res) => {
 
 // export functions above
 module.exports = {
-    show_page, check_login, show_success_page, show_failed_page, handle_logout
+    show_page,
+    check_login,
+    show_success_page,
+    show_failed_page,
+    handle_logout
 }
