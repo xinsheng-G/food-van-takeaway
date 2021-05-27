@@ -96,7 +96,11 @@ let check_login = (req, res) => {
 let handle_logout = (req, res) => {
     req.session.destroy();
     res.clearCookie('vendor_user');
-    res.redirect('/login');
+
+    res.render('./vendor/logout', {
+        layout: false,
+        title: 'Log Out'
+    });
 }
 
 
