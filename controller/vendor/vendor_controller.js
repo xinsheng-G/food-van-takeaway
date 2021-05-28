@@ -1,6 +1,9 @@
 const moment = require('moment');
 const string_util = require('../../utils/string_utils');
 const discount_util = require('../../utils/dataBase_discount_handler');
+
+
+//Set Van location to open
 let set_location = (req, res) => {
 
     // Reading Request
@@ -47,6 +50,8 @@ let set_location = (req, res) => {
         });
 
 }
+
+//Set Van location to closed
 let close_snackvan = (req, res) => {
     // Reading Request
     let van_name = req.params.id;
@@ -87,6 +92,8 @@ let close_snackvan = (req, res) => {
         });
 
 }
+
+//Filter Orders based on order Status
 let filtered_orders = async(req, res) => {
 
     // Reading Request
@@ -114,6 +121,7 @@ let filtered_orders = async(req, res) => {
     }
 }
 
+//Update order status to next status
 let update_order_status = (req, res) => {
     // Reading Request
     let order_id = req.params.id;
@@ -187,18 +195,23 @@ let update_order_status = (req, res) => {
         });
 }
 
+//Show order details
 let show_order_details = (req, res) => {
+
+    // Reading Request
     order_id = req.params.id;
 
     let order_model = require('../../model/order');
     let customer_model = require('../../model/customer');
     let snack_model = require('../../model/snack');
 
+    //Setting up Query: find order and project relevant details
     let query = { '_id': order_id };
     let projection = { 'order_customer_id': 1, 'lineItems': 1, 'cost': 1, 'refund': 1, 'start_time': 1, 'is_given_discount': 1, 'status': 1, 'total_price': 1 };
 
     order_model.findOne(query, projection).lean().then(order => {
 
+        //Setting up Query: find customer who ordered and project relevant details
         let customer_query = { 'login_id': order.order_customer_id };
         let customer_projection = { 'firstname': 1, 'lastname': 1 };
 
@@ -214,7 +227,10 @@ let show_order_details = (req, res) => {
                 res.redirect('/500');
             });
 
+
+        //Setting up Query: find price of snacks in order 
         let snacks_projection = { 'snack_name': 1, 'price': 1 };
+
         snack_model.find({}, snacks_projection).lean()
             .then(snacks => {
                 let lineItems_info = [];
@@ -237,11 +253,14 @@ let show_order_details = (req, res) => {
                         };
                     });
                 });
+
+                //Send extracted order details and price
                 order.lineItems = lineItems_info;
                 res.send(order)
+
             }).catch(err => {
                 console.log(err);
-                res.redirect('/vendor/login');
+                res.redirect('/500');
             });
 
     }).catch(err => {
@@ -252,19 +271,26 @@ let show_order_details = (req, res) => {
 
 }
 
+
+//Show Vendor Dashboard
+
 let show_dashboard = (req, res) => {
-    //let van_name = req.session.user;
+
+
     let van_name = req.session.vendor_user;
     let van_model = require('../../model/van');
 
     let query = { 'van_name': van_name };
     let projection = { "van_name": 1, 'is_open': 1 };
+
+    //setup url based on host
     let url = req.headers.host === 'localhost:8080' ? `http://${req.headers.host}` : `https://${req.headers.host}`;
 
     van_model.findOne(query, projection).lean()
         .then(van => {
-            //add login check
+            //Van Exists Check
             if (van) {
+                //Van is open for accessing Dashboard
                 if (van.is_open) {
                     res.render('./vendor/dashboard', {
                         van: van.van_name,
@@ -285,19 +311,23 @@ let show_dashboard = (req, res) => {
 
 }
 
+//Show Vendor Buusiness Bage 
 let show_buisness = (req, res) => {
-    //let van_name = req.session.user;
+
     let van_name = req.session.vendor_user;
-    console.log("van_name:" + van_name)
+
     let van_model = require('../../model/van');
+
+    //setup url based on host
     let url = req.headers.host === 'localhost:8080' ? `http://${req.headers.host}` : `https://${req.headers.host}`;
 
     let query = { 'van_name': van_name };
     let projection = { "van_name": 1, 'is_open': 1 };
     van_model.findOne(query, projection).lean()
         .then(van => {
-            //add login check
+            //Van Exists Check
             if (van) {
+                //If van is Open redirect to Dashboard, otherwise render buisness page
                 if (van.is_open) {
                     res.redirect('/vendor/dashboard');
                 } else {
@@ -317,15 +347,18 @@ let show_buisness = (req, res) => {
 
 }
 
+//Search orders for given van based on Search mode 
 let search_orders = (req, res) => {
+
+    //Reading Request
     let van_name = req.params.van_name;
 
-    //req.body not working
+
     let search_string = req.query.search_string;
     let status = "complete";
     let order_model = require('../../model/order');
 
-    //searches Whole Object _id, json key is variable, 
+    //Setting Query: find orders with exact match in partial order id/customer id (based on search-mode)
     let query = req.query.search_mode === 'search-order-id' ? {
         "order_van_name": van_name,
         "status": status
@@ -344,6 +377,7 @@ let search_orders = (req, res) => {
         }
 
         res.send(orders);
+
     }).catch(err => {
         console.log(err);
         res.redirect('/500');
