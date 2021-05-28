@@ -60,6 +60,7 @@ let check_login = (req, res) => {
                             // res.cookie("user_type",
                             //     'VENDOR',
                             //     {maxAge: 1000 * 60 * 60 * 48})
+                            console.log("remember me cookie generated")
                             res.cookie("vendor_user",
                                 user.van_name, { maxAge: 1000 * 60 * 60 * 48 })
                         }
@@ -74,6 +75,8 @@ let check_login = (req, res) => {
                             // No original request path exists, redirect the user to the success page
                             redirectUrl = '/vendor/login_success';
                         }
+
+                        console.log(res)
 
                         res.redirect(redirectUrl);
                     } else {

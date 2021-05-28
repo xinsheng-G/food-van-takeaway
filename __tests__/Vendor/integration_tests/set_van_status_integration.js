@@ -12,17 +12,19 @@ const mongoose = require('../../../model/mongoDB');
  * Menu Integration test - open buisness then close buisness
  * */
 describe('Integration test: Open buisness then close buisness', () => {
+    jest.setTimeout(30000)
     let agent = request.agent(app);
     let cookie = null;
     beforeAll(() => agent
         .post('/vendor/login')
+        .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({
-            van_name: 'justice',
-            password: 'Admin123',
-            remember_me: 'on'
+            'van_name': 'justice',
+            'password': 'Admin123',
+            'remember_me': 'on'
         })
         .then((res) => {
-            console.log(res.headers);
+            console.log(res);
             cookie = res.headers['set-cookie'][0].split(',').map(item => item.split(';')[0]).join(';')
         })
     );
