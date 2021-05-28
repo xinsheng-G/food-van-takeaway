@@ -32,7 +32,7 @@
         params.append('van_location', location);
         axios.put( `${url}/vendor/van_open/${van_name}`, params).then(res => {
             window.location.href = `${url}/vendor/dashboard`;
-            console.log(`${res.statusText} : ${res.status}`);
+            console.log(`${res.statusText} : ${res.status}: ${res.data}`);
         }).catch(err => {console.log(err);});
     }
 
