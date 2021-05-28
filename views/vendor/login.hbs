@@ -3,86 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign In</title>
-    <link rel="stylesheet" href="styles/pro12SignIn&Up.css" media="screen and (min-width: 1366px)">
+    <link rel="stylesheet" href="styles/pro12SignIn&Up.css" media="screen and (min-width: 1024px)">
     <link rel="stylesheet" href="./styles/bootstrap.min.css">
 
     <script src="./scripts/jquery.min.js"></script>
     <script src="./scripts/bootstrap.min.js"></script>
     <script src="./scripts/bootstrapValidator.min.js"></script>
 </head>
-<body style="width: 100%; height: 100%">
+<body>
+    <div class="leftPart">
 
-<div class="leftPart">
-
-    <!-- Page logo and title START -->
-    <div class="van"
-         align="center"
-         style="margin: 0 auto">
-        <img src="./images/van.png">
-    </div>
-
-    <div class="pageTitlePart"
-         align="center">
-        <div class="pageTitle">
-            Get Ready and Go to Sell!
+        <!-- Page logo and title START -->
+        <div class="van"
+             align="center"
+             style="margin: 0 auto">
+            <img src="./images/van.png">
         </div>
-    </div>
-    <!-- Page logo and title END -->
 
-    <!-- Form START -->
-    <form id="login_form" action="/vendor/login" method="post" style="width: 80%;
-                height:60%;
-                margin:0 auto;
-                padding-top: 30px"
-                align="center">
-        <div>
-            <p class="formTitle" align="left">
-                Van's name:
-            </p>
-            <div class="form-group">
-            <input name="van_name" class="signInFormInput" data-bv-field="van_name">
+        <div class="pageTitlePart"
+            align="center">
+            <div class="pageTitle">
+                Get Ready and Go to Sell!
             </div>
         </div>
 
-        <div>
-            <p class="formTitle" align="left">
-                Password:
-            </p>
-            <div class="form-group">
-            <input name="password" type="password" class="signInFormInput" data-bv-field="password">
-            </div>
-        </div>
+        <form id="login_form" action="/vendor/login" method="post" style="width: 80%;
+                        height:60%;
+                        margin:0 auto;
+                        padding-top: 30px"
+                        align="center">
+                <div>
+                    <p class="formTitle" align="left">
+                        Van's name:
+                    </p>
+                    <div class="form-group">
+                    <input name="van_name" class="signInFormInput" data-bv-field="van_name">
+                    </div>
+                </div>
+        
+                <div>
+                    <p class="formTitle" align="left">
+                        Password:
+                    </p>
+                    <div class="form-group">
+                    <input name="password" type="password" class="signInFormInput" data-bv-field="password">
+                    </div>
+                </div>
+        
+                <!-- check box START -->
+                <div align="left" style="margin-top: 20px">
+                    <input id="remember_me" name="remember_me" type="checkbox" />
+                    <label class="remember" for="remember_me">
+                        remember me
+                    </label>
+                </div>
+        
+                <!-- SIGN IN button START -->
+                <div class="btnPart"
+                     align="center">
+                    <button class="btn" type="submit">
+                        SIGN IN
+                    </button>
+                </div>
+                <!-- SIGN IN button END -->
+        
+                <!-- for new user -->
+                <p class="clickMe">
+                    If you are a new van, click <a href="/vendor/register">here</a> to create a new account
+                </p>
+            </form>
+    </div>    
+    <div class="rightPart">
+        <img src="./images/coffee25.jpeg">
+    </div>
 
-        <!-- check box START -->
-        <div align="left" style="margin-top: 20px">
-            <input id="remember_me" name="remember_me" type="checkbox" />
-            <label class="remember" for="remember_me">
-                remember me
-            </label>
-        </div>
+        
+            
 
-        <!-- SIGN IN button START -->
-        <div class="btnPart"
-             align="center">
-            <button class="btn" type="submit">SIGN IN</button>
-        </div>
-        <!-- SIGN IN button END -->
-
-        <!-- for new user -->
-        <p class="clickMe">
-            If you are a new van, click <a href="/vendor/register">here</a> to create a new account
-        </p>
-    </form>
-    <!-- Form END -->
-
-</div>
-<!-- Left part form END -->
-
-<!-- Right part img START -->
-<div class="rightPart">
-    <img src="./images/coffee25.jpeg">
-</div>
-<!-- Right part form END -->
 
 <script>
     $(function () {
