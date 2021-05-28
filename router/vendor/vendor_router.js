@@ -38,15 +38,18 @@ router.get('/orders/:van_name/:state', login_interceptor.vendor_login_intercepto
 router.put('/update_order_status/:id', login_interceptor.vendor_login_interceptor, vendor_Controller.update_order_status);
 
 //Show order details
-router.get('/order/:id',login_interceptor.vendor_login_interceptor, vendor_Controller.show_order_details);
+router.get('/order/:id', login_interceptor.vendor_login_interceptor, vendor_Controller.show_order_details);
 
+//Search orders for given van based on Search mode 
 router.get('/search_order/:van_name', login_interceptor.vendor_login_interceptor, vendor_Controller.search_orders);
 
-
+//Show Vendor Dashboard 
 router.get('/dashboard', login_interceptor.vendor_login_interceptor, vendor_Controller.show_dashboard);
+
+//Show Vendor Buusiness Bage 
 router.get('/buisness', login_interceptor.vendor_login_interceptor, vendor_Controller.show_buisness);
 
-//router.get('/', vendor_Controller.landing_page);
+router.get('/', vendor_loginController.show_page);
 
 router.get('/login', vendor_loginController.show_page);
 
