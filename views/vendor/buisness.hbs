@@ -1,11 +1,12 @@
 <script>
+    //Rendered HBS variables passed for usage in requests
     let url = `{{url}}`;
     let van_name = `{{van}}`;
 
+    //function to vendor sign out
     let sign_out = () => {
             close_modal("vendor-sign-out");
             window.location.href = `${url}/vendor/logout`;
-            console.log(`${res.statusText} : ${res.status}`);
     }
     let form_validate = () => {
         document.getElementById("error-location-description").innerHTML = "";
