@@ -10,11 +10,11 @@ const mongoose = require('../../../model/mongoDB')
  * npm test -- ./customer_tests/unit_tests/menu_test.js
  */
 /*
-* Menu unit test - function show_page() from menu_controller.js
-* */
+ * Menu unit test - function show_page() from menu_controller.js
+ * */
 describe("Unit testing show_page from menu_controller.js", () => {
     const req = {
-        params: {van_name: 'demo_van'}
+        params: { van_name: 'demo_van' }
     }
 
     const res = {
@@ -29,12 +29,12 @@ describe("Unit testing show_page from menu_controller.js", () => {
 
         // fake `snack_model.find` query function return value
         snack_model.find = jest.fn().mockResolvedValue([{
-            snack_name: 'latte',
-            is_drink: true,
-            is_available: true,
-            price: 2,
-            picture_path: 'https://source.unsplash.com/Yao9qtUqLiQ'
-        },
+                snack_name: 'latte',
+                is_drink: true,
+                is_available: true,
+                price: 2,
+                picture_path: 'https://source.unsplash.com/Yao9qtUqLiQ'
+            },
             {
                 snack_name: 'plain_biscuit',
                 is_drink: false,
@@ -83,12 +83,12 @@ describe("Unit testing show_page from menu_controller.js", () => {
                 is_available: true,
                 price: 4.5,
                 picture_path: 'https://source.unsplash.com/Ao09kk2ovB0'
-            }])
+            }
+        ])
 
         // fake `snack_model.find` query function with lean return value
         snack_model.find.mockImplementationOnce(() => ({
-            lean: jest.fn().mockReturnValue([
-                {
+            lean: jest.fn().mockReturnValue([{
                     snack_name: 'latte',
                     is_drink: true,
                     is_available: true,
@@ -183,15 +183,14 @@ describe("Unit testing show_page from menu_controller.js", () => {
         menu_controller.show_page(req, res)
     })
 
-    test("Test case 1: testing show menu for demo_van", () =>{
+    test("Test case 1: testing show menu for demo_van", () => {
         expect(res.redirect).toHaveBeenCalledTimes(0);
         expect(res.render).toHaveBeenCalledTimes(1);
-        expect(res.render).toHaveBeenCalledWith('./customer/menu',{
+        expect(res.render).toHaveBeenCalledWith('./customer/menu', {
             title: 'Menu',
             van_name: 'demo_van',
             van_title: 'Demo van',
-            foods: [
-                {
+            foods: [{
                     snack_name: 'plain_biscuit',
                     is_drink: false,
                     is_available: true,
@@ -224,8 +223,7 @@ describe("Unit testing show_page from menu_controller.js", () => {
                     snack_title: 'Small cake'
                 }
             ],
-            drinks: [
-                {
+            drinks: [{
                     snack_name: 'latte',
                     is_drink: true,
                     is_available: true,
@@ -261,7 +259,7 @@ describe("Unit testing show_page from menu_controller.js", () => {
         })
     })
 
-    afterAll(async () => {
+    afterAll(async() => {
         await mongoose.disconnect();
-    });
+    }, 10000);
 })

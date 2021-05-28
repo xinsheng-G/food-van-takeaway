@@ -34,7 +34,7 @@ let set_location = (req, res) => {
             if (updatedDocument) {
 
                 //console.log(`Successfully updated document: ${updatedDocument}.`);
-                res.send(`Open for Business: ${updatedDocument.van_name} | OPEN: ${updatedDocument.is_open} at ${updatedDocument.van_location_description} `);
+                res.send(`Open for Business: ${updatedDocument.van_name} | OPEN: ${updatedDocument.is_open} at ${updatedDocument.description} `);
             } else {
                 console.log("No such van name exists");
                 res.redirect('/404');
@@ -289,7 +289,6 @@ let show_buisness = (req, res) => {
     //let van_name = req.session.user;
     let van_name = req.session.vendor_user;
     let van_model = require('../../model/van');
-    console.log(req.headers.host)
     let url = req.headers.host === 'localhost:8080' ? `http://${req.headers.host}` : `https://${req.headers.host}`;
 
     let query = { 'van_name': van_name };

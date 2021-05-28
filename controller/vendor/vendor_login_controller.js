@@ -17,7 +17,6 @@ let show_page = (req, res) => {
 
 // check login info
 let check_login = (req, res) => {
-
     try {
         // encrypt to bcrypt
         let user_plain_password = sanitize(req.body.password);
@@ -76,7 +75,6 @@ let check_login = (req, res) => {
                             redirectUrl = '/vendor/login_success';
                         }
 
-                        // TODO: change this address
                         res.redirect(redirectUrl);
                     } else {
 
