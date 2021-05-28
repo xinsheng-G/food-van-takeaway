@@ -42,7 +42,7 @@ mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=
 
 #### Dummy vendor
 
-- Login ID: Justice
+- Login ID: justice
 
   password: Admin123
 
@@ -210,7 +210,7 @@ password: dummy123456
    
 ### Dummy vendor
 
-Login ID: Justice
+Login ID: justice
 
 password: Admin123
 
@@ -271,7 +271,7 @@ get to the menu page.
 
 ### Dummy vendor
 
-- Login ID: Justice
+- Login ID: justice
 
   password: Admin123
 
