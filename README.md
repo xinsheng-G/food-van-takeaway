@@ -36,16 +36,25 @@ mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=
 ### Dummy users
 #### Dummy customer
 
-Login ID: dummy@example.org
+- Login ID: dummy@example.org
 
-password: dummy123456
+  password: dummy123456
 
 #### Dummy vendor
 
-Login ID: Justice
+- Login ID: Justice
 
-password: Admin123
+  password: Admin123
 
+
+- Login ID: baidu
+
+  Password: baidu123456
+
+
+- Login ID: sina
+
+  Password: sina123456
 
 ### Test details
 
@@ -205,6 +214,14 @@ Login ID: Justice
 
 password: Admin123
 
+Login ID: baidu
+
+Password: baidu123456
+
+Login ID: sina
+
+Password: sina123456
+
 
 - *If you would like, you could register a new customer account by clicking `join us today` button on the login page*
 
@@ -254,11 +271,19 @@ get to the menu page.
 
 ### Dummy vendor
 
-Login ID: Justice
+- Login ID: Justice
 
-password: Admin123
+  password: Admin123
 
 
+- Login ID: baidu
+
+  Password: baidu123456
+
+
+- Login ID: sina
+
+  Password: sina123456
 
 ## Technologies
 Project is created with:
