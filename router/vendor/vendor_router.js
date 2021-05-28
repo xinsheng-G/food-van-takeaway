@@ -15,7 +15,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const vendor_loginController = require('../../controller/vendor/vendor_login_controller');
 
-//Deliverable 2 functions
 const vendor_Controller = require('../../controller/vendor/vendor_controller');
 
 const registerController = require('../../controller/vendor/vendor_register_controller');
