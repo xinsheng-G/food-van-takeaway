@@ -28,7 +28,7 @@ let add_vendor = (req, res) => {
             "description": "new van",
             "text_address": " ",
             "picture_path": "https://source.unsplash.com/Fkwj-xk6yck",
-            "location": {x_pos: 0, y_pos: 0}
+            "location": {x_pos: 0.0, y_pos: 0.0}
         })
 
         // find by login_id, return the 'password' field of the model
