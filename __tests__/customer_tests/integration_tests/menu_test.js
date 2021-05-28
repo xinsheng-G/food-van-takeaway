@@ -24,7 +24,7 @@ describe('Integration test: show menu of a van', () => {
             })
     })
 
-    afterAll(async () => {
+    afterAll(async() => {
         await mongoose.disconnect();
-    });
+    }, 10000);
 })
