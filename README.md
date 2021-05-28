@@ -200,7 +200,6 @@ We have implemented more functionalities than requirements of the deliverable 2:
 
 
 4. Update order status to next status (Mark an order as "fulfilled")
-
   * PUT Request
   * INPUT: send order id in url
   * OUTPUT: Response  -> Successfully updated order: <order._id> | complete.
@@ -209,7 +208,6 @@ We have implemented more functionalities than requirements of the deliverable 2:
   * API ENDPOINT: /vendor/update_order_status/:id  (:id is an order id)
   
 5. Show order details
-
   * GET Request
   * INPUT: send order id in url
   * OUTPUT: JSON output of releevant order details extracted from customer, snack and order models
