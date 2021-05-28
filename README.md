@@ -191,56 +191,56 @@ We have implemented more functionalities than requirements of the deliverable 2:
   
 3. Filter Orders based on Order Status
 
-  * GET Request
-  * INPUT: send van name and order status in url
-  * OUTPUT: JSON output of orders 
-  * Exception Handling: Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+   * GET Request
+   * INPUT: send van name and order status in url
+   * OUTPUT: JSON output of orders 
+   * Exception Handling: Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-  * API ENDPOINT: /vendor/orders/:van_name/:status 
+   * API ENDPOINT: /vendor/orders/:van_name/:status 
 
 
 4. Update order status to next status (Mark an order as "fulfilled")
-  * PUT Request
-  * INPUT: send order id in url
-  * OUTPUT: Response  -> Successfully updated order: <order._id> | complete.
-  * Exception Handling:  Handles invalid order status and van name not found  | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database
+   * PUT Request
+   * INPUT: send order id in url
+   * OUTPUT: Response  -> Successfully updated order: <order._id> | complete.
+   * Exception Handling:  Handles invalid order status and van name not found  | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database
 
-  * API ENDPOINT: /vendor/update_order_status/:id  (:id is an order id)
+   * API ENDPOINT: /vendor/update_order_status/:id  (:id is an order id)
   
 5. Show order details
-  * GET Request
-  * INPUT: send order id in url
-  * OUTPUT: JSON output of releevant order details extracted from customer, snack and order models
-  * Exception Handling: Handles unavailable snack names, vans and customers| Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+   * GET Request
+   * INPUT: send order id in url
+   * OUTPUT: JSON output of releevant order details extracted from customer, snack and order models
+   * Exception Handling: Handles unavailable snack names, vans and customers| Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-  * API ENDPOINT: /vendor/order/:id  (:id is an order id)
+   * API ENDPOINT: /vendor/order/:id  (:id is an order id)
     
 6. Search orders for given van based on Search mode 
   
-  * GET Request
-  * INPUT: send van_name in url | search_mode (search-order-id/search-cust-id) and search_string as params
-  * OUTPUT: JSON output of exactly matched and completed orders
-  * Exception Handling: Handles no results found | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+   * GET Request
+   * INPUT: send van_name in url | search_mode (search-order-id/search-cust-id) and search_string as params
+   * OUTPUT: JSON output of exactly matched and completed orders
+   * Exception Handling: Handles no results found | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-  * API ENDPOINT: /vendor/search_order/:van_name
+   * API ENDPOINT: /vendor/search_order/:van_name
   
 7. Show Vendor Dashboard 
 
-  * GET Request
-  * INPUT: (None)
-  * OUTPUT: Rendered Ouptut of Vendor Dashboard
-  * Exception Handling: Renders if Van is OPEN | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+   * GET Request
+   * INPUT: (None)
+   * OUTPUT: Rendered Ouptut of Vendor Dashboard
+   * Exception Handling: Renders if Van is OPEN | Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-  * API ENDPOINT: /vendor/dashboard
+   * API ENDPOINT: /vendor/dashboard
   
 8. Show Vendor Business Page 
 
-  * GET Request
-  * INPUT: (None)
-  * OUTPUT: Rendered Ouptut of Business Page 
-  * Exception Handling: Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
+   * GET Request
+   * INPUT: (None)
+   * OUTPUT: Rendered Ouptut of Business Page 
+   * Exception Handling: Vendor Needs to Be Logged In | Catches Bad Requests (400), Internal Server Errors (50-x) and Database Errors
 
-  * API ENDPOINT: /vendor/buisness
+   * API ENDPOINT: /vendor/buisness
  
 ## Customer Features
 
