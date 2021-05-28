@@ -12,6 +12,7 @@ const mongoose = require('../../../model/mongoDB');
 * Menu Integration test - show menu page
 * */
 describe('Integration test: show menu of a van', () => {
+    jest.setTimeout(30000)
 
     test('#Http Test: Show a van\'s menu', () => {
         return request(app)

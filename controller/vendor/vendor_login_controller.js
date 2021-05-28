@@ -76,8 +76,6 @@ let check_login = (req, res) => {
                             redirectUrl = '/vendor/login_success';
                         }
 
-                        console.log(res)
-
                         res.redirect(redirectUrl);
                     } else {
 
