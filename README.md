@@ -56,7 +56,6 @@ mongodb+srv://admin:3ulH5EXbBpj5mcax@cluster0.1saxw.mongodb.net/test?authSource=
 
   Password: sina123456
 
-### Test details
 
 
 ## Mockup APP Server
